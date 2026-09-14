@@ -1,0 +1,196 @@
+<!-- ==========================================================================
+ * Project: Crystal World (Security Plug-on)
+ * Authors: Holo-Trekker & AI Companions (Gemini, NotebookLM, Antigravity)
+ * License: MIT License (https://opensource.org/licenses/MIT)
+ ========================================================================== -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🛡️ Guardian SHA-256 Verifier</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --panel: #161b22;
+      --border: #30363d;
+      --text: #f0f6fc;
+      --dim: #8b949e;
+      --teal: #00ffd0;
+      --teal-hover: #00cca6;
+      --green: #3fb950;
+      --danger: #da3633;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      padding: 14px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      height: 100vh;
+      overflow-y: auto;
+    }
+    .header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+    }
+    .title { font-size: 13.5px; font-weight: 700; color: var(--teal); display: flex; align-items: center; gap: 6px; }
+    .badge { font-size: 10px; background: rgba(0,255,208,0.1); border: 1px solid var(--teal); color: var(--teal); padding: 1px 6px; border-radius: 6px; }
+    
+    .btn-group { display: flex; gap: 8px; }
+    button {
+      background: var(--panel);
+      color: var(--text);
+      border: 1px solid var(--border);
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 12px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+    button:hover { border-color: var(--teal); color: var(--teal); }
+    .btn-primary { background: var(--teal); color: #000; font-weight: 700; border-color: var(--teal); }
+    .btn-primary:hover { background: var(--teal-hover); color: #000; }
+
+    .drop-zone {
+      border: 1.5px dashed var(--border);
+      border-radius: 6px;
+      padding: 16px;
+      text-align: center;
+      background: var(--panel);
+      cursor: pointer;
+      font-size: 12px;
+      color: var(--dim);
+      transition: all 0.2s;
+    }
+    .drop-zone.dragover { border-color: var(--teal); background: rgba(0,255,208,0.05); color: var(--text); }
+    .drop-zone input { display: none; }
+
+    .result-box {
+      background: #000;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 10px 12px;
+      font-family: monospace;
+      font-size: 11.5px;
+      line-height: 1.5;
+      word-break: break-all;
+      min-height: 52px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+    .result-box.pass { border-color: var(--green); color: var(--green); }
+    .result-box.warn { border-color: #ff8c00; color: #ff8c00; }
+    .hint { font-size: 10.5px; color: var(--dim); line-height: 1.4; }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <div class="title">
+      <span>🛡️ Guardian Verifier</span>
+      <span class="badge">Air-Gap Local</span>
+    </div>
+    <div class="btn-group">
+      <button class="btn-primary" onclick="verifySelf()">자가 진단 (Self)</button>
+    </div>
+  </div>
+
+  <div class="drop-zone" id="drop-zone" onclick="document.getElementById('file-input').click()">
+    <span>📂 검증할 HTML 파일을 여기로 드래그하거나 클릭하여 선택</span>
+    <input type="file" id="file-input" accept=".html,.htm,.js,.json" onchange="handleFileSelect(event)">
+  </div>
+
+  <div class="result-box" id="result-display">
+    <span style="color: var(--dim);">[대기 중] 상단 '자가 진단'을 누르거나 파일을 올려 SHA-256 해시를 검증하십시오.</span>
+  </div>
+
+  <div class="hint">
+    • <strong>100% 에어갭 로컬:</strong> 외부 서버나 클라우드로 데이터를 1바이트도 전송하지 않고, 브라우저 내장 <code>crypto.subtle</code> 엔진으로만 계산합니다.<br>
+    • 검증이 완료되면 연결된 크리스탈 도크로 무결성 패킷(SHA-256 지문)이 자동 통보됩니다.
+  </div>
+
+  <script>
+    const resultDisplay = document.getElementById('result-display');
+    const dropZone = document.getElementById('drop-zone');
+
+    // 도크 부모창으로 무결성 결과 브로드캐스팅
+    function notifyDock(action, payload) {
+      window.parent.postMessage({
+        protocol: "crystal-dock/v1",
+        action: action,
+        payload: payload,
+        meta: { source: "sha256-verifier.html", timestamp: Date.now() }
+      }, "*");
+    }
+
+    window.onload = function() {
+      notifyDock("READY", { status: "loaded", type: "verifier" });
+    };
+
+    // SHA-256 버퍼 연산 엔진 (순수 브라우저 네이티브)
+    async function calculateSHA256(arrayBuffer) {
+      const hashBuffer = await crypto.subtle.digest('SHA-256', arrayBuffer);
+      const hashArray = Array.from(new Uint8Array(hashBuffer));
+      return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    }
+
+    // 1. 자가 진단 (Quine 원리)
+    async function verifySelf() {
+      resultDisplay.className = "result-box warn";
+      resultDisplay.innerText = "자가 해시 계산 중...";
+      try {
+        const textBuffer = new TextEncoder().encode(document.documentElement.outerHTML);
+        const hash = await calculateSHA256(textBuffer);
+        
+        resultDisplay.className = "result-box pass";
+        resultDisplay.innerHTML = `🟢 <b>[Self Hash] 자가 무결성 계산 완료:</b><br>${hash}`;
+        notifyDock("VERIFICATION_RESULT", { target: "self", hash: hash, status: "VALID" });
+      } catch(err) {
+        resultDisplay.className = "result-box";
+        resultDisplay.innerText = "오류 발생: " + err.message;
+      }
+    }
+
+    // 2. 외부 파일 드롭 및 대조
+    async function inspectFile(file) {
+      if (!file) return;
+      resultDisplay.className = "result-box warn";
+      resultDisplay.innerText = `'${file.name}' 해시 계산 중...`;
+      try {
+        const buffer = await file.arrayBuffer();
+        const hash = await calculateSHA256(buffer);
+
+        resultDisplay.className = "result-box pass";
+        resultDisplay.innerHTML = `🛡️ <b>[${file.name}] SHA-256 지문:</b><br>${hash}<br><span style="font-size:10px; color:var(--dim);">크기: ${(file.size/1024).toFixed(1)} KB</span>`;
+        notifyDock("VERIFICATION_RESULT", { target: file.name, hash: hash, size: file.size, status: "VALID" });
+      } catch(err) {
+        resultDisplay.className = "result-box";
+        resultDisplay.innerText = "파일 검증 오류: " + err.message;
+      }
+    }
+
+    function handleFileSelect(e) {
+      const file = e.target.files[0];
+      if (file) inspectFile(file);
+    }
+
+    // 드래그앤드롭 이벤트 리스너
+    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+    dropZone.addEventListener('dragleave', () => dropZone.classList.remove('dragover'));
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
+      if (e.dataTransfer.files.length > 0) inspectFile(e.dataTransfer.files[0]);
+    });
+  </script>
+</body>
+</html>

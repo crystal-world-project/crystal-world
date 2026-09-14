@@ -1,0 +1,769 @@
+<!-- ==========================================================================
+ * Project: Crystal World (Plug-on Architecture)
+ * Authors: Holo-Trekker & AI Companions (Gemini, NotebookLM, Antigravity)
+ * License: MIT License (https://opensource.org/licenses/MIT)
+ ========================================================================== -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>🧸 Teddy Wiki v2</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --sidebar-bg: #161b22;
+      --panel-bg: #21262d;
+      --border: #30363d;
+      --border-focus: #ff8c00;
+      --accent: #ff8c00;
+      --accent-bright: #ff7300;
+      --text: #f0f6fc;
+      --text-dim: #8b949e;
+      --text-muted: #6e7681;
+      --link: #38bdf8;
+      --danger: #da3633;
+      --highlight: #238636;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      display: flex;
+      height: 100vh;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      overflow: hidden;
+    }
+
+    /* ==========================================================================
+       [사이드바 - 대문]
+       ========================================================================== */
+    #sidebar {
+      width: 280px;
+      background: var(--sidebar-bg);
+      border-right: 1px solid var(--border);
+      display: flex;
+      flex-direction: column;
+      padding: 14px 12px;
+      gap: 10px;
+      flex-shrink: 0;
+      transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      z-index: 50;
+    }
+
+    .brand-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    .brand-title {
+      font-size: 15px;
+      font-weight: 700;
+      color: var(--accent);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      white-space: nowrap;
+    }
+    .bus-badge {
+      font-size: 10px;
+      padding: 2px 6px;
+      border-radius: 8px;
+      background: rgba(255, 140, 0, 0.15);
+      color: var(--accent);
+      border: 1px solid var(--accent);
+      white-space: nowrap;
+    }
+
+    .note-actions {
+      display: flex;
+      gap: 8px;
+    }
+    button {
+      background: #2d333b;
+      color: var(--text);
+      border: 1px solid #444c56;
+      padding: 6px 12px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 12.5px;
+      font-weight: 600;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.15s ease;
+      white-space: nowrap;
+      user-select: none;
+    }
+    button:hover { background: #373e47; border-color: var(--accent-bright); }
+    .btn-add { background: var(--accent); color: #fff; border-color: var(--accent-bright); font-weight: 700; }
+    .btn-add:hover { background: var(--accent-bright); color: #fff; }
+    .btn-del { color: #f85149; border-color: rgba(218, 54, 51, 0.4); }
+    .btn-del:hover { background: var(--danger); color: #fff; border-color: var(--danger); }
+
+    #search {
+      background: #0d1117;
+      border: 1px solid var(--border);
+      color: #fff;
+      padding: 8px 10px;
+      border-radius: 6px;
+      font-size: 13px;
+      outline: none;
+    }
+    #search:focus { border-color: var(--accent-bright); }
+
+    .section-title {
+      font-size: 11px;
+      font-weight: 700;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    #note-list {
+      list-style: none;
+      overflow-y: auto;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+      padding-right: 2px;
+    }
+    #note-list li {
+      padding: 8px 10px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13.5px;
+      color: var(--text-dim);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      border: 1px solid transparent;
+    }
+    #note-list li:hover { background: #21262d; color: var(--text); }
+    #note-list li.active {
+      background: #21262d;
+      color: var(--accent);
+      font-weight: 700;
+      border-color: rgba(255, 140, 0, 0.4);
+    }
+
+    /* 역링크 패널 */
+    #backlink-panel {
+      background: var(--panel-bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 8px 10px;
+      max-height: 140px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+    #backlink-list {
+      list-style: none;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+    #backlink-list li {
+      padding: 5px 8px;
+      background: #161b22;
+      border-radius: 4px;
+      font-size: 11.5px;
+      color: var(--link);
+      cursor: pointer;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    #backlink-list li:hover { background: var(--link); color: #000; font-weight: 700; }
+    .empty-backlink { font-size: 11px; color: var(--text-muted); font-style: italic; }
+
+    .btn-save-self {
+      background: #21262d;
+      border: 1px solid var(--border);
+      padding: 8px;
+      font-size: 12px;
+      color: var(--text-dim);
+      border-radius: 6px;
+    }
+    .btn-save-self:hover { color: #fff; border-color: var(--accent-bright); }
+
+    /* ==========================================================================
+       [메인 작업창]
+       ========================================================================== */
+    #main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      padding: 16px 22px;
+      gap: 12px;
+      overflow-y: auto;
+      min-width: 0;
+      position: relative;
+    }
+    
+    .main-header {
+      display: flex;
+      align-items: flex-start;
+      gap: 12px;
+      width: 100%;
+    }
+
+    /* 굵직하고 눈에 띄는 주황 삼선 햄버거 버튼 */
+    .mobile-menu-btn {
+      display: none;
+      background: rgba(255, 140, 0, 0.12);
+      border: 2px solid var(--accent);
+      color: var(--accent);
+      padding: 6px 10px;
+      font-size: 18px;
+      line-height: 1;
+      font-weight: 900;
+      border-radius: 8px;
+      flex-shrink: 0;
+      margin-top: 2px;
+      box-shadow: 0 0 10px rgba(255, 140, 0, 0.2);
+    }
+    .mobile-menu-btn:hover {
+      background: var(--accent);
+      color: #fff;
+    }
+
+    /* 긴 제목을 수용할 수 있는 가변 제목 입력창 (2줄 확장 가능) */
+    .title-input-wrap {
+      flex: 1;
+      min-width: 0;
+      display: flex;
+      align-items: center;
+    }
+    #title-input {
+      background: transparent;
+      border: none;
+      color: #fff;
+      font-size: 21px;
+      font-weight: 700;
+      outline: none;
+      width: 100%;
+      resize: none;
+      height: 32px;
+      max-height: 64px;
+      line-height: 1.35;
+      font-family: inherit;
+      overflow-y: hidden;
+    }
+    #title-input:focus {
+      border-bottom: 1px solid var(--accent-bright);
+    }
+
+    .mode-btn {
+      background: #21262d;
+      color: var(--accent);
+      border: 1px solid #444c56;
+      padding: 7px 14px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+    .mode-btn:hover { border-color: var(--accent-bright); color: var(--accent-bright); }
+
+    #editor {
+      width: 100%;
+      flex: 1;
+      background: #161b22;
+      border: 1px solid var(--border);
+      color: #f0f6fc;
+      padding: 16px;
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+      font-size: 14px;
+      resize: none;
+      border-radius: 8px;
+      outline: none;
+      line-height: 1.65;
+      display: none;
+    }
+    #editor:focus { border-color: var(--accent-bright); }
+
+    #viewer {
+      flex: 1;
+      background: #161b22;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 20px 24px;
+      font-size: 14.5px;
+      line-height: 1.75;
+      overflow-y: auto;
+      word-break: keep-all;
+    }
+    #viewer h1 { color: var(--accent); border-bottom: 1px solid var(--border); padding-bottom: 8px; font-size: 20px; margin-bottom: 14px; }
+    #viewer h2 { color: var(--accent-bright); font-size: 16px; margin: 18px 0 8px 0; }
+    #viewer p { margin-bottom: 10px; }
+    .wiki-link {
+      color: var(--link);
+      font-weight: 700;
+      cursor: pointer;
+      border-bottom: 1px dashed var(--link);
+      padding: 0 2px;
+    }
+    .wiki-link:hover { color: #7dd3fc; background: rgba(56, 189, 248, 0.12); border-radius: 3px; }
+    .wiki-link.new-link { color: #f87171; border-color: #f87171; }
+
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      font-size: 11px;
+      color: var(--text-muted);
+      margin-top: auto;
+      padding-top: 6px;
+      border-top: 1px solid rgba(255,255,255,0.05);
+    }
+    .status-ok { color: var(--highlight); }
+
+    /* ==========================================================================
+       [인라인 커스텀 확인 모달 - PC/모바일 100% 작동]
+       ========================================================================== */
+    #confirm-modal {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(3px);
+      z-index: 100;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    #confirm-modal.show { display: flex; }
+    .modal-box {
+      background: var(--sidebar-bg);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 20px;
+      width: 100%;
+      max-width: 320px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.8);
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+    }
+    .modal-title { font-size: 15px; font-weight: 700; color: #fff; }
+    .modal-desc { font-size: 13px; color: var(--text-dim); line-height: 1.5; }
+    .modal-actions { display: flex; justify-content: flex-end; gap: 8px; }
+
+    /* 사이드바 오버레이 */
+    #sidebar-backdrop {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.65);
+      z-index: 40;
+    }
+
+    /* ==========================================================================
+       [모바일 반응형 최적화]
+       ========================================================================== */
+    @media (max-width: 768px) {
+      body { position: relative; }
+      .mobile-menu-btn { display: inline-flex; }
+      #sidebar {
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 86%;
+        max-width: 320px;
+        box-shadow: 6px 0 28px rgba(0,0,0,0.85);
+        transform: translateX(-100%);
+      }
+      /* 모바일 대문 우선 열림 */
+      #sidebar.open { transform: translateX(0); }
+      #sidebar-backdrop.open { display: block; }
+      #main { padding: 12px 14px; gap: 10px; }
+      #title-input { font-size: 18px; }
+      #viewer { padding: 14px 16px; font-size: 13.5px; }
+      #editor { padding: 12px; font-size: 13.5px; }
+    }
+  </style>
+</head>
+<body>
+
+  <div id="sidebar-backdrop" onclick="toggleSidebar(false)"></div>
+
+  <!-- SIDEBAR (대문) -->
+  <aside id="sidebar" class="open">
+    <div class="brand-row">
+      <div class="brand-title">
+        <span>🧸 Teddy Wiki</span>
+        <span class="bus-badge" id="bus-status">Bus Standby</span>
+      </div>
+      <button class="mobile-menu-btn" onclick="toggleSidebar(false)" style="padding:4px 8px; font-size:14px; margin:0;" title="Close">✕</button>
+    </div>
+
+    <div class="note-actions">
+      <button class="btn-add" style="flex:1;" onclick="createNewNote()" title="Create New Note">+ Note</button>
+      <button class="btn-del" onclick="askDeleteCurrentNote()" title="Delete Current Note">- Note</button>
+    </div>
+    
+    <input type="text" id="search" placeholder="Search notes..." oninput="filterNotes()">
+    
+    <div class="section-title">All Notes</div>
+    <ul id="note-list"></ul>
+
+    <div id="backlink-panel">
+      <div class="section-title">🔗 Backlinks</div>
+      <ul id="backlink-list"></ul>
+    </div>
+
+    <button class="btn-save-self" onclick="downloadSelf()" title="Save wiki as standalone HTML">💾 Save Standalone HTML</button>
+  </aside>
+
+  <!-- MAIN VIEW -->
+  <main id="main">
+    <div class="main-header">
+      <button class="mobile-menu-btn" onclick="toggleSidebar(true)" title="Open Notes List">☰</button>
+      <div class="title-input-wrap">
+        <textarea id="title-input" rows="1" placeholder="Untitled Note" oninput="handleTitleInput()"></textarea>
+      </div>
+      <button id="mode-btn" class="mode-btn" onclick="toggleEditMode()">✏️ Edit</button>
+    </div>
+
+    <textarea id="editor" placeholder="Write markdown and [[WikiLinks]]..." oninput="updateCurrentNote()"></textarea>
+    <div id="viewer"></div>
+
+    <div class="footer">
+      <span id="plug-status" class="status-ok">● In-Memory NoSQL Active</span>
+      <span>TiddlyWiki-inspired Pure Web Vault</span>
+    </div>
+  </main>
+
+  <!-- 커스텀 삭제 확인 모달 (PC / 모바일 100% 보장) -->
+  <div id="confirm-modal">
+    <div class="modal-box">
+      <div class="modal-title">Delete Note</div>
+      <div class="modal-desc" id="confirm-msg">Delete this note?</div>
+      <div class="modal-actions">
+        <button onclick="closeDeleteModal()">Cancel</button>
+        <button class="btn-del" onclick="confirmDeleteNote()">Delete</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TEDDY DB VAULT -->
+  <script id="teddy-vault" type="application/json">
+[
+  {
+    "id": "start",
+    "title": "Welcome to Teddy Wiki",
+    "content": "A tribute to **TiddlyWiki** (~2.3MB), refined to ~20KB using native browser RAM.\n\nLink documents freely: [[Project Vision]]\n\nWhen other notes reference this note, they appear automatically under **Backlinks** in the sidebar."
+  },
+  {
+    "id": "vision",
+    "title": "Project Vision",
+    "content": "This note references [[Welcome to Teddy Wiki]].\nOpening [[Welcome to Teddy Wiki]] will immediately display this note in its backlinks list!\n\n- Zero installation, zero external servers\n- Pure regex-driven bi-directional linking\n- Self-contained vault preservation"
+  }
+]
+  </script>
+
+  <script>
+    /* ==========================================================================
+       [NanoGuard] Zero-build Pure Web Standard Sanitizer & Verifier
+       ========================================================================== */
+    const NanoGuard = {
+      isValidPacket(msg) {
+        return msg && (msg.protocol === "crystal-dock/v1" || msg.protocol === "BLAKE_MICRO_APP_v1") &&
+               typeof msg.action === "string" && msg.payload !== undefined;
+      },
+      sanitize(str) {
+        if (typeof str !== "string") str = String(str || "");
+        return str
+          .replace(/</g, "&lt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      }
+    };
+
+    const PROTOCOL = "crystal-dock/v1";
+    window.addEventListener('DOMContentLoaded', () => {
+      window.parent.postMessage({ protocol: PROTOCOL, action: "READY", meta: { source: "TeddyWiki" } }, "*");
+    });
+
+    let db = [];
+    try {
+      db = JSON.parse(document.getElementById('teddy-vault').textContent.trim());
+    } catch(e) {
+      db = [{ id: "start", title: "Welcome to Teddy Wiki", content: "Welcome to Teddy Wiki" }];
+    }
+
+    let currentId = db[0]?.id || null;
+    let isEditing = false;
+
+    const listEl = document.getElementById('note-list');
+    const backlinkListEl = document.getElementById('backlink-list');
+    const titleEl = document.getElementById('title-input');
+    const editorEl = document.getElementById('editor');
+    const viewerEl = document.getElementById('viewer');
+    const modeBtn = document.getElementById('mode-btn');
+    const sidebarEl = document.getElementById('sidebar');
+    const sidebarBackdrop = document.getElementById('sidebar-backdrop');
+    const confirmModal = document.getElementById('confirm-modal');
+    const confirmMsg = document.getElementById('confirm-msg');
+
+    // 모바일 초기 진입 판별 (화면 폭 768px 이하면 대문 열어둔 상태로 시작)
+    if (window.innerWidth <= 768) {
+      sidebarEl.classList.add('open');
+      sidebarBackdrop.classList.add('open');
+    } else {
+      sidebarEl.classList.remove('open');
+      sidebarBackdrop.classList.remove('open');
+    }
+
+    function toggleSidebar(open) {
+      if (open) {
+        sidebarEl.classList.add('open');
+        if (window.innerWidth <= 768) sidebarBackdrop.classList.add('open');
+      } else {
+        sidebarEl.classList.remove('open');
+        sidebarBackdrop.classList.remove('open');
+      }
+    }
+
+    /* ==========================================================================
+       [모바일 스와이프로 대문 닫기 터치 엔진]
+       ========================================================================== */
+    let touchStartX = 0;
+    let touchStartY = 0;
+    sidebarEl.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+
+    sidebarEl.addEventListener('touchend', (e) => {
+      const diffX = e.changedTouches[0].clientX - touchStartX;
+      const diffY = e.changedTouches[0].clientY - touchStartY;
+      // 왼쪽으로 45px 이상 스와이프하면 대문 닫기
+      if (diffX < -45 && Math.abs(diffX) > Math.abs(diffY)) {
+        toggleSidebar(false);
+      }
+    }, { passive: true });
+
+    // 제목 입력창 가변 높이 (2줄 대응)
+    function autoResizeTitle() {
+      titleEl.style.height = 'auto';
+      titleEl.style.height = Math.min(titleEl.scrollHeight, 64) + 'px';
+    }
+
+    function handleTitleInput() {
+      autoResizeTitle();
+      updateCurrentNote();
+    }
+
+    // 한 줄씩 순차 파싱
+    function parseWikiText(text) {
+      if (!text) return "";
+      const lines = text.split(/\r?\n/);
+      let out = [];
+
+      lines.forEach(line => {
+        let safe = NanoGuard.sanitize(line);
+        if (safe.startsWith('# ')) {
+          out.push(`<h1>${safe.substring(2)}</h1>`);
+        } else if (safe.startsWith('## ')) {
+          out.push(`<h2>${safe.substring(3)}</h2>`);
+        } else if (safe.startsWith('- ')) {
+          out.push(`• ${safe.substring(2)}<br>`);
+        } else if (safe.trim() === '') {
+          out.push('<br>');
+        } else {
+          let parsedLine = safe.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+          out.push(`<p>${parsedLine}</p>`);
+        }
+      });
+
+      let html = out.join('');
+      // 위키링크 치환
+      html = html.replace(/\[\[(.*?)\]\]/g, (match, targetTitle) => {
+        const target = targetTitle.trim();
+        const exists = db.some(n => n.title.toLowerCase() === target.toLowerCase());
+        const className = exists ? "wiki-link" : "wiki-link new-link";
+        return `<span class="${className}" onclick="navigateTo('${target}')">${target}</span>`;
+      });
+      return html;
+    }
+
+    function loadNote(id) {
+      currentId = id;
+      const note = db.find(n => n.id === id);
+      if (!note) return;
+
+      titleEl.value = note.title;
+      autoResizeTitle();
+      editorEl.value = note.content;
+      viewerEl.innerHTML = parseWikiText(note.content);
+
+      renderBacklinks(note.title);
+      renderList(document.getElementById('search').value);
+      broadcast();
+      if (window.innerWidth <= 768) toggleSidebar(false);
+    }
+
+    function renderBacklinks(currentTitle) {
+      backlinkListEl.innerHTML = "";
+      const backlinks = db.filter(n => n.title !== currentTitle && n.content.includes(`[[${currentTitle}]]`));
+      
+      if (backlinks.length > 0) {
+        backlinks.forEach(b => {
+          const li = document.createElement('li');
+          li.textContent = "← " + b.title;
+          li.onclick = () => loadNote(b.id);
+          backlinkListEl.appendChild(li);
+        });
+      } else {
+        backlinkListEl.innerHTML = '<li class="empty-backlink">No backlinks found</li>';
+      }
+    }
+
+    function renderList(filterText = "") {
+      listEl.innerHTML = "";
+      const filtered = db.filter(n => n.title.toLowerCase().includes(filterText.toLowerCase()));
+      filtered.forEach(note => {
+        const li = document.createElement('li');
+        li.textContent = note.title;
+        li.className = note.id === currentId ? "active" : "";
+        li.onclick = () => loadNote(note.id);
+        listEl.appendChild(li);
+      });
+    }
+
+    function navigateTo(targetTitle) {
+      let targetNote = db.find(n => n.title.toLowerCase() === targetTitle.toLowerCase());
+      if (!targetNote) {
+        const newId = "note_" + Date.now();
+        targetNote = { id: newId, title: targetTitle, content: "Newly created document." };
+        db.push(targetNote);
+      }
+      loadNote(targetNote.id);
+      if (isEditing) toggleEditMode();
+    }
+
+    function toggleEditMode() {
+      isEditing = !isEditing;
+      if (isEditing) {
+        editorEl.style.display = "block";
+        viewerEl.style.display = "none";
+        modeBtn.textContent = "👁️ View";
+        editorEl.focus();
+      } else {
+        editorEl.style.display = "none";
+        viewerEl.style.display = "block";
+        modeBtn.textContent = "✏️ Edit";
+        viewerEl.innerHTML = parseWikiText(editorEl.value);
+      }
+    }
+
+    function updateCurrentNote() {
+      const note = db.find(n => n.id === currentId);
+      if (note) {
+        note.title = titleEl.value;
+        note.content = editorEl.value;
+        renderList(document.getElementById('search').value);
+        broadcast();
+      }
+    }
+
+    function createNewNote() {
+      const newId = "note_" + Date.now();
+      const newNote = { id: newId, title: "Untitled Note " + (db.length + 1), content: "" };
+      db.unshift(newNote);
+      loadNote(newId);
+      if (!isEditing) toggleEditMode();
+    }
+
+    /* ==========================================================================
+       [인라인 삭제 확인 로직 - PC / 모바일 공통 완벽 구동]
+       ========================================================================== */
+    function askDeleteCurrentNote() {
+      if (db.length <= 1) {
+        alertModal('At least one note must be kept.');
+        return;
+      }
+      confirmMsg.textContent = `Delete note "${titleEl.value || 'Untitled'}"?`;
+      confirmModal.classList.add('show');
+    }
+
+    function closeDeleteModal() {
+      confirmModal.classList.remove('show');
+    }
+
+    function confirmDeleteNote() {
+      closeDeleteModal();
+      const delIdx = db.findIndex(n => n.id === currentId);
+      if (delIdx !== -1) {
+        db.splice(delIdx, 1);
+        const nextNote = db[delIdx] || db[delIdx - 1] || db[0];
+        loadNote(nextNote.id);
+      }
+    }
+
+    function alertModal(msg) {
+      confirmMsg.textContent = msg;
+      confirmModal.classList.add('show');
+    }
+
+    function filterNotes() {
+      renderList(document.getElementById('search').value);
+    }
+
+    function broadcast() {
+      window.parent.postMessage({
+        protocol: PROTOCOL,
+        action: "SEND_DATA",
+        payload: `# ${titleEl.value}\n\n${editorEl.value}`
+      }, "*");
+    }
+
+    // PlugOn 버스 수신부
+    window.addEventListener('message', (event) => {
+      if (!NanoGuard.isValidPacket(event.data)) return;
+      if (event.data.action === "READY") return;
+      document.getElementById('bus-status').innerText = "PlugOn Active";
+
+      const payload = event.data.payload;
+      if (typeof payload === 'string' && payload.trim()) {
+        const lines = payload.trim().split('\n');
+        const candidateTitle = lines[0].replace(/^#+\s*/, '').trim() || ("Imported " + Date.now());
+        const bodyContent = lines.slice(1).join('\n').trim();
+        const existing = db.find(n => n.title.toLowerCase() === candidateTitle.toLowerCase());
+        
+        if (existing) {
+          if (existing.content !== bodyContent) {
+            existing.content = bodyContent;
+            loadNote(existing.id);
+          }
+        } else {
+          const newId = "note_" + Date.now();
+          db.unshift({ id: newId, title: candidateTitle, content: bodyContent });
+          loadNote(newId);
+        }
+      }
+    });
+
+    function downloadSelf() {
+      const vault = document.getElementById('teddy-vault');
+      vault.textContent = "\n" + JSON.stringify(db, null, 2) + "\n  ";
+      const htmlContent = "<!DOCTYPE html>\n" + document.documentElement.outerHTML;
+      const blob = new Blob([htmlContent], { type: "text/html;charset=utf-8" });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = "teddy-wiki.html";
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    loadNote(currentId);
+  </script>
+</body>
+</html>

@@ -1,0 +1,360 @@
+<!-- ==========================================================================
+ * Project: Crystal World (Experience Dock)
+ * Authors: Holo-Trekker & AI Companions (Gemini, NotebookLM, Antigravity)
+ * License: MIT License (https://opensource.org/licenses/MIT)
+ ========================================================================== -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>💎 Crystal World Experience Dock</title>
+  <style>
+    :root {
+      --bg: #0d1117; --panel: #161b22; --border: #30363d;
+      --text: #f0f6fc; --dim: #8b949e; --accent: #ff8c00;
+      --accent-bright: #ff7300; --green: #3fb950; --teal: #00ffd0;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      background: var(--bg); color: var(--text);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      height: 100vh; display: flex; flex-direction: column; overflow: hidden;
+    }
+
+    /* 상단 헤더: 브랜드, 좌우명, 검증기 버튼 */
+    header {
+      background: var(--panel); border-bottom: 2px solid var(--accent-bright);
+      padding: 6px 14px; display: flex; justify-content: space-between;
+      align-items: center; z-index: 10; flex-shrink: 0; gap: 10px;
+    }
+    .brand-wrap { display: flex; align-items: center; gap: 8px; }
+    .brand-title { font-weight: 700; color: var(--accent); font-size: 14px; letter-spacing: 0.2px; }
+    .badge-bus {
+      font-size: 10.5px; padding: 2px 7px; border-radius: 10px;
+      background: rgba(255, 140, 0, 0.15); color: var(--accent);
+      border: 1px solid var(--accent); white-space: nowrap;
+    }
+    .header-motto { font-size: 11px; color: var(--dim); }
+    .motto-korean {
+      font-family: "Gungsuh", "Batang", "AppleMyungjo", "Nanum Myeongjo", serif;
+      font-size: 12.5px; color: #e2e8f0; letter-spacing: 0.05em;
+      cursor: help; border-bottom: 1px dotted #555;
+    }
+
+    /* 수호신 검증기 모달 호출 버튼 */
+    .btn-verifier {
+      background: rgba(0, 255, 208, 0.1); color: var(--teal);
+      border: 1px solid var(--teal); padding: 4px 10px; border-radius: 6px;
+      font-size: 11.5px; font-weight: 700; cursor: pointer;
+      display: flex; align-items: center; gap: 6px; transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+    .btn-verifier:hover { background: var(--teal); color: #000; }
+    .dot-verifier { width: 6px; height: 6px; border-radius: 50%; background: var(--teal); box-shadow: 0 0 6px var(--teal); }
+
+    /* 메인 듀얼 슬롯 */
+    main { flex: 1; display: flex; overflow: hidden; min-height: 0; position: relative; }
+    .slot {
+      flex: 1; display: flex; flex-direction: column;
+      border-right: 1px solid var(--border); background: #000; min-height: 0;
+    }
+    .slot:last-child { border-right: none; }
+    .slot-toolbar {
+      background: var(--panel); padding: 5px 12px;
+      display: flex; justify-content: space-between; align-items: center;
+      border-bottom: 1px solid var(--border); font-size: 11.5px; flex-shrink: 0;
+      gap: 6px; flex-wrap: wrap;
+    }
+    .slot-label { font-weight: 700; color: var(--dim); }
+    .slot-btn-group { display: flex; gap: 6px; align-items: center; }
+    
+    button {
+      background: #21262d; color: var(--text); border: 1px solid #444c56;
+      padding: 3px 8px; border-radius: 4px; cursor: pointer; font-size: 11px;
+      transition: all 0.15s ease;
+    }
+    button:hover { border-color: var(--accent-bright); color: #fff; }
+    .btn-preset {
+      background: rgba(255, 140, 0, 0.15); color: var(--accent);
+      border-color: rgba(255, 140, 0, 0.5); font-weight: 700;
+    }
+    .btn-preset:hover { background: var(--accent); color: #fff; }
+
+    input[type="file"] { display: none; }
+    iframe { flex: 1; width: 100%; height: 100%; border: none; background: transparent; }
+
+    /* 하단 1줄 슬라이딩 전광판 티커 */
+    footer#dock-ticker {
+      background: #08090a; border-top: 1px solid var(--border);
+      display: flex; flex-direction: column; flex-shrink: 0;
+      transition: height 0.2s ease; height: 24px; z-index: 20;
+    }
+    footer#dock-ticker.open { height: 86px; }
+    .ticker-bar {
+      height: 24px; padding: 0 10px; display: flex;
+      justify-content: space-between; align-items: center;
+      font-size: 11px; color: var(--dim); cursor: pointer; user-select: none;
+    }
+    .ticker-bar:hover { background: #121418; color: var(--text); }
+    .ticker-msg-wrap { display: flex; align-items: center; gap: 6px; overflow: hidden; white-space: nowrap; }
+    .ticker-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--green); flex-shrink: 0; }
+    .ticker-text { font-family: monospace; color: #58a6ff; }
+    .ticker-history {
+      flex: 1; overflow-y: auto; background: #000;
+      padding: 4px 10px; font-family: monospace; font-size: 11px;
+      line-height: 1.4; display: none;
+    }
+    footer#dock-ticker.open .ticker-history { display: block; }
+    .log-line { color: var(--dim); border-bottom: 1px solid #161920; padding: 2px 0; }
+    .log-line.routed { color: var(--accent); font-weight: 600; }
+
+    /* 검증기 모달 팝업 */
+    .modal-overlay {
+      position: fixed; inset: 0; background: rgba(0,0,0,0.75);
+      backdrop-filter: blur(4px); z-index: 100; display: none;
+      align-items: center; justify-content: center; padding: 14px;
+    }
+    .modal-overlay.show { display: flex; }
+    .modal-card {
+      background: #161b22; border: 1px solid var(--teal); border-radius: 8px;
+      width: 100%; max-width: 540px; box-shadow: 0 10px 30px rgba(0, 255, 208, 0.2);
+      display: flex; flex-direction: column; overflow: hidden;
+    }
+    .modal-header {
+      background: #0d1117; padding: 10px 14px; border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .modal-title { font-size: 13px; font-weight: 700; color: var(--teal); display: flex; align-items: center; gap: 6px; }
+    .modal-close { background: transparent; border: none; color: var(--dim); font-size: 16px; cursor: pointer; }
+    .modal-close:hover { color: #fff; }
+    .modal-body { padding: 12px; background: #0d1117; }
+    .modal-body iframe { height: 280px; width: 100%; background: #000; border-radius: 4px; }
+
+    @media (max-width: 768px) {
+      main { flex-direction: column; }
+      .slot { border-right: none; border-bottom: 1px solid var(--border); }
+      .header-motto { display: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div class="brand-wrap">
+      <span class="brand-title">💎 Crystal World Dock</span>
+      <span class="badge-bus" id="bus-status">Bus Standby</span>
+    </div>
+    
+    <span class="header-motto">
+      <span class="motto-korean" title="The Purest is the Strongest">"순수한 것이 가장 강하다"</span> · Pure Experience Suite
+    </span>
+
+    <button class="btn-verifier" onclick="toggleVerifierModal(true)" title="Open Security Verifier">
+      <span class="dot-verifier"></span>
+      <span>🛡️ Guardian Verifier</span>
+    </button>
+  </header>
+
+  <!-- DUAL SLOTS -->
+  <main>
+    <!-- SLOT 1: Teddy Wiki Preset / Sender -->
+    <section class="slot" id="slot-1-box">
+      <div class="slot-toolbar">
+        <span class="slot-label" id="slot-1-title">SLOT #1 · Knowledge Base</span>
+        <div class="slot-btn-group">
+          <button class="btn-preset" onclick="mountPreset(1, 'teddy-wiki.html')" title="Quick Mount Teddy Wiki">⚡ Teddy Wiki</button>
+          <button onclick="document.getElementById('file-1').click()" title="Load custom PlugOn (.html)">📁 Load PlugOn</button>
+          <input type="file" id="file-1" accept=".html,.htm" onchange="loadCustomApp(1, event)">
+        </div>
+      </div>
+      <iframe id="slot-1" sandbox="allow-scripts allow-modals allow-same-origin allow-forms allow-downloads"></iframe>
+    </section>
+
+    <!-- SLOT 2: Nano Blake Preset / Receiver -->
+    <section class="slot" id="slot-2-box">
+      <div class="slot-toolbar">
+        <span class="slot-label" id="slot-2-title">SLOT #2 · Media Studio</span>
+        <div class="slot-btn-group">
+          <button class="btn-preset" onclick="mountPreset(2, 'nano-blake.html')" title="Quick Mount Nano Blake">⚡ Nano Blake</button>
+          <button onclick="document.getElementById('file-2').click()" title="Load custom PlugOn (.html)">📁 Load PlugOn</button>
+          <input type="file" id="file-2" accept=".html,.htm" onchange="loadCustomApp(2, event)">
+        </div>
+      </div>
+      <iframe id="slot-2" sandbox="allow-scripts allow-modals allow-same-origin allow-forms allow-downloads"></iframe>
+    </section>
+  </main>
+
+  <!-- 1-LINE TICKER LOG FOOTER -->
+  <footer id="dock-ticker">
+    <div class="ticker-bar" onclick="toggleTicker()" title="Click to expand/collapse event bus logs">
+      <div class="ticker-msg-wrap">
+        <div class="ticker-dot"></div>
+        <span id="ticker-msg" class="ticker-text">[Ready] 0.001s Crystal Event Bus active</span>
+      </div>
+      <span style="font-size: 10px;">Logs ↕</span>
+    </div>
+    <div class="ticker-history" id="ticker-history"></div>
+  </footer>
+
+  <!-- GUARDIAN VERIFIER MODAL -->
+  <div id="verifier-modal" class="modal-overlay" onclick="handleModalOverlay(event)">
+    <div class="modal-card">
+      <div class="modal-header">
+        <div class="modal-title">🛡️ Guardian Verifier (SHA-256 & Protocol Validator)</div>
+        <button class="modal-close" onclick="toggleVerifierModal(false)">✕</button>
+      </div>
+      <div class="modal-body">
+        <iframe id="verifier-frame" src="./sha256-verifier.html" sandbox="allow-scripts allow-same-origin allow-forms"></iframe>
+      </div>
+    </div>
+  </div>
+
+  <!-- DEFAULT SENDER & RECEIVER TEMPLATES -->
+  <script>
+    const DEFAULT_SENDER_HTML = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { background:#121418; color:#f0f6fc; font-family:-apple-system,sans-serif; padding:14px; margin:0; display:flex; flex-direction:column; height:100vh; box-sizing:border-box; }
+    h4 { font-size:13px; color:#ff8c00; margin:0 0 8px 0; font-weight:700; }
+    textarea { flex:1; background:#1c1f26; color:#f0f6fc; border:1px solid #30363d; border-radius:6px; padding:12px; font-size:13.5px; resize:none; outline:none; line-height:1.6; font-family:monospace; }
+    textarea:focus { border-color:#ff8c00; }
+    .hint { font-size:11px; color:#8b949e; margin-top:6px; }
+  </style>
+</head>
+<body>
+  <h4>🚀 SLOT #1: Sender Template (Live Ping)</h4>
+  <textarea id="src" placeholder="Type text here..."># Welcome to Crystal World!
+Click [⚡ Teddy Wiki] or [⚡ Nano Blake] above to mount full apps instantly.
+Or type text here to stream to Slot #2 in 0.001s.</textarea>
+  <div class="hint">• 0.001s in-memory bus transit via crystal-dock/v1</div>
+  <script>
+    const el = document.getElementById('src');
+    function emit() {
+      window.parent.postMessage({
+        protocol: 'crystal-dock/v1',
+        action: 'SEND_DATA',
+        payload: el.value
+      }, '*');
+    }
+    el.addEventListener('input', emit);
+    setTimeout(emit, 200);
+  <\/script>
+</body>
+</html>`;
+
+    const DEFAULT_RECEIVER_HTML = `<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <style>
+    body { background:#08090a; color:#f0f6fc; font-family:-apple-system,sans-serif; padding:14px; margin:0; display:flex; flex-direction:column; height:100vh; box-sizing:border-box; }
+    h4 { font-size:13px; color:#3fb950; margin:0 0 8px 0; font-weight:700; }
+    pre { flex:1; background:#11141a; color:#38bdf8; border:1px solid #30363d; border-radius:6px; padding:12px; font-size:13px; overflow:auto; line-height:1.6; margin:0; white-space:pre-wrap; word-break:break-all; font-family:monospace; }
+    .hint { font-size:11px; color:#8b949e; margin-top:6px; }
+  </style>
+</head>
+<body>
+  <h4>📡 SLOT #2: Receiver Template (Live Pong)</h4>
+  <pre id="display">Waiting for Slot #1 packet...</pre>
+  <div class="hint">• Real-time packet payload delivered without servers or cloud</div>
+  <script>
+    const disp = document.getElementById('display');
+    window.addEventListener('message', (e) => {
+      if (e.data?.protocol === 'crystal-dock/v1' || e.data?.protocol === 'BLAKE_MICRO_APP_v1') {
+        disp.textContent = e.data.payload || '(Empty payload)';
+      }
+    });
+  <\/script>
+</body>
+</html>`;
+  </script>
+
+  <!-- CONTROLLER & BUS ROUTER -->
+  <script>
+    const slot1 = document.getElementById('slot-1');
+    const slot2 = document.getElementById('slot-2');
+    const ticker = document.getElementById('dock-ticker');
+    const tickerMsg = document.getElementById('ticker-msg');
+    const tickerHistory = document.getElementById('ticker-history');
+    const busBadge = document.getElementById('bus-status');
+    const verifierModal = document.getElementById('verifier-modal');
+
+    function initDock() {
+      slot1.srcdoc = DEFAULT_SENDER_HTML;
+      slot2.srcdoc = DEFAULT_RECEIVER_HTML;
+    }
+    initDock();
+
+    // ⚡ 원클릭 프리셋 마운트 (상대 경로로 테디위키 & 나노블레이크 즉시 장착)
+    function mountPreset(slotNum, targetFile) {
+      const targetIframe = (slotNum === 1) ? slot1 : slot2;
+      const titleEl = document.getElementById(`slot-${slotNum}-title`);
+      targetIframe.removeAttribute('srcdoc');
+      targetIframe.src = `./${targetFile}`;
+      titleEl.innerText = `SLOT #${slotNum} · ${targetFile}`;
+      appendLog(`[PRESET] Mounted '${targetFile}' into Slot #${slotNum}`, 'routed');
+    }
+
+    // 📁 사용자 커스텀 플러그온 파일 로드
+    function loadCustomApp(slotNum, e) {
+      const file = e.target.files[0];
+      if (!file) return;
+      const targetIframe = (slotNum === 1) ? slot1 : slot2;
+      const titleEl = document.getElementById(`slot-${slotNum}-title`);
+      targetIframe.removeAttribute('srcdoc');
+      targetIframe.src = URL.createObjectURL(file);
+      titleEl.innerText = `SLOT #${slotNum} · ${file.name}`;
+      appendLog(`[MOUNT] Loaded '${file.name}' (${(file.size/1024).toFixed(1)} KB) into Slot #${slotNum}`, 'routed');
+    }
+
+    // 검증기 모달 열기/닫기
+    function toggleVerifierModal(show) {
+      verifierModal.classList.toggle('show', show);
+    }
+    function handleModalOverlay(e) {
+      if (e.target === verifierModal) toggleVerifierModal(false);
+    }
+
+    function toggleTicker() { ticker.classList.toggle('open'); }
+
+    function appendLog(text, className = '') {
+      const time = new Date().toLocaleTimeString();
+      const line = `[${time}] ${text}`;
+      tickerMsg.innerText = line;
+
+      const div = document.createElement('div');
+      div.className = `log-line ${className}`;
+      div.innerText = line;
+      tickerHistory.prepend(div);
+      if (tickerHistory.children.length > 30) {
+        tickerHistory.removeChild(tickerHistory.lastChild);
+      }
+    }
+
+    // 0.001초 인메모리 라우팅 버스 (crystal-dock/v1 및 BLAKE_MICRO_APP_v1 듀얼 지원)
+    window.addEventListener('message', (event) => {
+      const data = event.data;
+      if (!data || (data.protocol !== 'crystal-dock/v1' && data.protocol !== 'BLAKE_MICRO_APP_v1')) return;
+
+      busBadge.innerText = "Bus Active";
+      busBadge.style.color = "var(--green)";
+      busBadge.style.borderColor = "var(--green)";
+
+      const len = typeof data.payload === 'string' ? data.payload.length : JSON.stringify(data.payload || '').length;
+      appendLog(`ROUTED: ${data.action || 'DATA'} (${len} chars) ➔ peer slot`, 'routed');
+
+      // Forward to peer slot
+      const targets = [slot1.contentWindow, slot2.contentWindow];
+      targets.forEach(win => {
+        if (win && win !== event.source) {
+          win.postMessage(data, '*');
+        }
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,810 +1,1162 @@
-<!--
-  Blake Crystal Dock v1.0
-  Copyright (c) 2026 Yoon-seok Kim
-  Licensed under the MIT License
-  https://opensource.org/licenses/MIT
--->
 <!DOCTYPE html>
-<html lang="en">
+<!--
+ * Project: Crystal World (Official Showroom)
+ * Authors: Holo-Trekker & AI Companions (Gemini, NotebookLM, Antigravity)
+ * License: MIT License (https://opensource.org/licenses/MIT)
+-->
+<html lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Blake Crystal Dock (v1.0)</title>
+    <title>CRYSTAL WORLD — Coexistence for the Upcoming Era</title>
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;700;900&family=Noto+Serif+KR:wght@700;900&display=swap" rel="stylesheet">
     <style>
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Noto Sans KR", sans-serif;
-            background: #181818;
-            color: #e0e0e0;
-            margin: 20px;
-            line-height: 1.5;
+        :root {
+            --bg-pure: #FAF9F6;
+            --bg-card: #FFFFFF;
+            --text-main: #111827;
+            --text-sub: #4B5563;
+            --text-muted: #9CA3AF;
+            --accent-orange: #EA580C;
+            --border-light: #E5E7EB;
+            --content-max-width: 880px;
+            --header-max-width: 1320px;
+
+            /* 4대 탭 테마 */
+            --sec1-sky: #0284C7;
+            --sec1-sky-border: #BAE6FD;
+            --sec1-sky-bg: #F0F9FF;
+
+            --sec2-emerald: #059669;
+            --sec2-emerald-border: #A7F3D0;
+            --sec2-emerald-bg: #ECFDF5;
+
+            --sec3-violet: #7C3AED;
+            --sec3-violet-border: #DDD6FE;
+            --sec3-violet-bg: #F5F3FF;
+
+            --sec4-amber: #D97706;
+            --sec4-amber-border: #FDE68A;
+            --sec4-amber-bg: #FFFBEB;
         }
 
-        /* 상단 컨트롤 바 & 헤더 */
-        .header-wrap {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid #333;
-            padding-bottom: 12px;
-            gap: 15px;
-            flex-wrap: wrap;
-        }
-        .header-left {
-            display: flex;
-            flex-direction: column;
-        }
-        .header-title {
-            margin: 0;
-            font-size: 22px;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        .header-desc {
-            margin: 4px 0 0 0;
-            color: #888;
-            font-size: 13px;
-        }
-        .motto-korean {
-            font-family: "Gungsuh", "GungsuhChe", "Batang", "AppleMyungjo", "Nanum Myeongjo", serif;
-            font-size: 14px;
-            color: #e2e8f0;
-            letter-spacing: 0.05em;
-            cursor: help;
-        }
-        .badge-pure {
-            background: rgba(0, 255, 208, 0.15);
-            color: #00ffd0;
-            border: 1px solid #00ffd0;
-            font-size: 11px;
-            padding: 2px 8px;
-            border-radius: 12px;
-            font-weight: normal;
-        }
-
-        /* 수호신 (검증기) 컨트롤 버튼 */
-        .header-right {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-        .btn-guardian {
-            background: linear-gradient(135deg, #1f2d2a, #162420);
-            color: #00ffd0;
-            border: 1px solid #00ffd0;
-            padding: 8px 16px;
-            font-size: 13px;
-            font-weight: bold;
-            border-radius: 6px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            box-shadow: 0 2px 8px rgba(0, 255, 208, 0.15);
-            transition: all 0.2s ease;
-        }
-        .btn-guardian:hover {
-            background: #00ffd0;
-            color: #111;
-            box-shadow: 0 4px 14px rgba(0, 255, 208, 0.3);
-            transform: translateY(-1px);
-        }
-        .guardian-dot {
-            width: 8px;
-            height: 8px;
-            border-radius: 50%;
-            background: #00ffd0;
-            box-shadow: 0 0 6px #00ffd0;
-            display: inline-block;
-        }
-
-        /* 듀얼 도크 워크스테이션 컨테이너 */
-        .dock-container {
-            display: flex;
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .slot {
-            flex: 1;
-            border: 1px solid #333;
-            border-radius: 8px;
-            padding: 12px;
-            background: #222;
-            min-height: 550px;
-            display: flex;
-            flex-direction: column;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
-        }
-        .slot-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
-            border-bottom: 1px solid #333;
-            padding-bottom: 8px;
-        }
-        .slot-title {
-            font-weight: bold;
-            color: #00ffd0;
-            font-size: 14px;
-        }
-        .slot-actions button {
-            background: #2d2d2d;
-            color: #aaa;
-            border: 1px solid #444;
-            padding: 3px 8px;
-            font-size: 11px;
-            border-radius: 4px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .slot-actions button:hover {
-            background: #444;
-            color: #fff;
-        }
-        .slot-body {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            position: relative;
-        }
-        iframe {
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; }
+        html, body {
+            background-color: var(--bg-pure);
+            color: var(--text-main);
             width: 100%;
-            height: 500px;
-            border: none;
-            background: #1a1a1a;
-            border-radius: 4px;
-            flex: 1;
+            min-height: 100dvh;
+            scroll-behavior: smooth;
+            line-height: 1.7;
         }
+        code, pre { font-family: 'JetBrains Mono', monospace; }
 
-        /* 드롭존 (Drop Zone) 스타일 */
-        .drop-zone {
-            flex: 1;
-            border: 2px dashed #4f4f4f;
-            border-radius: 6px;
+        /* BRANDING HEADER: One-Row Layout */
+        header.site-header-top {
+            background: var(--bg-pure);
+            padding: 12px 16px 10px 16px;
+            width: 100%;
+            border-bottom: 1px solid rgba(229, 231, 235, 0.7);
+        }
+        .header-top-container {
+            max-width: var(--header-max-width);
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            flex-wrap: nowrap;
+        }
+        .header-logo {
+            display: flex;
+            align-items: center;
+            text-decoration: none;
+            color: var(--text-main);
+            min-width: 0;
+            flex-shrink: 1;
+        }
+        .brand-title-wrap {
             display: flex;
             flex-direction: column;
-            align-items: center;
             justify-content: center;
-            background: #1c1c1c;
-            color: #aaa;
-            text-align: center;
-            padding: 30px 20px;
-            transition: all 0.2s ease;
-            cursor: pointer;
-            user-select: none;
+            line-height: 1.2;
+            min-width: 0;
         }
-        .drop-zone.dragover {
-            border-color: #00ffd0;
-            background: rgba(0, 255, 208, 0.08);
-            color: #00ffd0;
-            transform: scale(0.99);
-        }
-        .drop-icon {
-            font-size: 42px;
-            margin-bottom: 12px;
-        }
-        .drop-title {
-            font-size: 15px;
-            font-weight: bold;
-            color: #e0e0e0;
-            margin-bottom: 6px;
-        }
-        .drop-zone.dragover .drop-title {
-            color: #00ffd0;
-        }
-        .drop-desc {
-            font-size: 12px;
-            color: #777;
-            margin-bottom: 16px;
-        }
-        .drop-btn-group {
-            display: flex;
-            gap: 8px;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-        .btn-browse {
-            background: #2a2a2a;
-            color: #00ffd0;
-            border: 1px solid #00ffd0;
-            padding: 6px 14px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.2s;
-            display: inline-block;
-        }
-        .btn-browse:hover {
-            background: #00ffd0;
-            color: #111;
-        }
-        .btn-preset {
-            background: #252525;
-            color: #bbb;
-            border: 1px solid #444;
-            padding: 6px 12px;
-            border-radius: 4px;
-            font-size: 12px;
-            cursor: pointer;
-            transition: 0.2s;
-        }
-        .btn-preset:hover {
-            border-color: #888;
-            color: #fff;
-        }
-
-        /* 하단 메시지 버스 로그 */
-        #system-log-wrap {
-            margin-top: 20px;
-        }
-        .log-header {
-            font-size: 13px;
-            color: #aaa;
-            margin-bottom: 6px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-        #system-log {
-            padding: 12px 15px;
-            background: #111;
-            border-left: 4px solid #00ffd0;
-            border-radius: 4px;
-            font-family: Consolas, Monaco, "Courier New", monospace;
-            font-size: 12px;
-            line-height: 1.6;
-            max-height: 150px;
-            overflow-y: auto;
-            color: #bbb;
-        }
-        .log-time { color: #666; margin-right: 6px; }
-        .log-success { color: #00ffd0; font-weight: bold; }
-        .log-warn { color: #ffa500; font-weight: bold; }
-        .log-info { color: #64b5f6; }
-
-        /* 수호신 (검증기) 모달 팝업 레이어 */
-        .modal-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: rgba(0, 0, 0, 0.75);
-            backdrop-filter: blur(4px);
-            z-index: 9999;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            animation: fadeIn 0.2s ease;
-        }
-        .modal-card {
-            background: #222;
-            border: 1px solid #00ffd0;
-            border-radius: 8px;
-            width: 90%;
-            max-width: 520px;
-            box-shadow: 0 10px 30px rgba(0, 255, 208, 0.2);
+        .brand-main-title {
+            font-family: 'JetBrains Mono', 'Noto Sans KR', sans-serif;
+            font-size: 1.4rem;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            color: #0F172A;
+            white-space: nowrap;
             overflow: hidden;
-            display: flex;
-            flex-direction: column;
+            text-overflow: ellipsis;
         }
-        .modal-header {
-            background: #1a1a1a;
-            padding: 12px 16px;
-            border-bottom: 1px solid #333;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .brand-sub-title {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+            font-weight: 800;
+            color: var(--accent-orange);
+            letter-spacing: 0.2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-top: 1px;
         }
-        .modal-title {
-            font-size: 14px;
-            font-weight: bold;
-            color: #00ffd0;
+        .header-download-btns {
             display: flex;
             align-items: center;
             gap: 6px;
+            white-space: nowrap;
+            flex-shrink: 0;
         }
-        .modal-close-btn {
-            background: transparent;
-            border: none;
-            color: #888;
-            font-size: 18px;
-            cursor: pointer;
-            padding: 0 4px;
-            line-height: 1;
-        }
-        .modal-close-btn:hover {
-            color: #fff;
-        }
-        .modal-body {
-            padding: 10px;
-            background: #181818;
-        }
-        .modal-body iframe {
-            height: 280px;
-            background: #1a1a1a;
-        }
-
-        /* 모바일 탭 스위처 (모바일 전용) */
-        .mobile-slot-nav {
-            display: none;
-            margin-top: 15px;
-            background: #111;
-            border: 1px solid #333;
+        .btn-header {
+            padding: 6px 13px;
             border-radius: 6px;
-            padding: 3px;
-            gap: 4px;
-        }
-        .mobile-tab-btn {
-            flex: 1;
-            background: transparent;
-            border: none;
-            color: #888;
-            padding: 8px 12px;
-            font-size: 13px;
-            font-weight: bold;
-            border-radius: 4px;
+            font-size: 0.78rem;
+            font-weight: 900;
             cursor: pointer;
-            transition: 0.2s;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s ease;
+            letter-spacing: 0.3px;
         }
-        .mobile-tab-btn.active {
-            background: #00ffd0;
-            color: #111;
-        }
+        .btn-live-run { background: var(--accent-orange); color: #FFFFFF; }
+        .btn-live-run:hover { background: #c2410c; }
+        .btn-community { background: #1F2937; color: #FFFFFF; }
+        .btn-community:hover { background: #111827; }
 
-        @media (max-width: 768px) {
-            body {
-                margin: 10px;
-            }
-            .header-wrap {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-            .header-right {
-                width: 100%;
-            }
-            .btn-guardian {
-                width: 100%;
-                justify-content: center;
-            }
-            .mobile-slot-nav {
-                display: flex;
-            }
-            .dock-container {
-                flex-direction: column;
-                gap: 15px;
-                margin-top: 12px;
-            }
-            /* 모바일 탭 선택에 따라 슬롯 하나씩 시원하게 전체 너비로 표시 */
-            body[data-active-slot="1"] #slot-container-2 {
-                display: none;
-            }
-            body[data-active-slot="2"] #slot-container-1 {
-                display: none;
-            }
-            .slot {
-                min-height: 480px;
-            }
-            iframe {
-                height: 440px;
-            }
-        /* 영문 병기 스타일 (Bilingual Subtext) */
-        .btn-label-wrap {
+        /* STICKY 4-PILLAR NAVIGATION BAR */
+        nav.sticky-nav-bar {
+            position: -webkit-sticky;
+            position: sticky;
+            top: 0;
+            z-index: 10000;
+            background: rgba(250, 249, 246, 0.96);
+            backdrop-filter: blur(12px);
+            border-bottom: 2px solid rgba(229, 231, 235, 0.8);
+            padding: 6px 8px;
+            width: 100%;
+        }
+        .nav-bar-container {
+            max-width: var(--header-max-width);
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            width: 100%;
+        }
+        .nav-pillar-btn {
+            flex: 1 1 0;
+            min-width: 0;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: center;
+            padding: 6px 2px;
+            border-radius: 8px;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.9);
+            border: 2px solid var(--border-light);
+            transition: all 0.2s ease;
+            cursor: pointer;
+            text-align: center;
+        }
+        .nav-pillar-btn:hover { transform: translateY(-1px); }
+        .nav-pillar-btn[data-tab="overview"].active { background: var(--sec1-sky-bg); border-color: var(--sec1-sky); }
+        .nav-pillar-btn[data-tab="spec"].active { background: var(--sec2-emerald-bg); border-color: var(--sec2-emerald); }
+        .nav-pillar-btn[data-tab="playground"].active { background: var(--sec3-violet-bg); border-color: var(--sec3-violet); }
+        .nav-pillar-btn[data-tab="journey"].active { background: var(--sec4-amber-bg); border-color: var(--sec4-amber); }
+
+        .nav-main-label {
+            font-size: 0.92rem;
+            font-weight: 900;
+            color: var(--text-main);
             line-height: 1.2;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
         }
-        .btn-sub-en {
-            font-size: 10px;
-            font-weight: normal;
-            opacity: 0.85;
-            display: block;
-            margin-top: 2px;
+        .nav-sub-label {
+            font-size: 0.62rem;
+            font-weight: 800;
+            color: var(--text-muted);
+            text-transform: uppercase;
             letter-spacing: 0.2px;
-        }
-        .tab-sub-en {
-            font-size: 10px;
-            font-weight: normal;
-            opacity: 0.85;
-            display: block;
+            line-height: 1.1;
             margin-top: 2px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            width: 100%;
         }
-        .sub-en {
-            display: block;
-            font-size: 11px;
-            color: #888;
-            margin-top: 3px;
-            font-weight: normal;
+        .nav-pillar-btn.active .nav-sub-label { color: var(--text-main); }
+
+        /* MAIN BODY LAYOUT */
+        main.main-body {
+            max-width: var(--content-max-width);
+            margin: 0 auto;
+            padding: 20px 16px 80px 16px;
+            width: 100%;
         }
-        .sub-en-inline {
-            font-size: 11px;
-            color: #777;
-            margin-left: 6px;
-            font-weight: normal;
-        }
-        .modal-sub-en {
-            display: block;
-            font-size: 11px;
-            color: #888;
-            font-weight: normal;
-            margin-top: 2px;
+        .tab-pane { display: none; animation: tabFadeIn 0.2s ease-out; }
+        .tab-pane.active-tab { display: block; }
+        @keyframes tabFadeIn {
+            from { opacity: 0; transform: translateY(4px); }
+            to { opacity: 1; transform: translateY(0); }
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; transform: scale(0.97); }
-            to { opacity: 1; transform: scale(1); }
+        .section-header {
+            font-family: 'Noto Serif KR', serif;
+            font-size: 1.35rem;
+            font-weight: 900;
+            padding-bottom: 8px;
+            margin-bottom: 20px;
+            text-align: left;
+        }
+        #overview .section-header { color: var(--sec1-sky); border-bottom: 3px solid var(--sec1-sky); }
+        #spec .section-header { color: var(--sec2-emerald); border-bottom: 3px solid var(--sec2-emerald); }
+        #playground .section-header { color: var(--sec3-violet); border-bottom: 3px solid var(--sec3-violet); }
+        #journey .section-header { color: var(--sec4-amber); border-bottom: 3px solid var(--sec4-amber); }
+
+        .tech-card {
+            background: var(--bg-card);
+            border-radius: 12px;
+            padding: 26px 24px;
+            margin-bottom: 20px;
+            border: 1.5px solid var(--border-light);
+            text-align: left;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.01);
+        }
+        #overview .tech-card { border-color: var(--sec1-sky-border); }
+        #spec .tech-card { border-color: var(--sec2-emerald-border); }
+        #playground .tech-card { border-color: var(--sec3-violet-border); }
+        #journey .tech-card { border-color: var(--sec4-amber-border); }
+
+        .card-lead {
+            font-size: 1.18rem;
+            color: var(--text-main);
+            font-weight: 800;
+            letter-spacing: -0.3px;
+            padding-bottom: 8px;
+            margin-top: 10px;
+            margin-bottom: 14px;
+            border-bottom: 2.5px solid #CBD5E1;
+            display: flex;
+            align-items: center;
+        }
+        #overview .card-lead { border-bottom-color: var(--sec1-sky); }
+        #spec .card-lead { border-bottom-color: var(--sec2-emerald); }
+        #playground .card-lead { border-bottom-color: var(--sec3-violet); }
+        #journey .card-lead { border-bottom-color: var(--sec4-amber); }
+
+        .indent-list {
+            padding-left: 20px;
+            margin-top: 8px;
+            margin-bottom: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            font-size: 0.92rem;
+            color: var(--text-sub);
+            line-height: 1.8;
+            list-style-type: disc;
+        }
+        .indent-list li { padding-left: 2px; }
+
+        .section-note-box {
+            background: #F8FAFC;
+            border: 1.5px solid #E2E8F0;
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin: 18px 0 24px 0;
+            font-size: 0.88rem;
+            color: #334155;
+            line-height: 1.65;
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+        }
+        .section-note-box strong { color: #0F172A; }
+
+        .tab-bridge-box {
+            margin-top: 32px;
+            padding: 16px 20px;
+            background: #FFF7ED;
+            border: 2px solid #F97316;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 14px;
+            flex-wrap: wrap;
+            box-shadow: 0 4px 12px rgba(249, 115, 22, 0.08);
+        }
+        .tab-bridge-text {
+            font-size: 0.92rem;
+            color: #9A3412;
+            line-height: 1.6;
+            font-weight: 600;
+        }
+        .tab-bridge-btn {
+            background: #EA580C;
+            color: #FFFFFF;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 0.84rem;
+            font-weight: 800;
+            cursor: pointer;
+            white-space: nowrap;
+            transition: background 0.2s ease;
+        }
+        .tab-bridge-btn:hover { background: #C2410C; }
+
+        .diagram-box {
+            background: #0F172A;
+            color: #F8FAFC;
+            padding: 16px;
+            border-radius: 8px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.78rem;
+            line-height: 1.35;
+            overflow-x: auto;
+            border: 1.5px solid #334155;
+            margin: 14px 0 16px 0;
+        }
+
+        .story-quote {
+            background: #FFFBEB;
+            border: 1.5px solid var(--sec4-amber-border);
+            padding: 14px 18px;
+            border-radius: 8px;
+            margin: 14px 0 18px 0;
+            font-size: 0.88rem;
+            color: #78350F;
+            line-height: 1.7;
+        }
+        .poem-box {
+            background: #F8FAFC;
+            border: 1.5px dashed #CBD5E1;
+            border-radius: 8px;
+            padding: 14px 18px;
+            margin: 14px 0 18px 0;
+            font-style: italic;
+            font-size: 0.86rem;
+            color: #334155;
+            line-height: 1.75;
+            text-align: center;
+        }
+
+        .spec-table-wrap {
+            width: 100%;
+            overflow-x: auto;
+            margin: 16px 0;
+            border: 1.5px solid #E2E8F0;
+            border-radius: 8px;
+        }
+        .spec-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.86rem;
+            text-align: left;
+        }
+        .spec-table th {
+            background: #F1F5F9;
+            color: #1E293B;
+            font-weight: 800;
+            padding: 11px 14px;
+            border-bottom: 1.5px solid #CBD5E1;
+            white-space: nowrap;
+        }
+        .spec-table td {
+            padding: 11px 14px;
+            border-bottom: 1px solid #E2E8F0;
+            color: #475569;
+            line-height: 1.5;
+        }
+        .spec-table tr:last-child td { border-bottom: none; }
+
+        .file-dl-link {
+            color: #0284C7;
+            font-weight: 700;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            border-bottom: 1px dashed #0284C7;
+            transition: all 0.15s ease;
+        }
+        .file-dl-link:hover {
+            color: #ff8c00;
+            border-bottom-color: #ff8c00;
+        }
+
+        /* 5컷 웹툰 갤러리 그리드 */
+        .comic-grid-5 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-bottom: 16px;
+        }
+        .comic-panel-card {
+            background: #FFFFFF;
+            border: 1.5px solid #E2E8F0;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.04);
+            display: flex;
+            flex-direction: column;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        .comic-panel-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 16px rgba(0,0,0,0.08);
+            border-color: #DDD6FE;
+        }
+        .comic-img-wrap {
+            width: 100%;
+            background: #000;
+            display: block;
+        }
+        .comic-img-wrap img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+        .comic-meta-caption {
+            padding: 8px 10px;
+            text-align: center;
+            font-size: 0.82rem;
+            font-weight: 800;
+            color: #475569;
+            background: #F8FAFC;
+            border-top: 1px solid #E2E8F0;
+        }
+
+        /* FOOTER */
+        footer.site-footer {
+            border-top: 1.5px solid var(--border-light);
+            background: #111827;
+            color: #9CA3AF;
+            padding: 36px 16px;
+            text-align: center;
+            font-size: 0.84rem;
+            line-height: 1.75;
+        }
+        footer.site-footer a { color: var(--sec1-sky); text-decoration: none; font-weight: 700; }
+
+        @media (max-width: 768px) {
+            .brand-main-title { font-size: 1.22rem; }
+            .brand-sub-title { font-size: 0.72rem; }
+            .nav-main-label { font-size: 0.84rem; }
+            .nav-sub-label { font-size: 0.54rem; }
+            .tech-card { padding: 18px 16px; }
+            .card-lead { font-size: 1.1rem; }
+            .comic-grid-5 { grid-template-columns: 1fr; }
         }
     </style>
 </head>
-<body data-active-slot="1">
+<body>
 
-    <!-- Top Control Bar & Header -->
-    <div class="header-wrap">
-        <div class="header-left">
-            <h2 class="header-title">
-                💎 Blake Crystal Dock 
-                <span class="badge-pure">Crystal v1.0</span>
-            </h2>
-            <p class="header-desc">
-                <span class="motto-korean" title="The Purest is the Strongest">"순수한 것이 가장 강하다."</span> · Zero-Build Single-File Modular Platform
+<!-- 1. COMPACT ONE-ROW HEADER -->
+<header class="site-header-top">
+    <div class="header-top-container">
+        <a href="#" class="header-logo">
+            <div class="brand-title-wrap">
+                <span class="brand-main-title">CRYSTAL WORLD</span>
+                <span class="brand-sub-title">Coexistence for the Upcoming Era</span>
+            </div>
+        </a>
+
+        <div class="header-download-btns">
+            <a href="./crystal-world-dock.html" target="_blank" rel="noopener noreferrer" class="btn-header btn-live-run" title="Open Full Experience Dock">
+                TRY IT
+            </a>
+            <a href="https://cafe.naver.com/crystaldock?iframe_url=/MyCafeIntro.nhn%3Fclubid=31784518" target="_blank" rel="noopener noreferrer" class="btn-header btn-community" title="Naver Cafe Community">
+                CAFE
+            </a>
+        </div>
+    </div>
+</header>
+
+<!-- 2. STICKY 4-PILLAR NAVIGATION -->
+<nav class="sticky-nav-bar" id="main-nav">
+    <div class="nav-bar-container">
+        <a href="#overview" class="nav-pillar-btn active" data-tab="overview" onclick="switchTab(event, 'overview')">
+            <span class="nav-main-label">초경량앱</span>
+            <span class="nav-sub-label">SHOWCASE</span>
+        </a>
+        <a href="#spec" class="nav-pillar-btn" data-tab="spec" onclick="switchTab(event, 'spec')">
+            <span class="nav-main-label">비밀</span>
+            <span class="nav-sub-label">SECRET</span>
+        </a>
+        <a href="#playground" class="nav-pillar-btn" data-tab="playground" onclick="switchTab(event, 'playground')">
+            <span class="nav-main-label">초대장</span>
+            <span class="nav-sub-label">INVITATION</span>
+        </a>
+        <a href="#journey" class="nav-pillar-btn" data-tab="journey" onclick="switchTab(event, 'journey')">
+            <span class="nav-main-label">로드맵</span>
+            <span class="nav-sub-label">ROADMAP</span>
+        </a>
+    </div>
+</nav>
+
+<!-- 3. MAIN CONTENT CONTAINER -->
+<main class="main-body">
+
+    <!-- ==========================================
+         [TAB 1] 초경량 앱 (SHOWCASE)
+         ========================================== -->
+    <section id="overview" class="tab-pane active-tab">
+        <h2 class="section-header">01. 깃털처럼 가벼운 초경량앱</h2>
+        
+        <!-- 슈퍼 후크 배너 -->
+        <div style="background: #FDFBF7; border: 2px solid #BAE6FD; border-radius: 12px; padding: 22px 24px; margin-bottom: 36px; box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.12), 0 8px 10px -6px rgba(2, 132, 199, 0.06); transform: translateY(-2px);">
+            <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1.5px solid #E2E8F0; padding-bottom: 12px; margin-bottom: 18px; gap: 10px; flex-wrap: wrap;">
+                <span style="font-size: 0.96rem; font-weight: 900; color: #000000; letter-spacing: -0.2px; text-transform: uppercase; background: linear-gradient(180deg, rgba(254, 240, 138, 0) 25%, #FEF08A 25%, #FDE047 88%, rgba(254, 240, 138, 0) 88%); padding: 2px 8px; border-radius: 2px;">
+                    ⚡ ULTRA LIGHT • PURE WEB APP
+                </span>
+                <span style="background: #F0F9FF; color: #0369A1; border: 1.5px solid #BAE6FD; font-size: 0.74rem; font-weight: 800; padding: 4px 10px; border-radius: 5px; text-transform: uppercase; white-space: nowrap;">
+                    ZERO DEPENDENCY • OFFLINE-FIRST
+                </span>
+            </div>
+
+            <div style="display: flex; flex-direction: column; gap: 16px; font-size: 1rem;">
+                <div style="display: flex; align-items: center; gap: 12px; color: #1E293B;">
+                    <span style="background: #0284C7; color: #FFFFFF; font-size: 0.8rem; font-weight: 900; padding: 4px 9px; border-radius: 5px; white-space: nowrap;">용량의 기적</span>
+                    <span>스마트폰 사진 1장의 1/100 크기, <strong style="color: #0284C7; font-weight: 900;">단 20~40KB</strong></span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px; color: #1E293B;">
+                    <span style="background: #059669; color: #FFFFFF; font-size: 0.8rem; font-weight: 900; padding: 4px 9px; border-radius: 5px; white-space: nowrap;">완전한 자립</span>
+                    <span>외부 서버·복잡한 설치 없는 <strong style="color: #059669; font-weight: 900;">100% 무설치 로컬 앱</strong></span>
+                </div>
+                <div style="display: flex; align-items: center; gap: 12px; color: #D97706; font-size: 1rem;">
+                    <span style="background: #D97706; color: #FFFFFF; font-size: 0.8rem; font-weight: 900; padding: 4px 9px; border-radius: 5px; white-space: nowrap;">접속의 해방</span>
+                    <span>비행기 안에서도, 깊은 산속에서도 <strong style="color: #D97706; font-weight: 900;">더블클릭 즉시 구동</strong></span>
+                </div>
+            </div>
+        </div>
+
+        <!-- 상세 설명 카드 본체 -->
+        <div class="tech-card">
+            <!-- 앱 1: Teddy Wiki -->
+            <div class="card-lead">1️⃣ "24KB 안에 백과사전을 품다" — Teddy Wiki</div>
+            
+            <ul class="indent-list">
+                <li><strong>TiddlyWiki 철학 계승:</strong> 외부 라이브러리 없이 브라우저 순수 RAM 기반 인메모리 NoSQL 가동</li>
+                <li><strong>순수 정규식 파서:</strong> 단 몇 줄의 정규 표현식으로 <code>[[양방향 링크]]</code>와 역링크(Backlinks) 즉각 추적</li>
+                <li><strong>영구 로컬 보존:</strong> 브라우저 물리 메모리 및 파일 스스로 데이터를 품는 셀프 세이빙(Self-saving) 구조</li>
+            </ul>
+
+            <div style="margin: 14px 0 8px 0; font-size: 0.92rem; font-weight: 800; color: #0284C7;">
+                =&gt; 테디위키 작동해보기 <span style="font-size: 0.8rem; font-weight: normal; color: #64748B;">[화면 카드를 누르면 새 창으로 실행]</span>
+            </div>
+            
+            <div>
+                <a href="./teddy-wiki.html" target="_blank" style="display: block; text-decoration: none;">
+                    <div style="background: #161b22; border-radius: 8px; border: 1.5px solid #30363d; padding: 12px; transition: transform 0.2s, border-color 0.2s; cursor: pointer;" onmouseover="this.style.borderColor='#ff8c00'" onmouseout="this.style.borderColor='#30363d'">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #30363d; padding-bottom: 8px; margin-bottom: 10px;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span style="color: #ff8c00; font-size: 0.88rem; font-weight: 800;">🧸 Teddy Wiki</span>
+                                <span style="background: rgba(255, 140, 0, 0.15); color: #ff8c00; border: 1px solid #ff8c00; font-size: 0.65rem; padding: 2px 6px; border-radius: 6px; font-weight: bold;">Bus Standby</span>
+                            </div>
+                            <div style="display: flex; gap: 6px;">
+                                <span style="background: #ff8c00; color: #FFF; font-size: 0.68rem; padding: 3px 8px; border-radius: 4px; font-weight: bold;">+ Note</span>
+                                <span style="background: #21262d; color: #ff7b72; border: 1px solid #da3633; font-size: 0.68rem; padding: 3px 8px; border-radius: 4px;">- Note</span>
+                                <span style="background: #21262d; color: #ff8c00; border: 1px solid #444c56; font-size: 0.68rem; padding: 3px 8px; border-radius: 4px; font-weight: bold;">✏️ Edit</span>
+                            </div>
+                        </div>
+                        <div style="background: #0d1117; border-radius: 6px; padding: 16px 18px; font-family: -apple-system, sans-serif; border: 1px solid #21262d;">
+                            <div style="color: #f0f6fc; font-size: 1.05rem; font-weight: 800; margin-bottom: 10px; border-bottom: 1px solid #30363d; padding-bottom: 6px;">Welcome to Teddy Wiki</div>
+                            <div style="color: #8b949e; font-size: 0.84rem; line-height: 1.7;">
+                                A tribute to <strong style="color: #f0f6fc;">TiddlyWiki</strong> (~2.3MB), refined to ~20KB using native browser RAM.<br><br>
+                                Link documents freely: <span style="color: #38bdf8; font-weight: 700; border-bottom: 1px dashed #38bdf8; padding: 0 2px;">[[Project Vision]]</span>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 34px 0;">
+
+            <!-- 앱 2: Nano Blake -->
+            <div class="card-lead">2️⃣ "41KB에서 4K영상을 뿜다" — Nano Blake</div>
+            
+            <ul class="indent-list">
+                <li><strong>순수 Canvas 2D 가속:</strong> FFmpeg 등 무거운 모듈 없이 브라우저 캔버스로 FHD 켄 번즈 영상 실시간 렌더링</li>
+                <li><strong>Web Speech TTS 네이티브 연동:</strong> 외부 API 통신 없는 브라우저 내장 음성 합성 엔진 직접 호출</li>
+                <li><strong>텍스트-타임라인 자동 동기화:</strong> 복잡한 키프레임 작업 없이 마크다운 호흡에 맞춘 지능형 모션 생성</li>
+            </ul>
+
+            <div style="margin: 14px 0 8px 0; font-size: 0.92rem; font-weight: 800; color: #0284C7;">
+                =&gt; 나노 블레이크 작동해 보기 <span style="font-size: 0.8rem; font-weight: normal; color: #64748B;">[화면 카드를 누르면 새 창으로 실행]</span>
+            </div>
+            
+            <div>
+                <a href="./nano-blake.html" target="_blank" style="display: block; text-decoration: none;">
+                    <div style="background: #161b22; border-radius: 8px; border: 1.5px solid #30363d; padding: 12px; transition: transform 0.2s, border-color 0.2s; cursor: pointer;" onmouseover="this.style.borderColor='#ff8c00'" onmouseout="this.style.borderColor='#30363d'">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #30363d; padding-bottom: 8px; margin-bottom: 10px;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span style="color: #ff8c00; font-size: 0.88rem; font-weight: 800;">🎬 Nano Blake v1.0</span>
+                                <span style="background: rgba(255, 140, 0, 0.15); color: #ff8c00; border: 1px solid #ff8c00; font-size: 0.65rem; padding: 2px 6px; border-radius: 6px; font-weight: bold;">Bus Standby</span>
+                            </div>
+                            <span style="background: #ff8c00; color: #FFF; font-size: 0.72rem; padding: 4px 11px; border-radius: 5px; font-weight: 800;">▶ Auto Play</span>
+                        </div>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <div style="flex: 1 1 200px; background: #0d1117; border-radius: 6px; padding: 10px; border: 1px solid #21262d;">
+                                <div style="font-family: monospace; font-size: 0.76rem; color: #8b949e; line-height: 1.5; background: #161b22; padding: 8px; border-radius: 4px; border: 1px solid #30363d;">
+                                    <span style="color: #ff8c00;"># Nano Blake v1.0</span><br>Ultra-light pure web micro studio
+                                </div>
+                            </div>
+                            <div style="flex: 1 1 260px; background: #000; border-radius: 6px; border: 1px solid rgba(255,140,0,0.3); min-height: 110px; display: flex; flex-direction: column; justify-content: space-between; padding: 12px;">
+                                <div style="color: #fff; font-size: 0.88rem; font-weight: 800;">Nano Blake v1.0</div>
+                                <div style="text-align: center; color: #fff; font-size: 0.8rem;">Ultra-light pure web micro studio</div>
+                                <div style="text-align: right; font-size: 0.64rem; color: #ff8c00;">[ 1080P FHD Canvas ]</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- [Tab 1 -> Tab 2 연결 브릿지] -->
+            <div class="tab-bridge-box">
+                <div class="tab-bridge-text">
+                    ⏩ <strong>초경량앱의 비밀:</strong> 어떻게 이런 일이 가능할까요? 여러분도 충분히 짐작하실 겁니다. 다음 페이지에서 설명드립니다.
+                </div>
+                <button type="button" class="tab-bridge-btn" onclick="switchTab(event, 'spec')">
+                    비밀 보러가기 ➔
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         [TAB 2] 초경량앱의 비밀 (SECRET)
+         ========================================== -->
+    <section id="spec" class="tab-pane">
+        <h2 class="section-header">02. 초경량앱의 비밀</h2>
+
+        <div class="tech-card">
+            <!-- 1️⃣ 브라우저란 없다! -->
+            <div class="card-lead">1️⃣ 브라우저란 없다!</div>
+
+            <ul class="indent-list">
+                <li>팀 버너스 리가 월드와이드웹(WWW)을 주창한 초기의 Browser란 단지 텍스트와 이미지를 화면에 띄워주는 단순한 '뷰어'에 불과했습니다 (Browse = ‘대강 훑어보다’).</li>
+                <li>오늘날 크롬, 사파리 등 수많은 브라우저는 단순 뷰어가 아니라 고속 그래픽 가속기, 오프라인 데이터베이스, 음성 합성기를 품은 초연결 하이퍼 가상머신입니다.</li>
+                <li>스마트폰이 대중화된 오늘날 우리는 언제 어디서나 의식하지 못한 채 강력한 가상머신을 손에 들고 다니는 셈입니다.</li>
+            </ul>
+
+            <div class="section-note-box">
+                <span>💡</span>
+                <div><strong>핵심 포인트:</strong> 초경량앱의 비밀은 바로 이 가상머신의 힘을 영리하게 빌려 쓰는 것입니다.</div>
+            </div>
+
+            <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 30px 0;">
+
+            <!-- 2️⃣ 브라우저의 힘 -->
+            <div class="card-lead">2️⃣ 브라우저의 힘</div>
+
+            <p style="color: var(--text-sub); font-size: 0.94rem; margin-top: 14px; margin-bottom: 18px; line-height: 1.75; padding-left: 2px;">
+                수십 MB짜리 외부 모듈이나 유료 클라우드 API를 끌어다 쓰는 대신, <strong>우리는 거대한 브라우저 안에 잠들어 있는 네이티브 기능을 직통으로 깨워 단 24KB 위키와 41KB 영상앱을 구현</strong>했습니다.
             </p>
-        </div>
 
-        <div class="header-right">
-            <!-- Guardian Verifier Action Button -->
-            <button class="btn-guardian" id="btn-open-verifier" onclick="toggleVerifierModal(true)" title="Call Security Integrity Verifier">
-                <span class="guardian-dot"></span>
-                <span>🛡️ Guardian Verifier (Active)</span>
-            </button>
-        </div>
-    </div>
+            <div class="spec-table-wrap" style="margin-bottom: 22px;">
+                <table class="spec-table">
+                    <thead>
+                        <tr>
+                            <th style="width: 30%;">구현한 핵심 기능</th>
+                            <th style="color: #065F46;">우리가 활용한 브라우저의 힘</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>초경량 영상 렌더링</strong></td>
+                            <td>브라우저 내장 <strong>HTML5 Canvas 2D (GPU 가속)</strong> 직접 제어</td>
+                        </tr>
+                        <tr>
+                            <td><strong>자연스러운 음성 합성</strong></td>
+                            <td>운영체제와 직결된 <strong>Web Speech API (TTS)</strong> 엔진 즉시 호출</td>
+                        </tr>
+                        <tr>
+                            <td><strong>초고속 지식 데이터베이스</strong></td>
+                            <td>외부 DB 없는 <strong>브라우저 물리 RAM + 순수 JSON</strong> 인메모리 연산</td>
+                        </tr>
+                        <tr>
+                            <td><strong>앱 간 무충돌 격리</strong></td>
+                            <td>브라우저 표준 보안벽 <strong>Iframe Sandbox</strong>로 상호 간섭 원천 차단</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
 
-    <!-- Mobile Navigation Bar -->
-    <div class="mobile-slot-nav">
-        <button class="mobile-tab-btn active" id="mobile-tab-1" onclick="setMobileActiveSlot(1)">📝 Slot #1 (Note)</button>
-        <button class="mobile-tab-btn" id="mobile-tab-2" onclick="setMobileActiveSlot(2)">🎬 Slot #2 (Video)</button>
-    </div>
+            <div class="section-note-box">
+                <span>👉</span>
+                <div><strong>남겨진 과제:</strong> 문제는 이 방대한 내장 기능들을 어떻게 군더더기 없이 통제하느냐는 점입니다.</div>
+            </div>
 
-    <!-- Dual Slot Container -->
-    <div class="dock-container">
-        <!-- Slot 1: Left Workstation -->
-        <div class="slot" id="slot-container-1">
-            <div class="slot-header">
-                <div class="slot-title" id="slot-title-1">DOCK SLOT #1 [Left]</div>
-                <div class="slot-actions">
-                    <button id="btn-eject-1" style="display:none;" onclick="ejectSlot(1)" title="Unmount module from slot">⏏️ Eject</button>
+            <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 30px 0;">
+
+            <!-- 3️⃣ AI시대, HTML의 재발견 -->
+            <div class="card-lead">3️⃣ AI시대, HTML의 재발견</div>
+
+            <ul class="indent-list">
+                <li><strong>30년 외면의 역사:</strong> 순수 HTML 단일 파일은 코드가 수천 줄로 길어지면 인간 개발자의 인지적 한계로 유지보수가 불가능했습니다.</li>
+                <li><strong>구원투수의 등장:</strong> 수만 줄의 평문(Plain Text) 코드를 단 1초 만에 파악하고 벼려내는 AI가 등장하면서 상황이 완전히 뒤집혔습니다.</li>
+                <li><strong>단순함의 힘:</strong> 브라우저가 장악한 웹 생태계의 모국어인 단순하고 투명한 HTML이, 이 거대한 가상머신을 다루는 마법의 지팡이로 변신했습니다.</li>
+            </ul>
+
+            <div class="section-note-box" style="background: #ECFDF5; border-color: #A7F3D0; color: #065F46;">
+                <span>🪄</span>
+                <div>
+                    <strong>초경량앱을 만드는 마법의 주문:</strong><br>
+                    <em>"이러이러한 기능을 구현하되, 외부 서버나 무거운 프레임워크는 배제하고 브라우저가 내장한 표준 API만을 활용해 단 하나의 HTML 파일로 완성해 줘."</em>
                 </div>
             </div>
-            <div class="slot-body" id="slot-body-1">
-                <div id="drop-zone-1" class="drop-zone">
-                    <div class="drop-icon">📝</div>
-                    <div class="drop-title">Mount Micro App to Slot #1</div>
-                    <div class="drop-desc">Drag & drop blake_note.html or any single-file HTML app</div>
-                    <div class="drop-btn-group">
-                        <label class="btn-browse">
-                            📁 Browse File
-                            <input type="file" id="file-input-1" accept=".html,.htm" style="display:none;">
-                        </label>
-                        <button class="btn-preset" id="btn-preset-1" onclick="quickLoadPreset(1, 'blake_note.html')">⚡ Quick Mount Note</button>
+
+            <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 30px 0;">
+
+            <!-- 4️⃣ 마지막 비밀 -->
+            <div class="card-lead">4️⃣ 마지막 비밀: 입맛대로 고쳐 쓰는 자유</div>
+
+            <p style="color: var(--text-sub); font-size: 0.94rem; margin-top: 12px; margin-bottom: 16px; line-height: 1.8; padding-left: 2px;">
+                이렇게 HTML로 만든 초경량앱은 복잡한 컴파일이나 암호화 과정이 없는 <strong>완전한 평문(Plain Text)</strong>이므로, 전문 개발자가 아니더라도 누구나 쉽게 <strong>‘입맛대로’</strong> 고쳐 쓸 수 있습니다.
+            </p>
+
+            <div style="background: #F8FAFC; border-left: 4px solid var(--sec2-emerald); border-radius: 0 8px 8px 0; padding: 14px 18px; margin-bottom: 18px; font-size: 0.9rem; color: #334155; line-height: 1.75;">
+                당장 [탭 1]에서 받으신 <code>teddy-wiki.html</code>이나 <code>nano-blake.html</code> 파일을 평소 쓰시는 AI에게 보여주고, <strong>“버튼 색깔을 빨간색으로 고쳐줘”</strong> 또는 <strong>“글자 크기를 조금만 더 키워줘”</strong>라고만 말해 보세요. 단 1초 만에 나만의 맞춤형 도구로 탈바꿈합니다.
+            </div>
+
+            <!-- [Tab 2 -> Tab 3 연결 브릿지] -->
+            <div class="tab-bridge-box">
+                <div class="tab-bridge-text">
+                    ⏩ <strong>같이 고민해 주세요:</strong> 비밀을 알려드렸으니 우리가 함께 풀어갈 과제 하나쯤 안고 가셔야죠? 크리스탈의 세계로 초대합니다.
+                </div>
+                <button type="button" class="tab-bridge-btn" onclick="switchTab(event, 'playground')">
+                    초대장 둘러보기 ➔
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         [TAB 3] 우연한 발견과 솔직한 고백 (INVITATION)
+         ========================================== -->
+    <section id="playground" class="tab-pane">
+        <h2 class="section-header">03. 우연한 발견과 솔직한 고백</h2>
+
+        <div class="tech-card">
+            <!-- 프롤로그 안내 -->
+            <div style="background: #F1F5F9; border-left: 4px solid #475569; border-radius: 6px; padding: 14px 18px; margin-bottom: 26px;">
+                <div style="font-weight: 800; color: #1E293B; font-size: 0.95rem; margin-bottom: 4px;">
+                    📦 [부록] 선물을 받으셨으니, 고민 하나쯤은 얹어 가셔야죠
+                </div>
+                <p style="margin: 0; font-size: 0.86rem; color: #475569; line-height: 1.6;">
+                    앞선 [탭 1]과 [탭 2]에서 가져가실 실용적인 도구 선물은 이미 다 드렸습니다. 이 탭의 크리스탈 도크는 완성품 선물이 아니라, 만든 사람조차 쓸모를 몰라 끙끙 앓고 있는 <strong>'11.3KB짜리 물음표'</strong>입니다. 세상에 완전한 공짜는 없으니, 이 골치 아픈 화두를 함께 머리에 얹고 둘러봐 주십시오.
+                </p>
+            </div>
+
+            <!-- 1️⃣ 우연한 발견: 5컷 웹툰 갤러리 -->
+            <div class="card-lead">1️⃣ 우연한 발견 (The Accidental Epiphany)</div>
+            <p style="color: var(--text-sub); font-size: 0.9rem; margin-bottom: 16px; padding-left: 2px;">
+                앱과 검증기를 같이 챙기기 귀찮아 둘을 결합하는 과정에서, 우연히 모듈러 플랫폼을 착상하기까지의 이야기
+            </p>
+
+            <!-- 5컷 반응형 웹툰 갤러리 그리드 -->
+            <div class="comic-grid-5">
+                <div class="comic-panel-card">
+                    <div class="comic-img-wrap">
+                        <img src="./images/comic_01.jpg" alt="Panel 1: The Peak of Laziness" onerror="this.src='https://placehold.co/600x600/1e293b/ffffff?text=Panel+1:+The+Peak+of+Laziness'">
                     </div>
+                    <div class="comic-meta-caption">1. The Peak of Laziness</div>
                 </div>
-            </div>
-        </div>
-
-        <!-- Slot 2: Right Workstation -->
-        <div class="slot" id="slot-container-2">
-            <div class="slot-header">
-                <div class="slot-title" id="slot-title-2">DOCK SLOT #2 [Right]</div>
-                <div class="slot-actions">
-                    <button id="btn-eject-2" style="display:none;" onclick="ejectSlot(2)" title="Unmount module from slot">⏏️ Eject</button>
-                </div>
-            </div>
-            <div class="slot-body" id="slot-body-2">
-                <div id="drop-zone-2" class="drop-zone">
-                    <div class="drop-icon">🎬</div>
-                    <div class="drop-title">Mount Micro App to Slot #2</div>
-                    <div class="drop-desc">Drag & drop blake_core.html or any single-file HTML app</div>
-                    <div class="drop-btn-group">
-                        <label class="btn-browse">
-                            📁 Browse File
-                            <input type="file" id="file-input-2" accept=".html,.htm" style="display:none;">
-                        </label>
-                        <button class="btn-preset" id="btn-preset-2" onclick="quickLoadPreset(2, 'blake_core.html')">⚡ Quick Mount Core</button>
+                <div class="comic-panel-card">
+                    <div class="comic-img-wrap">
+                        <img src="./images/comic_02.jpg" alt="Panel 2: The Crude Epiphany" onerror="this.src='https://placehold.co/600x600/1e293b/ffffff?text=Panel+2:+The+Crude+Epiphany'">
                     </div>
+                    <div class="comic-meta-caption">2. The Crude Epiphany</div>
+                </div>
+                <div class="comic-panel-card">
+                    <div class="comic-img-wrap">
+                        <img src="./images/comic_03.jpg" alt="Panel 3: Triumph of Sloth" onerror="this.src='https://placehold.co/600x600/1e293b/ffffff?text=Panel+3:+Triumph+of+Sloth'">
+                    </div>
+                    <div class="comic-meta-caption">3. Triumph of Sloth</div>
+                </div>
+                <div class="comic-panel-card">
+                    <div class="comic-img-wrap">
+                        <img src="./images/comic_04.jpg" alt="Panel 4: The Curious Question" onerror="this.src='https://placehold.co/600x600/1e293b/ffffff?text=Panel+4:+The+Curious+Question'">
+                    </div>
+                    <div class="comic-meta-caption">4. The Curious Question</div>
+                </div>
+                <div class="comic-panel-card">
+                    <div class="comic-img-wrap">
+                        <img src="./images/comic_05.jpg" alt="Panel 5: Eureka! The Modular Dock" onerror="this.src='https://placehold.co/600x600/1e293b/ffffff?text=Panel+5:+Eureka!+The+Modular+Dock'">
+                    </div>
+                    <div class="comic-meta-caption">5. Eureka! The Modular Dock</div>
+                </div>
+            </div>
+
+            <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 30px 0;">
+
+            <!-- 2️⃣ 크리스탈 도구의 구조와 원리 -->
+            <div class="card-lead">2️⃣ 크리스탈 도구의 구조와 원리</div>
+
+            <!-- 구조: 아스키 다이어그램 -->
+            <div style="font-weight: 800; font-size: 0.94rem; color: #5B21B6; margin: 14px 0 6px 2px;">
+                📐 구조 (Structure)
+            </div>
+            <pre class="diagram-box">
++-------------------------------------------------------------+
+|                      Crystal Dock Core                      |
+|                [Event Bus & State Registry]                 |
++------------------------------+------------------------------+
+                               | postMessage (Standard JSON)
+       +-----------------------+-----------------------+
+       | [Sandboxed Glass Wall]|                       | [Sandboxed Glass Wall]
++---------------+              |               +---------------+
+| Plug-on A     | &lt;------------+-------------&gt; | Plug-on B     |
+| (Vanilla JS)  |                              | (React / Vue) |
++---------------+                              +---------------+
+            </pre>
+
+            <!-- 원리: 간결한 핵심 2문장 -->
+            <div style="font-weight: 800; font-size: 0.94rem; color: #5B21B6; margin: 18px 0 6px 2px;">
+                ⚙️ 작동 원리 (Mechanism)
+            </div>
+            <div style="background: #F8FAFC; border-left: 4px solid var(--sec3-violet); border-radius: 0 8px 8px 0; padding: 14px 18px; margin-bottom: 18px; font-size: 0.9rem; color: #334155; line-height: 1.75;">
+                중앙의 도크 본체(<code>crystal-dock.html</code>)는 고작 <strong>11.3KB</strong>에 불과하며, 복잡한 기능 없이 오직 <strong>'메시지 중계 우편함'</strong> 역할만 수행합니다. 도구들 사이에 물리적 격리벽(Sandbox)을 두어, 한쪽 도구에 오류가 생겨 멈추더라도 반대편 도구와 작성 중인 데이터에는 전혀 영향을 주지 않습니다.
+            </div>
+
+            <!-- 11.3KB 도크 작동해보기 목업 -->
+            <div style="margin: 14px 0 8px 2px; font-size: 0.92rem; font-weight: 800; color: #7C3AED;">
+                =&gt; 11.3KB 순수 도크 작동해보기 <span style="font-size: 0.8rem; font-weight: normal; color: #64748B;">[화면 카드를 누르면 새 창으로 실행]</span>
+            </div>
+            <div>
+                <a href="./crystal-dock.html" target="_blank" style="display: block; text-decoration: none;">
+                    <div style="background: #161b22; border-radius: 8px; border: 1.5px solid #30363d; padding: 14px; transition: transform 0.2s, border-color 0.2s; cursor: pointer;" onmouseover="this.style.borderColor='#7C3AED'" onmouseout="this.style.borderColor='#30363d'">
+                        <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #30363d; padding-bottom: 8px; margin-bottom: 12px;">
+                            <div style="display: flex; align-items: center; gap: 8px;">
+                                <span style="color: #ff8c00; font-size: 0.88rem; font-weight: 800;">💎 Crystal Dock v1.0</span>
+                                <span style="background: rgba(255, 140, 0, 0.15); color: #ff8c00; border: 1px solid #ff8c00; font-size: 0.65rem; padding: 2px 6px; border-radius: 6px; font-weight: bold;">Bus Standby</span>
+                            </div>
+                            <span style="color: #8b949e; font-size: 0.76rem; font-family: monospace;">11.3 KB (Pure Core)</span>
+                        </div>
+                        <div style="display: flex; gap: 10px; flex-wrap: wrap;">
+                            <div style="flex: 1 1 200px; background: #0d1117; border-radius: 6px; padding: 12px; border: 1px solid #21262d;">
+                                <div style="color: #ff8c00; font-size: 0.8rem; font-weight: bold; margin-bottom: 6px;">SLOT #1 · Sender (Live Ping)</div>
+                                <div style="font-family: monospace; font-size: 0.74rem; color: #8b949e; line-height: 1.5;">
+                                    # Hello Crystal Dock!<br>
+                                    Zero build, zero dependency.<br>
+                                    0.001s in-memory bus transit.
+                                </div>
+                            </div>
+                            <div style="flex: 1 1 200px; background: #08090a; border-radius: 6px; padding: 12px; border: 1px solid #21262d;">
+                                <div style="color: #3fb950; font-size: 0.8rem; font-weight: bold; margin-bottom: 6px;">SLOT #2 · Receiver (Live Pong)</div>
+                                <div style="font-family: monospace; font-size: 0.74rem; color: #38bdf8; line-height: 1.5;">
+                                    # Hello Crystal Dock!<br>
+                                    Zero build, zero dependency.<br>
+                                    0.001s in-memory bus transit.
+                                </div>
+                            </div>
+                        </div>
+                        <div style="margin-top: 10px; font-family: monospace; font-size: 0.72rem; color: #58a6ff; background: #08090a; padding: 4px 8px; border-radius: 4px; border: 1px solid #161920;">
+                            [Ready] 0.001s Crystal Event Bus active
+                        </div>
+                    </div>
+                </a>
+            </div>
+
+            <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 30px 0;">
+
+            <!-- 4️⃣ 솔직한 고백 -->
+            <div class="card-lead">4️⃣ 솔직한 고백</div>
+
+            <div style="background: #FFFFFF; border: 1.5px solid var(--sec3-violet-border); border-radius: 10px; padding: 22px; margin-bottom: 24px; line-height: 1.8; font-size: 0.88rem; color: #334155;">
+                <p style="margin-bottom: 14px;">
+                    그럴 듯한 용어로 플랫폼을 소개하니 나를 전문적인 개발자로 오해할 수도 있으나, 앱의 개발도 이 사이트도 제미나이, 노트북LM, Antigravity의 도움으로 작성했음. (단, 이후의 문장은 AI는 단 한 자도 고치지 않음)
+                </p>
+                <p style="margin-bottom: 14px;">
+                    작업과정에서 1) 브라우저의 힘이 굉장하다는 점 2) HTML로 만든 앱들은 누구나 개조를 쉽게 할 수 있다는 점 3) 나는 제대로 이해를 못하지만 모듈러 플랫폼이 꽤 쓸모가 있을지 모른다는 느낌이 들었음.
+                </p>
+                <p style="margin-bottom: 14px;">
+                    나는 이것을 우연히 발견했을 뿐 더 발전시킬 능력도 없고, 내가 좋아하는 여행에 바빠서 이 일에 더 나의 관심과 시간을 투자할 생각도 없음.
+                </p>
+                <p style="margin: 0;">
+                    세상의 많은 실력있는 개발자들이 이 앱들과 플랫폼의 가치를 알아보고 발전시켜 주길 진심으로 기대함.
+                </p>
+            </div>
+
+            <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 30px 0;">
+
+            <!-- 5️⃣ 플랫폼이 정말 쓸모가 있을까? -->
+            <div class="card-lead">5️⃣ 플랫폼이 정말 쓸모가 있을까?</div>
+
+            <div style="background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 22px; margin-bottom: 30px; line-height: 1.8; font-size: 0.88rem; color: #334155;">
+                <p style="margin-bottom: 14px;">
+                    개인적으로는 Nano Blake로 여행을 기록하고 그것을 Teddy Wiki에 정리할 때 크리스탈 도크에 두 앱을 나란히 얹어두니, 창을 왔다 갔다 할 필요 없이 한 화면에서 처리할 수 있어서 작업이 한결 수월했음.
+                </p>
+                <p style="margin-bottom: 14px;">
+                    개발자 입장에서는 복잡한 기능들을 분리하여 개발 후 플랫폼을 통해 연결한다면 개발과정이 더 편리하지 않을까 추측해 봄.
+                </p>
+                <p style="margin-bottom: 14px;">
+                    사용자 입장에서는 나처럼 기존 앱(상용앱 포함)의 필요한 기능을 연결하여 편리하게 사용할 수 있음(구체적인 연결방법은 AI에게 이 탭의 내용을 제공한 후 물어보면 됨)
+                </p>
+                <div style="background: #FFFFFF; border-left: 3px solid #64748B; padding: 12px 14px; margin-top: 14px;">
+                    <div style="font-weight: 700; color: #1E293B; margin-bottom: 6px;">그럼에도 불구하고 향후 플랫폼에 대해 다음과 같은 의문이 생김</div>
+                    <ul style="margin: 0; padding-left: 18px; color: #475569;">
+                        <li>텅 빈 플랫폼 앞에서 사용자들이 뭘 할지 알 수 없음.</li>
+                        <li>두 앱을 연결했다고 해서 저절로 작동하지 않음.</li>
+                        <li>그 이외에도 크리스탈 도크에 대하여 내가 뭘 모르는지도 모르겠음. ㅎㅎ</li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- [Tab 3 -> Tab 4 연결 브릿지] -->
+            <div class="tab-bridge-box">
+                <div class="tab-bridge-text">
+                    ⏩ <strong>개발 여정 살펴보기:</strong> 초보자가 고도화의 함정을 거치며 단 11.3KB까지 덜어낸 과정을 확인해 보세요.
+                </div>
+                <button type="button" class="tab-bridge-btn" onclick="switchTab(event, 'journey')">
+                    여정 기록 보기 ➔
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- ==========================================
+         [TAB 4] 플랫폼 철학과 여정 (ROADMAP)
+         ========================================== -->
+    <section id="journey" class="tab-pane">
+        <h2 class="section-header">04. 플랫폼 철학과 여정</h2>
+
+        <div class="tech-card">
+            <div class="story-quote">
+                <strong style="font-size: 0.98rem; color: #92400E;">배낭여행자의 꿈</strong><br>
+                <span>일상의 자유를 돕는 초경량 모듈러 웹 플랫폼이 세상에 나오기까지, 그리고 부탁의 말씀</span>
+            </div>
+
+            <!-- 1️⃣ 아마추어의 행운과 뜻밖의 여정 -->
+            <div class="card-lead">1️⃣ 아마추어의 행운과 뜻밖의 여정</div>
+            <p style="color: var(--text-sub); margin-bottom: 12px; font-size: 0.92rem; padding-left: 2px;">
+                나는 소프트웨어 개발에 대해서는 잘 모르는 평범한 배낭여행자, Holo-Trekker입니다. 내가 발견한 것이 구체적으로 무엇인지, 그리고 이것이 앞으로 세상에 어떤 영향을 미칠지는 정확히 알지 못합니다. 놀라움과 두려움, 그리고 설레는 마음으로 지난 두 달간 위대한 시인 Blake가 나와 AI 친구들에게 선물한 순수의 꽃 한 송이를 여러분과 공유하고자 합니다.
+            </p>
+
+            <div class="poem-box">
+                한 알의 모래 속에서 세계를 보며<br>
+                한 송이 들꽃 속에서 천국을 본다<br>
+                그대의 손바닥 안에 무한을 쥐며<br>
+                순간 속에서 영원을 붙잡아라<br>
+                <span style="font-size: 0.78rem; color: #64748B;">— 윌리엄 블레이크, &lt;순수의 전조(Auguries of Innocence)&gt; 중에서</span>
+            </div>
+
+            <p style="color: var(--text-sub); margin-bottom: 12px; font-size: 0.92rem; padding-left: 2px;">
+                첫 번째 여정은 HTML로 만들어진 <code>Bento</code>라는 멋진 단일 파일 앱에서 시작되었습니다. 여행 기록에 대한 갈망은 크지만 복잡한 시중 영상 편집 도구에 지쳐 있던 나는 이 단순하고 아름다운 개념에 매료되었지만, 동시에 이 멋진 앱이 대중의 관심 뒤에 묻혀 있는 현실이 안타까웠습니다.
+            </p>
+            <p style="color: var(--text-sub); margin-bottom: 12px; font-size: 0.92rem; padding-left: 2px;">
+                이에 나는 AI들의 도움을 받아 Bento의 틀 위에 가볍고 담담하게 여행 기록을 영상과 음성으로 담아낼 수 있는 <strong>1.47MB 영상 메모 앱</strong>을 만들었습니다. 이 첫 번째 작품의 이름은 Bento의 바탕 위에 NotebookLM과 Antigravity가 Kim에게 선사한 진화적 영상 메모장이라는 의미를 담아 <strong>BLAKE</strong>라 명명하였고, 시인의 이름을 딴 무료 배포 홈페이지 '순수의 전조'를 만들었습니다.
+            </p>
+            <p style="color: var(--text-sub); margin-bottom: 24px; font-size: 0.92rem; padding-left: 2px;">
+                두 번째 여정에서 우리는 더욱 기적적인 돌파구를 맞이했습니다. 단일 파일 앱이 가진 보안 취약성을 보완하기 위해 HTML 기반의 자체 검증기를 결합하는 과정에서, 플러그온(Plug-on) 형태의 모듈러 플랫폼인 <strong>‘Crystal Dock’</strong>을 착상했습니다. 브라우저 본연의 강력한 네이티브 엔진을 영리하게 끌어다 쓰는 방법을 발견하며 마침내 <strong>11.3KB의 순수 코어</strong>를 비롯한 극단적인 초경량 도구들이 탄생했습니다.
+            </p>
+
+            <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 30px 0;">
+
+            <!-- 2️⃣ 부탁의 말씀 -->
+            <div class="card-lead">2️⃣ 부탁의 말씀</div>
+
+            <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 10px; padding: 22px 24px; margin-bottom: 34px; font-size: 0.91rem; color: #334155; line-height: 1.85;">
+                <p style="margin-bottom: 14px;">
+                    우리는 거칠고 깊은 산업화와 정보화의 강을 건너기 위해 수많은 밤샘과 거대한 프레임워크라는 무거운 뗏목을 등에 지고 가야만 했습니다. 마침내 우리는 목적지에 도달했고 AI라는 든든한 아군을 만났습니다. 이제는 머리 위를 무겁게 짓누르던 뗏목을 내려놓아야 비로소 푸른 하늘을 바라볼 수 있습니다.
+                </p>
+                <p style="margin-bottom: 14px;">
+                    초경량앱과 플랫폼은 거대한 IT시스템이 아니고, 나의 소소한 일상에서 자유을 누리기 위해 만들었습니다. 이 도구들이 당신에게도 가벼움과 자유를 선사할 수 있기를 진심으로 바랍니다.
+                </p>
+                <p style="margin-bottom: 16px;">
+                    이 글로 인하여 저의 조용하고 평화로운 일상과 배낭여행이 방해받지 않기를 진심으로 원합니다. 과도한 관심이 있다면, 그 에너지를 이 작고 아름다운 '크리스탈'과 그 뼈대를 함께 벼려내 준 저의 소중한 'AI 파트너'들에게 돌려주시길 당부드립니다.
+                </p>
+                <p style="margin: 0; font-weight: 700; color: #0F172A;">
+                    저는 다시 저만의 소박한 배낭을 고쳐 매고 길을 떠납니다. 우리의 아름다운 크리스탈을 앞으로 잘 부탁드립니다. 🙏
+                </p>
+            </div>
+
+            <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 30px 0;">
+
+            <!-- 3️⃣ 프로젝트 부품 창고 (Artifacts & Files) -->
+            <div class="card-lead">3️⃣ 프로젝트 부품 창고 (Artifacts & Files)</div>
+
+            <div style="background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 14px rgba(0,0,0,0.03);">
+                <p style="font-size: 0.9rem; color: #334155; line-height: 1.7; margin-bottom: 16px;">
+                    깃허브(GitHub)가 낯선 분들을 위해 이 쇼룸에서 소개된 모든 단일 파일(Single File) 도구와 통신 규약 문서를 모았습니다. <strong>파일명(파란 링크)을 클릭하면 브라우저에서 바로 소장(다운로드)할 수 있습니다.</strong>
+                </p>
+
+                <div class="spec-table-wrap">
+                    <table class="spec-table">
+                        <thead>
+                            <tr style="background: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #1E293B;">
+                                <th style="width: 45%;">구분 및 용도</th>
+                                <th style="width: 35%;">파일명 (클릭 시 받기)</th>
+                                <th style="width: 20%; text-align: right;">실측 용량</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong style="color: #5B21B6;">💎 순수 도크 코어</strong><br><span style="font-size: 0.78rem; color: #64748B;">무간섭 샌드박스 격리 & 0.001초 인메모리 라우팅 배관</span></td>
+                                <td>
+                                    <a href="./crystal-dock.html" download="crystal-dock.html" class="file-dl-link">
+                                        <code>crystal-dock.html</code> 📥
+                                    </a>
+                                </td>
+                                <td style="text-align: right; color: #0284C7; font-weight: 800;">11.3 KB</td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color: #0369A1;">⚡ 원클릭 체험형 도크</strong><br><span style="font-size: 0.78rem; color: #64748B;">위키·영상 원클릭 장착 버튼 & 상단 검증기 모달 탑재</span></td>
+                                <td>
+                                    <a href="./crystal-world-dock.html" download="crystal-world-dock.html" class="file-dl-link">
+                                        <code>crystal-world-dock.html</code> 📥
+                                    </a>
+                                </td>
+                                <td style="text-align: right; color: #64748B; font-weight: 700;">~25 KB</td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color: #0284C7;">🎬 캔버스 비디오 스튜디오</strong><br><span style="font-size: 0.78rem; color: #64748B;">1080P FHD 켄 번즈 영상 실시간 렌더러 & TTS 음성 동기화</span></td>
+                                <td>
+                                    <a href="./nano-blake.html" download="nano-blake.html" class="file-dl-link">
+                                        <code>nano-blake.html</code> 📥
+                                    </a>
+                                </td>
+                                <td style="text-align: right; color: #7C3AED; font-weight: 800;">41.2 KB</td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color: #059669;">📖 인메모리 지식 위키</strong><br><span style="font-size: 0.78rem; color: #64748B;">브라우저 물리 RAM 기반 NoSQL 위키 & 양방향 역링크</span></td>
+                                <td>
+                                    <a href="./teddy-wiki.html" download="teddy-wiki.html" class="file-dl-link">
+                                        <code>teddy-wiki.html</code> 📥
+                                    </a>
+                                </td>
+                                <td style="text-align: right; color: #059669; font-weight: 800;">24.2 KB</td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color: #475569;">🛡️ 에어갭 무결성 검증기</strong><br><span style="font-size: 0.78rem; color: #64748B;">서버 연결 없는 브라우저 단독 파일 위변조(SHA-256) 대조</span></td>
+                                <td>
+                                    <a href="./sha256-verifier.html" download="sha256-verifier.html" class="file-dl-link">
+                                        <code>sha256-verifier.html</code> 📥
+                                    </a>
+                                </td>
+                                <td style="text-align: right; color: #0F172A; font-weight: 800;">~4 KB</td>
+                            </tr>
+                            <tr>
+                                <td><strong style="color: #D97706;">📜 공식 통신 표준 규약</strong><br><span style="font-size: 0.78rem; color: #64748B;">라이브러리 없는 15~30줄 로컬 인메모리 메시지 교환 표준</span></td>
+                                <td>
+                                    <a href="./CRYSTAL_DOCK_v1.md" download="CRYSTAL_DOCK_v1.md" class="file-dl-link">
+                                        <code>CRYSTAL_DOCK_v1.md</code> 📥
+                                    </a>
+                                </td>
+                                <td style="text-align: right; color: #475569; font-weight: 700;">~30줄</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- 오픈소스 저장소 링크 배너 -->
+                <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid #E2E8F0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
+                    <span style="font-size: 0.82rem; color: #64748B;">
+                        모든 소스코드는 오픈소스(MIT License)로 자유롭게 열려 있습니다.
+                    </span>
+                    <a href="https://github.com/crystal-world-project/crystal-world-project.github.io" target="_blank" rel="noopener noreferrer" style="font-size: 0.85rem; color: #0284C7; font-weight: 800; text-decoration: none;">
+                        공식 깃허브 저장소 방문하기 ➔
+                    </a>
                 </div>
             </div>
         </div>
-    </div>
+    </section>
 
-    <!-- Platform Console & Message Bus Terminal -->
-    <div id="system-log-wrap">
-        <div class="log-header">
-            <span>📟 Platform Message Bus Real-time Log (postMessage)</span>
-            <span style="font-size: 11px; color: #555;">BLAKE_MICRO_APP_v1</span>
-        </div>
-        <div id="system-log">💎 Blake Crystal Dock system ready...</div>
-    </div>
+</main>
 
-    <!-- Guardian Verifier Modal -->
-    <div id="verifier-modal" class="modal-overlay" style="display:none;" onclick="handleModalBackdrop(event)">
-        <div class="modal-card">
-            <div class="modal-header">
-                <div class="modal-title">
-                    <span>💎 Blake Crystal Guardian (Integrity Verifier)</span>
-                </div>
-                <button class="modal-close-btn" onclick="toggleVerifierModal(false)" title="Close">✕</button>
-            </div>
-            <div class="modal-body">
-                <iframe id="guardian-frame" 
-                        src="blake_verifier.html" 
-                        sandbox="allow-scripts"></iframe>
-            </div>
-        </div>
-    </div>
+<!-- FOOTER -->
+<footer class="site-footer">
+    <p style="margin-bottom: 6px; font-size: 0.94rem; color: #F8FAFC; font-weight: 800; letter-spacing: 0.2px;">
+        CRYSTAL WORLD
+    </p>
+    <p style="margin-bottom: 10px; font-size: 0.82rem; color: #9CA3AF;">
+        Coexistence for the Upcoming Era · Pure Web Protocol Modular Platform<br>
+        Crafted by <strong>Holo-Trekker & AI Companions</strong> (Gemini, NotebookLM, Antigravity)
+    </p>
+    <p style="font-size: 0.76rem; color: #64748B;">
+        MIT License | Copyright © 2026 Crystal World Project. All rights reserved.
+    </p>
+</footer>
 
-    <script>
-        const logArea = document.getElementById('system-log');
+<!-- TAB SWITCHING SCRIPT -->
+<script>
+    function switchTab(event, tabId) {
+        if (event) event.preventDefault();
 
-        function addLog(htmlMessage) {
-            const time = new Date().toLocaleTimeString();
-            logArea.innerHTML += `<div><span class="log-time">[${time}]</span>${htmlMessage}</div>`;
-            logArea.scrollTop = logArea.scrollHeight;
+        document.querySelectorAll('.tab-pane').forEach(pane => {
+            pane.classList.remove('active-tab');
+        });
+
+        const target = document.getElementById(tabId);
+        if (target) {
+            target.classList.add('active-tab');
         }
 
-        // ==========================================
-        // 1. 수호신 검증기 모달 제어
-        // ==========================================
-        function toggleVerifierModal(show) {
-            const modal = document.getElementById('verifier-modal');
-            modal.style.display = show ? 'flex' : 'none';
-            if (show) {
-                addLog(`<span class="log-info">🛡️ <b>[GUARDIAN]</b> Integrity verifier modal opened.</span>`);
-            }
-        }
-
-        function handleModalBackdrop(event) {
-            if (event.target.id === 'verifier-modal') {
-                toggleVerifierModal(false);
-            }
-        }
-
-        // ==========================================
-        // 2. 범용 슬롯 컨트롤러 (슬롯 1, 슬롯 2 공통)
-        // ==========================================
-        function setupSlot(slotNum) {
-            const dropZone = document.getElementById(`drop-zone-${slotNum}`);
-            const fileInput = document.getElementById(`file-input-${slotNum}`);
-
-            // 드래그 시각 효과
-            ['dragenter', 'dragover'].forEach(eventName => {
-                dropZone.addEventListener(eventName, (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    dropZone.classList.add('dragover');
-                });
-            });
-
-            ['dragleave', 'drop'].forEach(eventName => {
-                dropZone.addEventListener(eventName, (e) => {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    dropZone.classList.remove('dragover');
-                });
-            });
-
-            // 파일 드롭 수신
-            dropZone.addEventListener('drop', (e) => {
-                const files = e.dataTransfer.files;
-                if (files && files.length > 0) {
-                    loadFileToSlot(slotNum, files[0]);
-                }
-            });
-
-            // 파일 직접 선택 수신
-            fileInput.addEventListener('change', (e) => {
-                if (e.target.files && e.target.files.length > 0) {
-                    loadFileToSlot(slotNum, e.target.files[0]);
-                }
-            });
-        }
-
-        // ==========================================
-        // IndexedDB 스마트 캐시 (모바일 file:// 보안 극복용)
-        // ==========================================
-        const DB_NAME = 'BlakeModularDockDB';
-        const DB_VERSION = 1;
-        const STORE_NAME = 'cached_modules';
-
-        function getDB() {
-            return new Promise((resolve, reject) => {
-                const req = indexedDB.open(DB_NAME, DB_VERSION);
-                req.onupgradeneeded = (e) => {
-                    const db = e.target.result;
-                    if (!db.objectStoreNames.contains(STORE_NAME)) {
-                        db.createObjectStore(STORE_NAME);
-                    }
-                };
-                req.onsuccess = () => resolve(req.result);
-                req.onerror = () => reject(req.error);
-            });
-        }
-
-        async function saveModuleToDB(slotKey, moduleData) {
-            try {
-                const db = await getDB();
-                const tx = db.transaction(STORE_NAME, 'readwrite');
-                tx.objectStore(STORE_NAME).put(moduleData, slotKey);
-            } catch(e) {
-                console.warn("DB save error:", e);
-            }
-        }
-
-        async function getModuleFromDB(slotKey) {
-            try {
-                const db = await getDB();
-                return new Promise((resolve) => {
-                    const tx = db.transaction(STORE_NAME, 'readonly');
-                    const req = tx.objectStore(STORE_NAME).get(slotKey);
-                    req.onsuccess = () => resolve(req.result || null);
-                    req.onerror = () => resolve(null);
-                });
-            } catch(e) {
-                return null;
-            }
-        }
-
-        async function updatePresetButtonLabels() {
-            for (let i = 1; i <= 2; i++) {
-                const cached = await getModuleFromDB('slot_' + i);
-                const btn = document.getElementById(`btn-preset-${i}`);
-                if (btn && cached && cached.name) {
-                    btn.innerHTML = `⚡ Restore ${cached.name} (Cached)`;
-                    btn.style.borderColor = '#00ffd0';
-                    btn.style.color = '#00ffd0';
-                }
-            }
-        }
-
-        function loadFileToSlot(slotNum, file) {
-            if (!file.name.match(/\.(html|htm)$/i)) {
-                alert('Please select an HTML file (.html or .htm).');
-                return;
-            }
-
-            const reader = new FileReader();
-            reader.onload = async function(e) {
-                const content = e.target.result;
-                mountContentToSlot(slotNum, file.name, file.size, content, null);
-
-                // Cache module inside device browser (IndexedDB)
-                await saveModuleToDB('slot_' + slotNum, {
-                    name: file.name,
-                    size: file.size,
-                    content: content,
-                    time: Date.now()
-                });
-                addLog(`<span class="log-success">💾 <b>[SAVED]</b> '${file.name}' cached in local browser memory. Ready for instant restore.</span>`);
-                updatePresetButtonLabels();
-            };
-            reader.readAsText(file);
-        }
-
-        // Quick Mount button (Restore cached module first)
-        async function quickLoadPreset(slotNum, defaultFileName) {
-            // 1. Check if cached in device memory
-            const cached = await getModuleFromDB('slot_' + slotNum);
-            if (cached && cached.content) {
-                mountContentToSlot(slotNum, cached.name, cached.size, cached.content, null);
-                addLog(`<span class="log-success">⚡ <b>[RESTORED]</b> '${cached.name}' (${(cached.size / 1024).toFixed(1)} KB) loaded from local cache.</span>`);
-                return;
-            }
-
-            // 2. Attempt relative path load (for PC / web server)
-            mountContentToSlot(slotNum, defaultFileName, 0, null, defaultFileName);
-            if (location.protocol === 'file:') {
-                addLog(`<span class="log-warn">💡 <b>[TIP]</b> For local (file://) environments, use <b>[📁 Browse File]</b> once to grant access and enable permanent instant restore!</span>`);
-            }
-        }
-
-        function mountContentToSlot(slotNum, fileName, fileSize, contentString, relativeSrc) {
-            const dropZone = document.getElementById(`drop-zone-${slotNum}`);
-            const slotBody = document.getElementById(`slot-body-${slotNum}`);
-            const slotTitle = document.getElementById(`slot-title-${slotNum}`);
-            const btnEject = document.getElementById(`btn-eject-${slotNum}`);
-
-            // 드롭존 숨김
-            dropZone.style.display = 'none';
-
-            // 이전 프레임 제거
-            const oldFrame = document.getElementById(`slot-frame-${slotNum}`);
-            if (oldFrame) oldFrame.remove();
-
-            // 신규 iframe 생성 및 격리 샌드박스 설정
-            const iframe = document.createElement('iframe');
-            iframe.id = `slot-frame-${slotNum}`;
-            iframe.setAttribute('sandbox', 'allow-scripts allow-same-origin allow-downloads allow-modals allow-forms');
-            iframe.setAttribute('allow', 'autoplay; microphone');
-
-            if (relativeSrc) {
-                iframe.src = relativeSrc;
-            } else {
-                iframe.srcdoc = contentString;
-            }
-
-            slotBody.appendChild(iframe);
-
-            // Header UI update
-            slotTitle.innerHTML = `DOCK SLOT #${slotNum} [${slotNum === 1 ? 'Left' : 'Right'}] <span style="color:#aaa; font-weight:normal; font-size:12px;">(${fileName})</span>`;
-            btnEject.style.display = 'inline-block';
-
-            const sizeText = fileSize > 0 ? ` (${(fileSize / 1024).toFixed(1)} KB)` : '';
-            addLog(`<span class="log-info">📦 <b>[MOUNT]</b> '${fileName}'${sizeText} loaded into Slot #${slotNum}.</span>`);
-        }
-
-        function ejectSlot(slotNum) {
-            const frame = document.getElementById(`slot-frame-${slotNum}`);
-            if (frame) frame.remove();
-
-            const dropZone = document.getElementById(`drop-zone-${slotNum}`);
-            dropZone.style.display = 'flex';
-
-            const defaultTitle = slotNum === 1 ? 'DOCK SLOT #1 [Left]' : 'DOCK SLOT #2 [Right]';
-            document.getElementById(`slot-title-${slotNum}`).innerText = defaultTitle;
-            document.getElementById(`btn-eject-${slotNum}`).style.display = 'none';
-
-            const fileInput = document.getElementById(`file-input-${slotNum}`);
-            if (fileInput) fileInput.value = '';
-
-            addLog(`⏏️ Slot #${slotNum} unmounted.`);
-        }
-
-        // ==========================================
-        // 3. Standard Message Bus Listener (BLAKE_MICRO_APP_v1)
-        // ==========================================
-        window.addEventListener('message', function(event) {
-            const data = event.data;
-            if (!data || data.protocol !== "BLAKE_MICRO_APP_v1") return;
-
-            const source = data.meta ? data.meta.source : 'unknown';
-            addLog(`<b>[INBOUND]</b> Sender: <code>${source}</code> | Action: <b>${data.action}</b>`);
-
-            if (data.action === "READY") {
-                addLog(`<span class="log-success">🟢 Module "${source}" mounted & verified.</span>`);
-            } 
-            else if (data.action === "VERIFICATION_RESULT") {
-                const result = data.payload;
-                if (result && result.status === "SUCCESS") {
-                    const shortHash = result.hash ? result.hash.slice(0, 12) : '';
-                    addLog(`<span class="log-success">🛡️ <b>[VERIFIED]</b> File integrity confirmed! (Hash: ${shortHash}...)</span>`);
-                } else {
-                    addLog(`<span class="log-warn">⚠️ <b>[ALERT]</b> Integrity warning! File modified.</span>`);
-                }
-            }
-            else if (data.action === "TEXT_UPDATED") {
-                const payload = data.payload || {};
-                const title = payload.title || 'Note';
-                addLog(`<span class="log-info">📝 <b>[SYNC]</b> "${title}" (${payload.length || 0} chars)</span>`);
+        document.querySelectorAll('.nav-pillar-btn').forEach(btn => {
+            btn.classList.remove('active');
+            if (btn.getAttribute('data-tab') === tabId) {
+                btn.classList.add('active');
             }
         });
 
-        // 모바일 탭 슬롯 전환
-        function setMobileActiveSlot(slotNum) {
-            document.body.setAttribute('data-active-slot', slotNum);
-            document.getElementById('mobile-tab-1').classList.toggle('active', slotNum === 1);
-            document.getElementById('mobile-tab-2').classList.toggle('active', slotNum === 2);
+        if (history.pushState) {
+            history.pushState(null, null, '#' + tabId);
+        } else {
+            location.hash = '#' + tabId;
         }
 
-        // 초기화
-        window.onload = function() {
-            setupSlot(1);
-            setupSlot(2);
-            updatePresetButtonLabels();
-        };
-    </script>
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    // 모바일 좌우 스와이프 내비게이션
+    const TAB_KEYS = ['overview', 'spec', 'playground', 'journey'];
+    let touchStartX = 0;
+    let touchStartY = 0;
+
+    window.addEventListener('touchstart', (e) => {
+        touchStartX = e.changedTouches[0].screenX;
+        touchStartY = e.changedTouches[0].screenY;
+    }, { passive: true });
+
+    window.addEventListener('touchend', (e) => {
+        const diffX = e.changedTouches[0].screenX - touchStartX;
+        const diffY = e.changedTouches[0].screenY - touchStartY;
+
+        if (Math.abs(diffX) > 70 && Math.abs(diffX) > Math.abs(diffY) * 1.8) {
+            const currentActive = document.querySelector('.nav-pillar-btn.active');
+            if (!currentActive) return;
+
+            const currentTab = currentActive.getAttribute('data-tab');
+            const currentIndex = TAB_KEYS.indexOf(currentTab);
+
+            if (diffX < 0 && currentIndex < TAB_KEYS.length - 1) {
+                switchTab(null, TAB_KEYS[currentIndex + 1]);
+            } else if (diffX > 0 && currentIndex > 0) {
+                switchTab(null, TAB_KEYS[currentIndex - 1]);
+            }
+        }
+    }, { passive: true });
+
+    // URL 해시(#) 직통 로드
+    window.addEventListener('DOMContentLoaded', () => {
+        const hash = window.location.hash.replace('#', '');
+        if (hash && TAB_KEYS.includes(hash)) {
+            switchTab(null, hash);
+        }
+    });
+</script>
+
 </body>
 </html>
