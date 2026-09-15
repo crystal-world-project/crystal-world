@@ -51,7 +51,7 @@
         }
         code, pre { font-family: 'JetBrains Mono', monospace; }
 
-        /* BRANDING HEADER: One-Row Layout */
+        /* BRANDING HEADER: One-Row Layout with Maximum Title Room */
         header.site-header-top {
             background: var(--bg-pure);
             padding: 12px 16px 10px 16px;
@@ -84,7 +84,7 @@
         }
         .brand-main-title {
             font-family: 'JetBrains Mono', sans-serif;
-            font-size: 1.4rem;
+            font-size: 1.45rem;
             font-weight: 900;
             letter-spacing: -0.5px;
             color: #0F172A;
@@ -106,14 +106,14 @@
         .header-download-btns {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             white-space: nowrap;
             flex-shrink: 0;
         }
         .btn-header {
-            padding: 6px 13px;
+            padding: 6px 16px;
             border-radius: 6px;
-            font-size: 0.78rem;
+            font-size: 0.82rem;
             font-weight: 900;
             cursor: pointer;
             text-decoration: none;
@@ -121,18 +121,10 @@
             align-items: center;
             justify-content: center;
             transition: all 0.2s ease;
-            letter-spacing: 0.3px;
+            letter-spacing: 0.4px;
         }
         .btn-live-run { background: var(--accent-orange); color: #FFFFFF; }
         .btn-live-run:hover { background: #c2410c; }
-        .btn-community { background: #1F2937; color: #FFFFFF; }
-        .btn-community:hover { background: #111827; }
-        .btn-lang-switch {
-            background: #F1F5F9;
-            color: #475569;
-            border: 1px solid #CBD5E1;
-        }
-        .btn-lang-switch:hover { background: #E2E8F0; color: #0F172A; }
 
         /* STICKY 4-PILLAR NAVIGATION BAR */
         nav.sticky-nav-bar {
@@ -498,8 +490,8 @@
         footer.site-footer a { color: var(--sec1-sky); text-decoration: none; font-weight: 700; }
 
         @media (max-width: 768px) {
-            .brand-main-title { font-size: 1.22rem; }
-            .brand-sub-title { font-size: 0.72rem; }
+            .brand-main-title { font-size: 1.25rem; }
+            .brand-sub-title { font-size: 0.74rem; }
             .nav-main-label { font-size: 0.82rem; }
             .nav-sub-label { font-size: 0.54rem; }
             .tech-card { padding: 18px 16px; }
@@ -510,7 +502,7 @@
 </head>
 <body>
 
-<!-- 1. COMPACT ONE-ROW HEADER -->
+<!-- 1. COMPACT ONE-ROW HEADER (TRY IT 단독 전면 배치) -->
 <header class="site-header-top">
     <div class="header-top-container">
         <a href="#" class="header-logo">
@@ -521,14 +513,8 @@
         </a>
 
         <div class="header-download-btns">
-            <a href="./index.html" class="btn-header btn-lang-switch" title="Switch to Korean Version">
-                KR
-            </a>
             <a href="./crystal-world-dock.html" target="_blank" rel="noopener noreferrer" class="btn-header btn-live-run" title="Open Full Experience Dock">
                 TRY IT
-            </a>
-            <a href="https://cafe.naver.com/crystaldock?iframe_url=/MyCafeIntro.nhn%3Fclubid=31784518" target="_blank" rel="noopener noreferrer" class="btn-header btn-community" title="Naver Cafe Community">
-                CAFE
             </a>
         </div>
     </div>
@@ -1143,14 +1129,19 @@
                     </table>
                 </div>
 
-                <!-- GitHub Banner -->
-                <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid #E2E8F0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
-                    <span style="font-size: 0.82rem; color: #64748B;">
-                        All source code is released under the permissive MIT Open Source License.
-                    </span>
+                <!-- Footer Bridge Banner: GitHub, Naver Cafe, & Korean Version Links -->
+                <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid #E2E8F0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
                     <a href="https://github.com/crystal-world-project/crystal-world-project.github.io" target="_blank" rel="noopener noreferrer" style="font-size: 0.85rem; color: #0284C7; font-weight: 800; text-decoration: none;">
                         Visit Official GitHub Repository ➔
                     </a>
+                    <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+                        <a href="./index.html" style="font-size: 0.85rem; color: #EA580C; font-weight: 800; text-decoration: none;">
+                            🇰🇷 Korean Showroom (한국어판) ➔
+                        </a>
+                        <a href="https://cafe.naver.com/crystaldock?iframe_url=/MyCafeIntro.nhn%3Fclubid=31784518" target="_blank" rel="noopener noreferrer" style="font-size: 0.85rem; color: #475569; font-weight: 700; text-decoration: none;">
+                            Naver Cafe Community ➔
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>

@@ -106,14 +106,14 @@
         .header-download-btns {
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 8px;
             white-space: nowrap;
             flex-shrink: 0;
         }
         .btn-header {
-            padding: 6px 13px;
+            padding: 6px 14px;
             border-radius: 6px;
-            font-size: 0.78rem;
+            font-size: 0.8rem;
             font-weight: 900;
             cursor: pointer;
             text-decoration: none;
@@ -127,12 +127,6 @@
         .btn-live-run:hover { background: #c2410c; }
         .btn-community { background: #1F2937; color: #FFFFFF; }
         .btn-community:hover { background: #111827; }
-        .btn-lang-switch {
-            background: #F1F5F9;
-            color: #475569;
-            border: 1px solid #CBD5E1;
-        }
-        .btn-lang-switch:hover { background: #E2E8F0; color: #0F172A; }
 
         /* STICKY 4-PILLAR NAVIGATION BAR */
         nav.sticky-nav-bar {
@@ -359,7 +353,7 @@
             text-align: center;
         }
 
-        /* 탭 4 서사 전용 스타일: 무결점 왼쪽 정렬 */
+        /* 탭 4 서사 전용 스타일 */
         .narrative-chapter {
             margin-bottom: 24px;
             text-align: left;
@@ -499,8 +493,8 @@
         footer.site-footer a { color: var(--sec1-sky); text-decoration: none; font-weight: 700; }
 
         @media (max-width: 768px) {
-            .brand-main-title { font-size: 1.22rem; }
-            .brand-sub-title { font-size: 0.72rem; }
+            .brand-main-title { font-size: 1.25rem; }
+            .brand-sub-title { font-size: 0.74rem; }
             .nav-main-label { font-size: 0.84rem; }
             .nav-sub-label { font-size: 0.54rem; }
             .tech-card { padding: 18px 16px; }
@@ -511,7 +505,7 @@
 </head>
 <body>
 
-<!-- 1. COMPACT ONE-ROW HEADER -->
+<!-- 1. COMPACT ONE-ROW HEADER (TRY IT & CAFE 전면 배치) -->
 <header class="site-header-top">
     <div class="header-top-container">
         <a href="#" class="header-logo">
@@ -522,13 +516,10 @@
         </a>
 
         <div class="header-download-btns">
-            <a href="./index-en.html" class="btn-header btn-lang-switch" title="Switch to English Version">
-                EN
-            </a>
-            <a href="./crystal-world-dock.html" target="_blank" rel="noopener noreferrer" class="btn-header btn-live-run" title="Open Full Experience Dock">
+            <a href="./crystal-world-dock.html" target="_blank" rel="noopener noreferrer" class="btn-header btn-live-run" title="체험형 도크 열기">
                 TRY IT
             </a>
-            <a href="https://cafe.naver.com/crystaldock?iframe_url=/MyCafeIntro.nhn%3Fclubid=31784518" target="_blank" rel="noopener noreferrer" class="btn-header btn-community" title="Naver Cafe Community">
+            <a href="https://cafe.naver.com/crystaldock?iframe_url=/MyCafeIntro.nhn%3Fclubid=31784518" target="_blank" rel="noopener noreferrer" class="btn-header btn-community" title="공식 네이버 카페">
                 CAFE
             </a>
         </div>
@@ -635,7 +626,7 @@
 
             <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 34px 0;">
 
-            <!-- 앱 2: Nano Blake -->
+            <!-- 앱 2: Nano Blake (한국어 전용 링크 연결) -->
             <div class="card-lead">2️⃣ "41KB에서 4K영상을 뿜다" — Nano Blake</div>
             
             <ul class="indent-list">
@@ -653,20 +644,20 @@
                     <div style="background: #161b22; border-radius: 8px; border: 1.5px solid #30363d; padding: 12px; transition: transform 0.2s, border-color 0.2s; cursor: pointer;" onmouseover="this.style.borderColor='#ff8c00'" onmouseout="this.style.borderColor='#30363d'">
                         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #30363d; padding-bottom: 8px; margin-bottom: 10px;">
                             <div style="display: flex; align-items: center; gap: 8px;">
-                                <span style="color: #ff8c00; font-size: 0.88rem; font-weight: 800;">🎬 Nano Blake v1.0</span>
+                                <span style="color: #ff8c00; font-size: 0.88rem; font-weight: 800;">🎬 Nano Blake v1.0 (KR)</span>
                                 <span style="background: rgba(255, 140, 0, 0.15); color: #ff8c00; border: 1px solid #ff8c00; font-size: 0.65rem; padding: 2px 6px; border-radius: 6px; font-weight: bold;">Bus Standby</span>
                             </div>
-                            <span style="background: #ff8c00; color: #FFF; font-size: 0.72rem; padding: 4px 11px; border-radius: 5px; font-weight: 800;">▶ Auto Play</span>
+                            <span style="background: #ff8c00; color: #FFF; font-size: 0.72rem; padding: 4px 11px; border-radius: 5px; font-weight: 800;">▶ 자동재생</span>
                         </div>
                         <div style="display: flex; gap: 10px; flex-wrap: wrap;">
                             <div style="flex: 1 1 200px; background: #0d1117; border-radius: 6px; padding: 10px; border: 1px solid #21262d;">
                                 <div style="font-family: monospace; font-size: 0.76rem; color: #8b949e; line-height: 1.5; background: #161b22; padding: 8px; border-radius: 4px; border: 1px solid #30363d;">
-                                    <span style="color: #ff8c00;"># Nano Blake v1.0</span><br>Ultra-light pure web micro studio
+                                    <span style="color: #ff8c00;"># 나노 블레이크 v1.0</span><br>초경량 순수 웹 마이크로 스튜디오
                                 </div>
                             </div>
                             <div style="flex: 1 1 260px; background: #000; border-radius: 6px; border: 1px solid rgba(255,140,0,0.3); min-height: 110px; display: flex; flex-direction: column; justify-content: space-between; padding: 12px;">
-                                <div style="color: #fff; font-size: 0.88rem; font-weight: 800;">Nano Blake v1.0</div>
-                                <div style="text-align: center; color: #fff; font-size: 0.8rem;">Ultra-light pure web micro studio</div>
+                                <div style="color: #fff; font-size: 0.88rem; font-weight: 800;">나노 블레이크 v1.0</div>
+                                <div style="text-align: center; color: #fff; font-size: 0.8rem;">초경량 순수 웹 마이크로 스튜디오</div>
                                 <div style="text-align: right; font-size: 0.64rem; color: #ff8c00;">[ 1080P FHD Canvas ]</div>
                             </div>
                         </div>
@@ -1105,10 +1096,10 @@
                                 <td style="text-align: right; color: #64748B; font-weight: 700;">~25 KB</td>
                             </tr>
                             <tr>
-                                <td><strong style="color: #0284C7;">🎬 캔버스 비디오 스튜디오</strong><br><span style="font-size: 0.78rem; color: #64748B;">1080P FHD 켄 번즈 영상 실시간 렌더러 & TTS 음성 동기화</span></td>
+                                <td><strong style="color: #0284C7;">🎬 캔버스 비디오 스튜디오 (KR)</strong><br><span style="font-size: 0.78rem; color: #64748B;">1080P FHD 켄 번즈 영상 실시간 렌더러 & 한국어 메뉴</span></td>
                                 <td>
-                                    <a href="./nano-blake-kr.html" download="nano-blake.html" class="file-dl-link">
-                                        <code>nano-blake.html</code> 📥
+                                    <a href="./nano-blake-kr.html" download="nano-blake-kr.html" class="file-dl-link">
+                                        <code>nano-blake-kr.html</code> 📥
                                     </a>
                                 </td>
                                 <td style="text-align: right; color: #7C3AED; font-weight: 800;">41.2 KB</td>
@@ -1144,13 +1135,13 @@
                     </table>
                 </div>
 
-                <!-- 오픈소스 저장소 링크 배너 -->
-                <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid #E2E8F0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
-                    <span style="font-size: 0.82rem; color: #64748B;">
-                        모든 소스코드는 오픈소스(MIT License)로 자유롭게 열려 있습니다.
-                    </span>
+                <!-- 하단 연결 배너: 깃허브 & 공식 영문 쇼룸 링크 안착 -->
+                <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid #E2E8F0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
                     <a href="https://github.com/crystal-world-project/crystal-world-project.github.io" target="_blank" rel="noopener noreferrer" style="font-size: 0.85rem; color: #0284C7; font-weight: 800; text-decoration: none;">
                         공식 깃허브 저장소 방문하기 ➔
+                    </a>
+                    <a href="./index-en.html" style="font-size: 0.85rem; color: #EA580C; font-weight: 800; text-decoration: none;">
+                        🌐 Global English Showroom (영문판) ➔
                     </a>
                 </div>
             </div>
