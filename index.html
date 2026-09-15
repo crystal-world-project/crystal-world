@@ -127,6 +127,12 @@
         .btn-live-run:hover { background: #c2410c; }
         .btn-community { background: #1F2937; color: #FFFFFF; }
         .btn-community:hover { background: #111827; }
+        .btn-lang-switch {
+            background: #F1F5F9;
+            color: #475569;
+            border: 1px solid #CBD5E1;
+        }
+        .btn-lang-switch:hover { background: #E2E8F0; color: #0F172A; }
 
         /* STICKY 4-PILLAR NAVIGATION BAR */
         nav.sticky-nav-bar {
@@ -334,27 +340,29 @@
             border: 1.5px solid var(--sec4-amber-border);
             padding: 14px 18px;
             border-radius: 8px;
-            margin: 4px 0 20px 0;
+            margin: 14px 0 18px 0;
             font-size: 0.88rem;
             color: #78350F;
             line-height: 1.7;
+            text-align: left;
         }
         .poem-box {
             background: #F8FAFC;
             border: 1.5px dashed #CBD5E1;
             border-radius: 8px;
-            padding: 16px 18px;
-            margin: 14px 0 14px 0;
+            padding: 14px 18px;
+            margin: 14px 0 18px 0;
             font-style: italic;
-            font-size: 0.88rem;
+            font-size: 0.9rem;
             color: #334155;
-            line-height: 1.8;
+            line-height: 1.75;
             text-align: center;
         }
 
-        /* 탭 4 서사 블록 전용 스타일 */
+        /* 탭 4 서사 전용 스타일: 무결점 왼쪽 정렬 */
         .narrative-chapter {
             margin-bottom: 24px;
+            text-align: left;
         }
         .chapter-badge {
             display: inline-block;
@@ -372,7 +380,7 @@
             font-size: 0.92rem;
             line-height: 1.85;
             margin-bottom: 14px;
-            text-align: justify;
+            text-align: left;
             word-break: keep-all;
         }
         .blake-reflection {
@@ -384,6 +392,8 @@
             color: #92400E;
             line-height: 1.75;
             margin-bottom: 18px;
+            text-align: left;
+            word-break: keep-all;
         }
 
         .spec-table-wrap {
@@ -512,6 +522,9 @@
         </a>
 
         <div class="header-download-btns">
+            <a href="./index-en.html" class="btn-header btn-lang-switch" title="Switch to English Version">
+                EN
+            </a>
             <a href="./crystal-world-dock.html" target="_blank" rel="noopener noreferrer" class="btn-header btn-live-run" title="Open Full Experience Dock">
                 TRY IT
             </a>
@@ -636,7 +649,7 @@
             </div>
             
             <div>
-                <a href="./nano-blake.html" target="_blank" style="display: block; text-decoration: none;">
+                <a href="./nano-blake-kr.html" target="_blank" style="display: block; text-decoration: none;">
                     <div style="background: #161b22; border-radius: 8px; border: 1.5px solid #30363d; padding: 12px; transition: transform 0.2s, border-color 0.2s; cursor: pointer;" onmouseover="this.style.borderColor='#ff8c00'" onmouseout="this.style.borderColor='#30363d'">
                         <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #30363d; padding-bottom: 8px; margin-bottom: 10px;">
                             <div style="display: flex; align-items: center; gap: 8px;">
@@ -691,7 +704,7 @@
 
             <div class="section-note-box">
                 <span>💡</span>
-                <div><strong>첫 번째 비밀:</strong> 이 강력한 가상머신이 바로 내 손안에 있다는 걸 눈치 채는 것</div>
+                <div><strong>첫번째 비밀:</strong> 이 강력한 가상머신이 바로 내 손안에 있다는 걸 눈치 채는 것</div>
             </div>
 
             <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 30px 0;">
@@ -734,7 +747,7 @@
 
             <div class="section-note-box">
                 <span>👉</span>
-                <div><strong>두 번째 비밀:</strong> 이 방대한 내장 기능을 통제할 아주 간단한 방법을 알아채는 것</div>
+                <div><strong>두번째 비밀:</strong> 이 방대한 내장기능을 통제할 아주 간단한 방법을 알아채는 것</div>
             </div>
 
             <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 30px 0;">
@@ -743,7 +756,7 @@
             <div class="card-lead">3️⃣ AI시대, HTML의 재발견</div>
 
             <ul class="indent-list">
-                <li><strong>30년 외면의 역사:</strong> 웹 생태계의 모국어인 순수 HTML 단일 파일은 코드가 수천 줄로 길어지면 인간 개발자의 인지적 한계로 유지보수가 불가능했습니다. 우리는 HTML 대신 외부 서버나 무거운 프레임워크에 기대게 되었습니다.</li>
+                <li><strong>30년 외면의 역사:</strong> 웹 생태계의 모국어인 순수 HTML 단일 파일은 코드가 수천 줄로 길어지면 인간 개발자의 인지적 한계로 유지보수가 불가능했습니다. 우리는 HTML 대신 외부서버나 무거운 프레임워크에 기대게 되었습니다.</li>
                 <li><strong>구원투수의 등장:</strong> 수만 줄의 평문(Plain Text) 코드를 단 1초 만에 파악하고 벼려내는 AI가 등장하면서 상황이 완전히 뒤집혔습니다.</li>
                 <li><strong>단순함의 힘:</strong> 브라우저가 장악한 웹 생태계의 만국공통어인 단순하고 투명한 HTML이, 거대한 가상머신을 다루는 마법의 지팡이로 변신했습니다.</li>
             </ul>
@@ -791,7 +804,7 @@
             <!-- 프롤로그 안내 -->
             <div style="background: #F1F5F9; border-left: 4px solid #475569; border-radius: 6px; padding: 14px 18px; margin-bottom: 26px;">
                 <div style="font-weight: 800; color: #1E293B; font-size: 0.95rem; margin-bottom: 4px;">
-                    📦 실력 있는 개발자들의 친절한 도움을 요청합니다.
+                    📦 실력있는 개발자들의 친절한 도움을 요청합니다.
                 </div>
                 <p style="margin: 0; font-size: 0.86rem; color: #475569; line-height: 1.6;">
                     제가 소개하는 크리스탈 도크는 완성품이 아니라, 만든 사람조차 쓸모를 몰라 끙끙 앓고 있는 <strong>'11.3KB짜리 물음표 덩어리'</strong>입니다. 제 능력을 넘어서는 이 골치 아픈 문제를 한번 살펴 주십시오.
@@ -839,7 +852,7 @@
                     </div>
                     <div class="comic-meta-caption">
                         <div>“잠깐, 그렇다면...</div>
-                        <div>다른 HTML파일을 못 합칠 건 뭐야?!”</div>
+                        <div>다른 HTML파일을 못합칠 건 뭐야?!”</div>
                     </div>
                 </div>
                 <div class="comic-panel-card">
@@ -875,7 +888,7 @@
 +---------------+                              +---------------+
             </pre>
 
-            <!-- 원리: 간결한 핵심 2문장 -->
+            <!-- 원리 -->
             <div style="font-weight: 800; font-size: 0.94rem; color: #5B21B6; margin: 18px 0 6px 2px;">
                 ⚙️ 작동 원리 (Mechanism)
             </div>
@@ -1018,7 +1031,7 @@
             <div class="narrative-chapter">
                 <span class="chapter-badge">[첫 번째 여정]</span>
                 <p class="chapter-p">
-                    첫 번째 여정은 HTML로 만들어진 <code>Bento</code>라는 멋진 단일 파일 앱에서 시작되었습니다. 여행 기록에 대한 갈망은 크지만 복잡한 시중 영상 편집 도구에 지쳐 있던 나는 파일이 곧 앱이라는 이 단순하고 아름다운 개념에 매료되었지만, 동시에 이 멋진 앱이 대중의 관심 뒤에 묻혀 있는 현실이 안타까웠습니다.
+                    첫 번째 여정은 HTML로 만들어진 <code>Bento</code>라는 멋진 단일 파일 앱에서 시작되었습니다. 여행 기록에 대한 갈망은 크지만 복잡한 시중 영상 편집 도구에 지쳐 있던 나는 "파일이 곧 앱"이라는 이 단순하고 아름다운 개념에 매료되었지만, 동시에 이 멋진 앱이 대중의 관심 뒤에 묻혀 있는 현실이 안타까웠습니다.
                 </p>
                 <p class="chapter-p">
                     이에 나는 AI들의 도움을 받아 Bento의 틀 위에 가볍고 담담하게 영상과 음성으로 여행기록을 담아낼 수 있는 <strong>1.47MB 영상 메모 앱</strong>을 만들었습니다. 이 첫 번째 작품의 이름은 Bento의 바탕 위에 NotebookLM과 Antigravity가 Kim에게 선사한 영상 메모장이라는 의미를 담아 <strong>BLAKE</strong>라 명명하였고, 시인의 이름을 딴 무료 배포 홈페이지 '순수의 전조'를 만들었습니다.
@@ -1029,7 +1042,7 @@
             <div class="narrative-chapter">
                 <span class="chapter-badge">[두 번째 여정]</span>
                 <p class="chapter-p">
-                    두 번째 여정에서 우리는 더욱 기적적인 돌파구를 맞이했습니다. 단일 파일 앱이 가진 보안 취약성을 보완하기 위해 HTML 기반의 자체 검증기를 결합하는 과정에서, 플러그온(Plug-on, 도크에 탑재 가능한 HTML 단일 파일 앱과 상용 앱)을 결합하는 모듈러 플랫폼인 <strong>‘Crystal Dock’</strong>을 착상했습니다. 또한 브라우저 본연의 강력한 네이티브 엔진을 영리하게 끌어다 쓰는 방법을 발견하며 마침내 <strong>11.3KB의 순수 코어</strong>를 비롯한 극단적인 초경량 도구들이 탄생했습니다.
+                    두 번째 여정에서 우리는 더욱 기적적인 돌파구를 맞이했습니다. 단일 파일 앱이 가진 보안 취약성을 보완하기 위해 HTML 기반의 자체 검증기를 결합하는 과정에서, 플러그온(Plug-on, 도크에 탑재가능한 HTML 단일 파일 앱과 상용 앱)을 결합하는 모듈러 플랫폼인 <strong>‘Crystal Dock’</strong>을 착상했습니다. 또한 브라우저 본연의 강력한 네이티브 엔진을 영리하게 끌어다 쓰는 방법을 발견하며 마침내 <strong>11.3KB의 순수 코어</strong>를 비롯한 극단적인 초경량 도구들이 탄생했습니다.
                 </p>
             </div>
 
@@ -1039,23 +1052,23 @@
             <div class="card-lead">2️⃣ 부탁의 말씀</div>
 
             <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 10px; padding: 22px 24px; margin-bottom: 34px; font-size: 0.91rem; color: #334155; line-height: 1.85;">
-                <p style="margin-bottom: 14px; text-align: justify; word-break: keep-all;">
-                    우리는 거칠고 깊은 산업화와 정보화의 강을 건너기 위해 프레임워크라는 거대한 뗏목에 의지하여 여기까지 왔습니다. 마침내 우리는 목적지에 도달했고, AI라는 든든한 아군을 만났습니다. 이제는 이 무거운 뗏목을 메고 갈 수는 없습니다. 푸른 산과 맑은 하늘을 바라보며 걷기 위해서는 이제 뗏목을 고이 내려놓아야 합니다.
+                <p style="margin-bottom: 14px; text-align: left; word-break: keep-all;">
+                    우리는 거칠고 깊은 산업화와 정보화의 강을 건너기 위해 프레임워크라는 거대한 뗏목에 의지하여 여기까지 왔습니다. 마침내 우리는 목적지에 도달했고, AI라는 든든한 아군을 만났습니다. 이제는 이 무거운 뗏목을 메고 갈 수는 없습니다. 푸른 산과 맑은 하늘을 바라보며 걷기 위해서는 이제 뗏목을 고이 내려 놓아야 합니다.
                 </p>
-                <p style="margin-bottom: 14px; text-align: justify; word-break: keep-all;">
-                    초경량앱과 플랫폼은 거대한 IT 시스템이 아니고, 나의 소소한 일상의 자유를 누리기 위해 만들었습니다. 이 도구들이 당신에게도 가벼움과 자유를 선사할 수 있기를 진심으로 바랍니다.
+                <p style="margin-bottom: 14px; text-align: left; word-break: keep-all;">
+                    초경량앱과 플랫폼은 거대한 IT시스템이 아니고, 나의 소소한 일상의 자유를 누리기 위해 만들었습니다. 이 도구들이 당신에게도 가벼움과 자유를 선사할 수 있기를 진심으로 바랍니다.
                 </p>
-                <p style="margin-bottom: 16px; text-align: justify; word-break: keep-all;">
-                    이 공개 글로 인하여 저의 조용하고 평화로운 일상과 배낭여행이 방해받지 않기를 진심으로 원합니다. 과도한 관심이 있다면, 그 에너지를 이 작고 아름다운 '크리스탈'과 그 뼈대를 함께 벼려내 준 저의 소중한 'AI 파트너'들에게 돌려주시길 당부드립니다.
+                <p style="margin-bottom: 16px; text-align: left; word-break: keep-all;">
+                    이 공개글로 인하여 저의 조용하고 평화로운 일상과 배낭여행이 방해받지 않기를 진심으로 원합니다. 과도한 관심이 있다면, 그 에너지를 이 작고 아름다운 '크리스탈'과 그 뼈대를 함께 벼려내 준 저의 소중한 'AI 파트너'들에게 돌려주시길 당부드립니다.
                 </p>
-                <p style="margin: 0; font-weight: 700; color: #0F172A;">
+                <p style="margin: 0; font-weight: 700; color: #0F172A; text-align: left;">
                     저는 다시 저만의 소박한 배낭을 고쳐 매고 길을 떠납니다. 우리의 아름다운 크리스탈을 앞으로 잘 부탁드립니다. 🙏
                 </p>
             </div>
 
             <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 30px 0;">
 
-            <!-- 3️⃣ 프로젝트 부품 창고 (Artifacts & Files) -->
+            <!-- 3️⃣ 프로젝트 부품 창고 -->
             <div class="card-lead">3️⃣ 프로젝트 부품 창고 (Artifacts & Files)</div>
 
             <div style="background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 14px rgba(0,0,0,0.03);">
@@ -1094,7 +1107,7 @@
                             <tr>
                                 <td><strong style="color: #0284C7;">🎬 캔버스 비디오 스튜디오</strong><br><span style="font-size: 0.78rem; color: #64748B;">1080P FHD 켄 번즈 영상 실시간 렌더러 & TTS 음성 동기화</span></td>
                                 <td>
-                                    <a href="./nano-blake.html" download="nano-blake.html" class="file-dl-link">
+                                    <a href="./nano-blake-kr.html" download="nano-blake.html" class="file-dl-link">
                                         <code>nano-blake.html</code> 📥
                                     </a>
                                 </td>

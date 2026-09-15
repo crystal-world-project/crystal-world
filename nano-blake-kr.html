@@ -1,0 +1,1255 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content">
+  <title>Nano Blake v1.0</title>
+  <style>
+    :root {
+      --bg: #0d1117; 
+      --panel-bg: #161b22;
+      --card-bg: #21262d;
+      --btn-bg: #2d333b; 
+      --text: #f0f6fc; 
+      --text-dim: #8b949e; 
+      --accent: #ff8c00; 
+      --accent-bright: #ff7300;
+      --border: #30363d; 
+      --highlight: #238636; 
+      --danger: #da3633;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    html, body { 
+      background: var(--bg); 
+      color: var(--text); 
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; 
+      width: 100%;
+      height: 100%;
+      overflow: hidden; 
+    }
+    body { display: flex; flex-direction: column; }
+    
+    header { 
+      background: var(--panel-bg); 
+      border-bottom: 2px solid var(--accent-bright);
+      padding: 6px 14px; 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      z-index: 20;
+      flex-shrink: 0;
+    }
+    .brand { font-weight: bold; color: var(--accent); font-size: 14px; }
+    .status-badge { font-size: 11px; padding: 2px 6px; border-radius: 10px; background: rgba(255, 140, 0, 0.15); color: var(--accent); border: 1px solid var(--accent); }
+    
+    main { 
+      flex: 1; 
+      display: flex; 
+      overflow: hidden; 
+      position: relative; 
+      min-height: 0;
+    }
+    
+    .editor-pane { 
+      width: 40%; 
+      border-right: 1px solid var(--border); 
+      display: flex; 
+      flex-direction: column; 
+      background: var(--panel-bg); 
+      padding: 8px 10px; 
+      gap: 6px; 
+      z-index: 15;
+      min-height: 0;
+    }
+    
+    .editor-header { 
+      display: flex; 
+      justify-content: space-between; 
+      align-items: center; 
+      position: relative;
+      flex-shrink: 0;
+    }
+    .editor-actions { display: flex; gap: 6px; align-items: center; width: 100%; flex-wrap: wrap; }
+
+    button, select {
+      background: var(--btn-bg);
+      color: var(--text);
+      border: 1px solid #444c56;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.4);
+      padding: 5px 9px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 500;
+      outline: none;
+      display: inline-flex;
+      align-items: center;
+      user-select: none;
+      white-space: nowrap;
+      transition: all 0.15s;
+    }
+    button:hover, select:hover { 
+      border-color: var(--accent-bright); 
+      background: #373e47; 
+    }
+
+    button.btn-play { 
+      background: var(--accent); 
+      border-color: rgba(255, 255, 255, 0.15); 
+      color: #fff; 
+      font-weight: 600; 
+    }
+    button.btn-play:hover { 
+      background: #e67e00; 
+      border-color: var(--accent-bright); 
+    }
+    button.btn-play.active { 
+      background: var(--highlight) !important; 
+      border-color: #2ea043 !important; 
+    }
+
+    button.btn-danger:hover { background: var(--danger); border-color: var(--danger); color: #fff; }
+    button.save-btn { background: #238636; border-color: #2ea043; color: #fff; }
+    button.load-btn { background: #1f6feb; border-color: #388bfd; color: #fff; }
+
+    .settings-dropdown {
+      position: absolute;
+      top: 36px;
+      right: 0;
+      background: var(--panel-bg);
+      border: 1px solid var(--accent-bright);
+      border-radius: 6px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.85);
+      padding: 10px;
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+      z-index: 50;
+      min-width: 180px;
+    }
+    .settings-dropdown.show { display: flex; }
+    .setting-item { display: flex; flex-direction: column; gap: 4px; }
+    .setting-item span { font-size: 11px; color: var(--text-dim); }
+
+    textarea#scene-source { 
+      flex: 1; 
+      background: var(--card-bg); 
+      color: var(--text); 
+      border: 1px solid var(--border); 
+      border-radius: 6px; 
+      padding: 12px; 
+      resize: none; 
+      font-size: 14px; 
+      outline: none; 
+      line-height: 1.6; 
+      font-family: inherit; 
+      min-height: 0;
+    }
+    textarea#scene-source:focus { border-color: var(--accent-bright); }
+    textarea#scene-source::placeholder {
+      color: #8b949e !important;
+      font-weight: 400;
+      line-height: 1.6;
+      opacity: 1 !important;
+    }
+
+    #scene-viewer {
+      display: none;
+      flex: 1;
+      background: #11141a;
+      border: 1px solid rgba(255, 140, 0, 0.3);
+      border-radius: 6px;
+      padding: 14px 16px;
+      overflow-y: auto;
+      line-height: 1.75;
+      font-size: 14.5px;
+      color: var(--text);
+    }
+    #scene-viewer h2, #scene-viewer h3 { color: var(--accent); margin-bottom: 10px; font-size: 19px; }
+    #scene-viewer p { margin-bottom: 8px; word-break: keep-all; }
+    #scene-viewer strong { color: #fff; font-weight: 700; }
+    #scene-viewer mark {
+      background: rgba(255, 215, 0, 0.28);
+      color: #ffd700;
+      padding: 2px 5px;
+      border-radius: 3px;
+    }
+    #scene-viewer blockquote {
+      border-left: 3px solid var(--accent-bright);
+      background: rgba(255, 140, 0, 0.08);
+      padding: 8px 12px;
+      margin: 10px 0;
+      color: #e6edf3;
+      border-radius: 0 4px 4px 0;
+    }
+    #scene-viewer hr { border: 0; border-top: 1px solid var(--border); margin: 14px 0; }
+    #scene-viewer .bullet-item { padding-left: 4px; margin-bottom: 6px; }
+
+    .viewer-pane { 
+      flex: 1; 
+      background: #000; 
+      display: flex; 
+      align-items: center; 
+      justify-content: center; 
+      position: relative; 
+      overflow: hidden; 
+    }
+    
+    .stage-container {
+      width: 100%;
+      height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+    }
+    .stage-wrapper {
+      position: relative;
+      background: #000;
+      box-shadow: 0 0 20px rgba(0,0,0,0.8);
+      overflow: hidden;
+      display: flex;
+      border: 1px solid rgba(255, 140, 0, 0.2);
+    }
+    
+    .ratio-16-9 { width: min(100%, calc((100vh - 80px) * 16 / 9)); aspect-ratio: 16 / 9; }
+    .ratio-4-3  { width: min(100%, calc((100vh - 80px) * 4 / 3));  aspect-ratio: 4 / 3; }
+    .ratio-1-1  { width: min(100%, calc((100vh - 80px)));           aspect-ratio: 1 / 1; }
+    .ratio-9-16 { width: min(100%, calc((100vh - 80px) * 9 / 16)); aspect-ratio: 9 / 16; }
+
+    canvas#media-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; }
+
+    .slide-viewport {
+      flex: 1;
+      display: flex;
+      flex-direction: row;
+      overflow-x: auto;
+      overflow-y: hidden;
+      scroll-snap-type: x mandatory;
+      position: relative;
+      z-index: 2;
+      user-select: none;
+      -webkit-overflow-scrolling: touch;
+      cursor: pointer;
+      scroll-behavior: smooth;
+    }
+    .slide-viewport.grabbing { cursor: grabbing; scroll-snap-type: none; scroll-behavior: auto; }
+    .slide-viewport::-webkit-scrollbar { height: 4px; }
+    .slide-viewport::-webkit-scrollbar-thumb { background: var(--accent-bright); border-radius: 2px; }
+
+    .slide-card {
+      flex: 0 0 100%;
+      height: 100%;
+      scroll-snap-align: start;
+      scroll-snap-stop: always;
+      position: relative;
+      background: transparent;
+      transform: translateZ(0);
+      backface-visibility: hidden;
+    }
+
+    .title-layer { position: absolute; top: 16px; left: 20px; text-align: left; max-width: 80%; pointer-events: none; }
+    .title-layer h2 { font-size: 18px; color: #fff; text-shadow: 0 2px 6px rgba(0,0,0,0.95); font-weight: 700; }
+
+    .subtitle-layer { position: absolute; bottom: 8px; width: 88%; pointer-events: none; }
+    .subtitle-layer.align-center { left: 50%; transform: translateX(-50%); text-align: center; }
+    .subtitle-layer.align-left { left: 20px; transform: none; text-align: left; }
+    
+    .subtitle-layer p {
+      font-size: 14px;
+      color: #fff;
+      text-shadow: 0 2px 4px rgba(0,0,0,1), 0 0 8px rgba(0,0,0,0.8);
+      line-height: 1.5;
+      word-break: keep-all;
+      white-space: pre-line;
+    }
+    .subtitle-layer mark {
+      background: rgba(255, 215, 0, 0.35);
+      color: #ffd700;
+      padding: 1px 4px;
+      border-radius: 3px;
+    }
+
+    .slide-num {
+      position: absolute; top: 10px; right: 12px; font-size: 10px;
+      color: rgba(255,255,255,0.7); background: rgba(0,0,0,0.6);
+      padding: 2px 6px; border-radius: 8px; pointer-events: none;
+      border: 1px solid rgba(255,140,0,0.3);
+    }
+    #media-file-input { display: none; }
+    #project-file-input { display: none; }
+
+    @media (max-width: 768px) {
+      body { position: fixed; top: 0; left: 0; right: 0; bottom: 0; height: 100%; }
+      main { flex-direction: column; height: calc(100% - 38px); }
+      .viewer-pane { 
+        order: 1; flex: 0 0 auto !important; width: 100% !important; 
+        aspect-ratio: 16 / 9 !important; height: auto !important; 
+        border-bottom: 2px solid var(--accent-bright); padding: 0; margin: 0; 
+      }
+      .stage-container { height: 100%; }
+      .stage-wrapper { width: 100% !important; height: 100% !important; aspect-ratio: 16 / 9 !important; border: none; }
+      .editor-pane { order: 2; width: 100% !important; flex: 1 1 0 !important; border-right: none; padding: 6px 8px; min-height: 0; }
+      .editor-actions { gap: 7px; }
+      textarea#scene-source { font-size: 13.5px; flex: 1; min-height: 0; }
+      #scene-viewer { font-size: 14px; padding: 10px 12px; }
+      button, select { padding: 5px 8px; font-size: 12.5px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="brand">🎬 Nano Blake v1.0</div>
+    <div class="status-badge" id="bus-status">PlugOn 버스 대기</div>
+  </header>
+
+  <main>
+    <section class="editor-pane">
+      <div class="editor-header">
+        <div class="editor-actions">
+          <button id="btn-auto-toggle" class="btn-play" onclick="toggleAutoPlay()">▶ 자동재생</button>
+          <button onclick="addSlide()">장면생성</button>
+          <button class="btn-danger" onclick="deleteCurrentSlide()">장면삭제</button>
+          <button class="save-btn" onclick="saveAsSelf()">저장</button>
+          <button class="load-btn" onclick="openLoadPicker()">열기</button>
+          <button onclick="toggleSettingsMenu()">•••</button>
+
+          <div class="settings-dropdown" id="settings-menu">
+            <div class="setting-item">
+              <span>화면 비율</span>
+              <select id="ratio-select" onchange="changeAspectRatio(this.value)">
+                <option value="ratio-16-9">16:9 와이드</option>
+                <option value="ratio-4-3">4:3 클래식</option>
+                <option value="ratio-1-1">1:1 스퀘어</option>
+                <option value="ratio-9-16">9:16 세로(쇼츠)</option>
+              </select>
+            </div>
+            <div class="setting-item">
+              <span>자막 정렬</span>
+              <select id="align-select" onchange="changeSubtitleAlign(this.value)">
+                <option value="align-center">중앙 정렬</option>
+                <option value="align-left">왼쪽 정렬</option>
+              </select>
+            </div>
+            <div class="setting-item" style="margin-top: 2px;">
+              <button id="sub-toggle-btn" style="width:100%; justify-content:center;" onclick="toggleSubtitleVisible()">자막 표시 ON</button>
+            </div>
+            <div class="setting-item">
+              <button id="auto-tts-btn" style="width:100%; justify-content:center;" onclick="toggleAutoTts()">수동넘김 낭독 OFF</button>
+            </div>
+            <div class="setting-item">
+              <button style="width:100%; justify-content:center;" onclick="toggleFullScreen()">🖥️ 전체화면</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+      <textarea id="scene-source" placeholder="1. 상단 미디어창을 눌러 이미지/영상 입력&#10;2. 화면을 왼쪽으로 스와이프하여 수동전환&#10;3. 입력창 사용방법&#10;   1) # 뒤에 한칸 공백을 두고 제목입력(상단 표시)&#10;   2) 줄바꿈 후 자막 입력 (__굵은글씨__, ==형광펜==, - 글머리기호)&#10;   3) // 표시 이후 개인 메모(화면 및 낭독 제외)&#10;4. 설정- 자막이나 TTS 음성을 끌 수 있음"></textarea>
+
+      <div id="scene-viewer"></div>
+    </section>
+
+    <section class="viewer-pane" id="drop-zone">
+      <div class="stage-container">
+        <div class="stage-wrapper ratio-16-9" id="stage">
+          <canvas id="media-canvas" width="1920" height="1080"></canvas>
+          <div class="slide-viewport" id="viewport"></div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <input type="file" id="media-file-input" accept="image/*,video/*" onchange="handleManualMedia(event)">
+  <input type="file" id="project-file-input" accept=".html,.htm,.json" onchange="handleLoadFile(event)">
+
+  <script id="nano-vault" type="application/json">
+  {
+    "title": "새 프로젝트",
+    "slides": "",
+    "mediaData": {}
+  }
+  </script>
+
+  <script>
+    /* ==========================================================================
+       [NanoGuard] 제로 빌드 순수 웹 표준 무결성 검증기 (0.3KB)
+       ========================================================================== */
+    const NanoGuard = {
+      isValidPacket(msg) {
+        return msg && msg.protocol === "BLAKE_MICRO_APP_v1" &&
+               typeof msg.action === "string" && msg.payload !== undefined;
+      },
+      sanitize(str) {
+        if (typeof str !== "string") str = String(str || "");
+        return str
+          .replace(/</g, "&lt;")
+          .replace(/"/g, "&quot;")
+          .replace(/'/g, "&#39;");
+      },
+      isValidMedia(file, maxMb = 30) {
+        if (!file || !file.type.match(/^(image|video)\//)) {
+          return { ok: false, msg: "이미지 또는 비디오 파일만 등록할 수 있습니다." };
+        }
+        if (file.size > maxMb * 1024 * 1024) {
+          return { ok: false, msg: `단일 파일 안정성을 위해 ${maxMb}MB 이하 파일을 권장합니다.` };
+        }
+        return { ok: true };
+      }
+    };
+
+    let vaultData = { title: "새 프로젝트", slides: "", mediaData: {} };
+    try {
+      const raw = document.getElementById('nano-vault').textContent.trim();
+      if (raw) vaultData = JSON.parse(raw);
+    } catch(e) { console.error(e); }
+
+    let slidesList = [];
+    function initSlidesList() {
+      const raw = (vaultData.slides !== undefined) ? vaultData.slides : "";
+      slidesList = raw.split(/\n\s*---\s*\n/);
+      if (slidesList.length === 0 || (slidesList.length === 1 && !slidesList[0].trim())) {
+        slidesList = [""];
+      }
+    }
+    initSlidesList();
+
+    const elScene = document.getElementById('scene-source');
+    const elSceneViewer = document.getElementById('scene-viewer');
+    const elViewport = document.getElementById('viewport');
+    const stage = document.getElementById('stage');
+    const canvas = document.getElementById('media-canvas');
+    const ctx = canvas.getContext('2d');
+    const autoTtsBtn = document.getElementById('auto-tts-btn');
+    const subToggleBtn = document.getElementById('sub-toggle-btn');
+    const settingsMenu = document.getElementById('settings-menu');
+    const mediaInput = document.getElementById('media-file-input');
+    const projectFileInput = document.getElementById('project-file-input');
+    const btnAutoToggle = document.getElementById('btn-auto-toggle');
+
+    let slideMediaCache = {};
+    let currentSlideIdx = 0;
+    let animProgress = 0;
+    let isAutoTts = false;
+    let isSubtitleVisible = true;
+    let subtitleAlignClass = 'align-center';
+    let audioUnlocked = false;
+
+    class PausableTimer {
+      constructor(callback, delay) {
+        this.callback = callback;
+        this.remaining = delay;
+        this.timerId = null;
+        this.startTime = null;
+        this.resume();
+      }
+      resume() {
+        this.startTime = Date.now();
+        if (this.remaining <= 0) {
+          this.callback();
+        } else {
+          this.timerId = setTimeout(() => {
+            this.timerId = null;
+            this.callback();
+          }, this.remaining);
+        }
+      }
+      cancel() {
+        if (this.timerId) clearTimeout(this.timerId);
+        this.timerId = null;
+      }
+    }
+
+    function stopAllVideos() {
+      Object.values(slideMediaCache).forEach(media => {
+        if (media && media.tagName === 'VIDEO') {
+          media.pause();
+          media.currentTime = 0;
+        }
+      });
+    }
+
+    function unlockAudio() {
+      audioUnlocked = true;
+      const cur = slideMediaCache[currentSlideIdx];
+      if (cur && cur.tagName === 'VIDEO') {
+        cur.muted = false;
+        cur.volume = 0.8;
+      }
+    }
+    window.addEventListener('click', unlockAudio, { once: true });
+    window.addEventListener('touchstart', unlockAudio, { once: true });
+
+    function playVideoWithAudio(media) {
+      if (!media || media.tagName !== 'VIDEO') return;
+      media.currentTime = 0;
+      media.loop = false;
+      media.muted = !audioUnlocked;
+      media.volume = 0.8;
+      
+      const p = media.play();
+      if (p !== undefined) {
+        p.catch(() => {
+          media.muted = true;
+          media.play().catch(() => {});
+        });
+      }
+    }
+
+    function parseInlineFormatting(str) {
+      return str
+        .replace(/(\*\*|__)(.*?)\1/g, '<strong>$2</strong>')
+        .replace(/==(.*?)==/g, '<mark>$1</mark>');
+    }
+
+    function renderViewerHtml(rawText) {
+      if (!rawText.trim()) return '<p style="color:var(--text-dim);">내용이 없습니다.</p>';
+
+      const parts = rawText.split(/\n\s*\/\/\s*\n|\n\/\//);
+      const displayPart = parts[0] || '';
+      const memoPart = parts.slice(1).join('\n') || '';
+
+      function formatLineBlock(text) {
+        let blockHtml = '';
+        text.split('\n').forEach(line => {
+          let l = NanoGuard.sanitize(line);
+          if (l.startsWith('# ')) {
+            blockHtml += `<h2>${l.replace('# ', '')}</h2>`;
+          } else if (l.startsWith('## ')) {
+            blockHtml += `<h3>${l.replace('## ', '')}</h3>`;
+          } else if (l.startsWith('> ') || l.startsWith('&gt; ')) {
+            blockHtml += `<blockquote>${l.replace(/^(&gt;|>)\s*/, '')}</blockquote>`;
+          } else if (l.trim().startsWith('- ')) {
+            let bulletText = l.trim().replace(/^-\s+/, '');
+            bulletText = parseInlineFormatting(bulletText);
+            blockHtml += `<p class="bullet-item">• ${bulletText}</p>`;
+          } else if (l.trim()) {
+            l = parseInlineFormatting(l);
+            blockHtml += `<p>${l}</p>`;
+          }
+        });
+        return blockHtml;
+      }
+
+      let html = formatLineBlock(displayPart);
+      if (memoPart.trim()) {
+        html += `<hr>`;
+        html += formatLineBlock(memoPart);
+      }
+      return html;
+    }
+
+    function updateViewerContent() {
+      if (isAutoPlaying) {
+        elSceneViewer.innerHTML = renderViewerHtml(slidesList[currentSlideIdx] || "");
+      }
+    }
+
+    let isAutoPlaying = false;
+    let minTimeDone = false;
+    let speechDone = false;
+    let minTimerObj = null;
+    let extraTimerObj = null;
+    let activeUtterance = null;
+
+    function toggleAutoPlay() {
+      if (isAutoPlaying) stopAutoPlay();
+      else startAutoPlay();
+    }
+
+    function startAutoPlay() {
+      unlockAudio();
+      isAutoPlaying = true;
+      btnAutoToggle.classList.add('active');
+      btnAutoToggle.innerText = "⏹ 정지";
+
+      elScene.style.display = 'none';
+      elSceneViewer.style.display = 'block';
+      updateViewerContent();
+      executeSceneSync();
+    }
+
+    function stopAutoPlay() {
+      isAutoPlaying = false;
+      btnAutoToggle.classList.remove('active');
+      btnAutoToggle.innerText = "▶ 자동재생";
+
+      elSceneViewer.style.display = 'none';
+      elScene.style.display = 'block';
+
+      if (minTimerObj) minTimerObj.cancel();
+      if (extraTimerObj) extraTimerObj.cancel();
+      minTimerObj = null;
+      extraTimerObj = null;
+
+      stopAllVideos();
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    }
+
+    function executeSceneSync() {
+      if (!isAutoPlaying) return;
+
+      if (minTimerObj) minTimerObj.cancel();
+      if (extraTimerObj) extraTimerObj.cancel();
+      minTimerObj = null;
+      extraTimerObj = null;
+      minTimeDone = false;
+      speechDone = false;
+
+      updateViewerContent();
+
+      const cards = elViewport.querySelectorAll('.slide-card');
+      if (cards.length === 0) return stopAutoPlay();
+
+      const activeCard = cards[currentSlideIdx];
+      const subElem = activeCard?.querySelector('[data-subtitle="true"]');
+      const text = subElem ? subElem.innerText.trim() : '';
+      const media = slideMediaCache[currentSlideIdx];
+
+      stopAllVideos();
+
+      if (media && media.tagName === 'VIDEO') {
+        playVideoWithAudio(media);
+
+        let videoDurationMs = 7000;
+        if (!isNaN(media.duration) && media.duration > 0) {
+          videoDurationMs = Math.round(media.duration * 1000);
+        }
+
+        minTimerObj = new PausableTimer(() => {
+          advanceToNextSlide();
+        }, videoDurationMs);
+        return;
+      }
+
+      const minDuration = 7000;
+      minTimerObj = new PausableTimer(() => {
+        minTimeDone = true;
+        checkSyncAndAdvance();
+      }, minDuration);
+
+      if (text && 'speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+        activeUtterance = new SpeechSynthesisUtterance(text);
+        activeUtterance.lang = 'ko-KR';
+        activeUtterance.rate = 0.95;
+
+        const fallbackMs = Math.max((text.length / 2.5) * 1000 * 1.5, 3000);
+        const fbTimer = setTimeout(() => {
+          if (!speechDone) {
+            speechDone = true;
+            checkSyncAndAdvance();
+          }
+        }, fallbackMs);
+
+        activeUtterance.onend = () => {
+          clearTimeout(fbTimer);
+          speechDone = true;
+          activeUtterance = null;
+          checkSyncAndAdvance();
+        };
+        activeUtterance.onerror = () => {
+          clearTimeout(fbTimer);
+          speechDone = true;
+          activeUtterance = null;
+          checkSyncAndAdvance();
+        };
+
+        window.speechSynthesis.speak(activeUtterance);
+      } else {
+        speechDone = true;
+      }
+    }
+
+    function checkSyncAndAdvance() {
+      if (!isAutoPlaying) return;
+      if (minTimeDone && speechDone) {
+        extraTimerObj = new PausableTimer(() => {
+          advanceToNextSlide();
+        }, 1000);
+      }
+    }
+
+    function advanceToNextSlide() {
+      if (!isAutoPlaying) return;
+      const totalCards = elViewport.querySelectorAll('.slide-card').length;
+
+      if (currentSlideIdx >= totalCards - 1) {
+        stopAutoPlay();
+        return;
+      }
+
+      stopAllVideos();
+      currentSlideIdx++;
+      scrollToSlide(currentSlideIdx);
+      setTimeout(executeSceneSync, 500);
+    }
+
+    function scrollToSlide(idx) {
+      const width = elViewport.clientWidth;
+      elViewport.style.scrollSnapType = 'none';
+      elViewport.scrollTo({ left: width * idx, behavior: 'smooth' });
+
+      setTimeout(() => {
+        elViewport.style.scrollSnapType = 'x mandatory';
+      }, 400);
+    }
+
+    function parseSceneContent(content) {
+      const parts = (content || '').split(/\n\s*\/\/\s*\n|\n\/\//);
+      const displayPart = parts[0] || '';
+
+      let titleLines = [];
+      let subtitleLines = [];
+
+      displayPart.split('\n').forEach(l => {
+        const trimmed = l.trim();
+        if (trimmed.startsWith('#')) {
+          titleLines.push(trimmed.replace(/^#+\s*/, ''));
+        } else if (trimmed.startsWith('![bg](') && trimmed.endsWith(')')) {
+          // background
+        } else if (trimmed.startsWith('- ')) {
+          let bText = trimmed.replace(/^-\s+/, '');
+          bText = parseInlineFormatting(NanoGuard.sanitize(bText));
+          subtitleLines.push(`• ${bText}`);
+        } else if (trimmed.startsWith('> ') || trimmed.startsWith('&gt; ')) {
+          let qText = trimmed.replace(/^(&gt;|>)\s*/, '');
+          qText = parseInlineFormatting(NanoGuard.sanitize(qText));
+          subtitleLines.push(`"${qText}"`);
+        } else if (trimmed) {
+          let lineText = parseInlineFormatting(NanoGuard.sanitize(l));
+          subtitleLines.push(lineText);
+        }
+      });
+
+      return {
+        title: titleLines.join(' '),
+        subtitle: subtitleLines.join('\n')
+      };
+    }
+
+    function syncEditorWithCurrentSlide() {
+      elScene.value = slidesList[currentSlideIdx] || "";
+      updateViewerContent();
+    }
+
+    let editDebounce = null;
+    elScene.addEventListener('input', () => {
+      slidesList[currentSlideIdx] = elScene.value;
+      clearTimeout(editDebounce);
+      editDebounce = setTimeout(() => {
+        renderCardDOM(currentSlideIdx);
+      }, 100);
+    });
+
+    function restoreMediaCache() {
+      slideMediaCache = {};
+      if (vaultData.mediaData) {
+        for (const [sIdx, dataUrl] of Object.entries(vaultData.mediaData)) {
+          if (!dataUrl) continue;
+          if (dataUrl.startsWith('data:video/')) {
+            const vid = document.createElement('video');
+            vid.src = dataUrl;
+            vid.loop = false;
+            vid.muted = true;
+            vid.volume = 0.8;
+            vid.playsInline = true;
+            vid.setAttribute('playsinline', '');
+            vid.onloadeddata = () => {
+              if (parseInt(sIdx) === currentSlideIdx) playVideoWithAudio(vid);
+            };
+            slideMediaCache[sIdx] = vid;
+          } else {
+            const img = new Image();
+            img.src = dataUrl;
+            slideMediaCache[sIdx] = img;
+          }
+        }
+      }
+    }
+
+    function renderSlides(targetIndex = null) {
+      elViewport.innerHTML = '';
+
+      slidesList.forEach((rawChunk, idx) => {
+        const parsed = parseSceneContent(rawChunk);
+
+        rawChunk.split('\n').forEach(l => {
+          const t = l.trim();
+          if (t.startsWith('![bg](') && t.endsWith(')')) {
+            loadSlideMediaFromUrl(idx, t.slice(6, -1));
+          }
+        });
+
+        const card = document.createElement('div');
+        card.className = 'slide-card';
+        card.dataset.idx = idx;
+        card.innerHTML = `
+          <div class="slide-num">${idx + 1} / ${slidesList.length}</div>
+          <div class="title-layer"><h2>${NanoGuard.sanitize(parsed.title)}</h2></div>
+          <div class="subtitle-layer ${subtitleAlignClass}" style="display: ${isSubtitleVisible ? 'block' : 'none'};">
+            <p data-subtitle="true">${parsed.subtitle}</p>
+          </div>
+        `;
+        elViewport.appendChild(card);
+      });
+
+      if (targetIndex !== null) {
+        currentSlideIdx = targetIndex;
+        setTimeout(() => scrollToSlide(targetIndex), 50);
+      }
+      syncEditorWithCurrentSlide();
+    }
+
+    function renderCardDOM(idx) {
+      const cards = elViewport.querySelectorAll('.slide-card');
+      const targetCard = cards[idx];
+      if (!targetCard) return;
+
+      const parsed = parseSceneContent(slidesList[idx]);
+      const titleH2 = targetCard.querySelector('.title-layer h2');
+      const subP = targetCard.querySelector('[data-subtitle="true"]');
+      const numDiv = targetCard.querySelector('.slide-num');
+
+      if (titleH2) titleH2.innerText = parsed.title;
+      if (subP) subP.innerHTML = parsed.subtitle;
+      if (numDiv) numDiv.innerText = `${idx + 1} / ${slidesList.length}`;
+    }
+
+    function shiftMediaData(fromIdx, direction) {
+      const newVaultMedia = {};
+      const newCacheMedia = {};
+
+      if (direction < 0) {
+        delete vaultData.mediaData[fromIdx];
+        delete slideMediaCache[fromIdx];
+      }
+
+      Object.keys(vaultData.mediaData || {}).forEach(kStr => {
+        const k = Number(kStr);
+        if (direction > 0) {
+          const newKey = k >= fromIdx ? k + 1 : k;
+          newVaultMedia[newKey] = vaultData.mediaData[k];
+          if (slideMediaCache[k]) newCacheMedia[newKey] = slideMediaCache[k];
+        } else {
+          if (k > fromIdx) {
+            newVaultMedia[k - 1] = vaultData.mediaData[k];
+            if (slideMediaCache[k]) newCacheMedia[k - 1] = slideMediaCache[k];
+          } else if (k < fromIdx) {
+            newVaultMedia[k] = vaultData.mediaData[k];
+            if (slideMediaCache[k]) newCacheMedia[k] = slideMediaCache[k];
+          }
+        }
+      });
+
+      vaultData.mediaData = newVaultMedia;
+      slideMediaCache = newCacheMedia;
+    }
+
+    function addSlide() {
+      const insertIdx = currentSlideIdx + 1;
+      slidesList.splice(insertIdx, 0, "");
+      shiftMediaData(insertIdx, 1);
+      renderSlides(insertIdx);
+    }
+
+    function deleteCurrentSlide() {
+      if (slidesList.length <= 1) return alert('최소 1장의 장면은 유지되어야 합니다.');
+      const targetIdx = currentSlideIdx;
+      slidesList.splice(targetIdx, 1);
+      shiftMediaData(targetIdx, -1);
+      const nextIdx = Math.max(0, targetIdx - 1);
+      renderSlides(nextIdx);
+    }
+
+    restoreMediaCache();
+
+    function toggleSettingsMenu() { settingsMenu.classList.toggle('show'); }
+    window.addEventListener('click', (e) => {
+      if (!e.target.closest('.editor-actions')) settingsMenu.classList.remove('show');
+    });
+
+    function toggleFullScreen() {
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().catch(() => {});
+      } else {
+        document.exitFullscreen().catch(() => {});
+      }
+      settingsMenu.classList.remove('show');
+    }
+
+    function toggleSubtitleVisible() {
+      isSubtitleVisible = !isSubtitleVisible;
+      subToggleBtn.innerText = isSubtitleVisible ? "자막 표시 ON" : "자막 표시 OFF";
+      subToggleBtn.style.color = isSubtitleVisible ? "" : "var(--danger)";
+      renderSlides(currentSlideIdx);
+    }
+
+    function changeAspectRatio(val) { stage.className = 'stage-wrapper ' + val; }
+    function changeSubtitleAlign(val) { subtitleAlignClass = val; renderSlides(currentSlideIdx); }
+
+    function drawScene() {
+      ctx.clearRect(0, 0, 1920, 1080);
+      const media = slideMediaCache[currentSlideIdx];
+
+      if (media) {
+        const isReady = (media.tagName === 'VIDEO') ? (media.readyState >= 2) : (media.complete && media.naturalWidth > 0);
+        if (isReady) {
+          animProgress += 0.0045;
+          const scale = 1.08 + Math.sin(animProgress) * 0.08;
+          const dx = Math.sin(animProgress * 0.8) * 80;
+          const dy = Math.cos(animProgress * 0.5) * 50;
+
+          const w = 1920 * scale;
+          const h = 1080 * scale;
+          const x = (1920 - w) / 2 + dx;
+          const y = (1080 - h) / 2 + dy;
+
+          ctx.drawImage(media, x, y, w, h);
+        } else {
+          ctx.fillStyle = '#161920';
+          ctx.fillRect(0, 0, 1920, 1080);
+        }
+      } else {
+        ctx.fillStyle = '#161920';
+        ctx.fillRect(0, 0, 1920, 1080);
+      }
+      requestAnimationFrame(drawScene);
+    }
+    drawScene();
+
+    function setMediaForSlide(idx, file) {
+      const guardCheck = NanoGuard.isValidMedia(file, 30);
+      if (!guardCheck.ok) return alert(guardCheck.msg);
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const dataUrl = event.target.result;
+        vaultData.mediaData = vaultData.mediaData || {};
+        vaultData.mediaData[idx] = dataUrl;
+
+        if (file.type.startsWith('video/')) {
+          const vid = document.createElement('video');
+          vid.src = dataUrl;
+          vid.loop = false;
+          vid.muted = !audioUnlocked;
+          vid.volume = 0.8;
+          vid.playsInline = true;
+          vid.setAttribute('playsinline', '');
+          playVideoWithAudio(vid);
+          slideMediaCache[idx] = vid;
+        } else {
+          const img = new Image();
+          img.src = dataUrl;
+          slideMediaCache[idx] = img;
+        }
+      };
+      reader.readAsDataURL(file);
+    }
+
+    function loadSlideMediaFromUrl(idx, url) {
+      if (url.match(/\.(mp4|webm|ogg)$/i)) {
+        const vid = document.createElement('video');
+        vid.src = url;
+        vid.loop = false;
+        vid.muted = !audioUnlocked;
+        vid.volume = 0.8;
+        vid.playsInline = true;
+        vid.setAttribute('playsinline', '');
+        playVideoWithAudio(vid);
+        slideMediaCache[idx] = vid;
+      } else {
+        const img = new Image();
+        img.src = url;
+        slideMediaCache[idx] = img;
+      }
+    }
+
+    function handleManualMedia(e) {
+      const file = (e.target.files)[0];
+      if (file) setMediaForSlide(currentSlideIdx, file);
+    }
+
+    const dropZone = document.getElementById('drop-zone');
+    dropZone.addEventListener('dragover', e => e.preventDefault());
+    dropZone.addEventListener('drop', e => {
+      e.preventDefault();
+      const file = e.dataTransfer.files[0];
+      if (file) setMediaForSlide(currentSlideIdx, file);
+    });
+
+    let touchTimer = null;
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let isMoved = false;
+    let lastTouchTime = 0;
+
+    elViewport.addEventListener('touchstart', (e) => {
+      if (e.touches.length > 1) return;
+      lastTouchTime = Date.now();
+      const t = e.touches[0];
+      touchStartX = t.clientX;
+      touchStartY = t.clientY;
+      isMoved = false;
+
+      touchTimer = setTimeout(() => {
+        if (!isMoved) {
+          if (navigator.vibrate) navigator.vibrate(40);
+          mediaInput.click();
+        }
+      }, 400);
+    }, { passive: true });
+
+    elViewport.addEventListener('touchmove', (e) => {
+      const t = e.touches[0];
+      if (Math.hypot(t.clientX - touchStartX, t.clientY - touchStartY) > 10) {
+        isMoved = true;
+        clearTimeout(touchTimer);
+      }
+    }, { passive: true });
+
+    elViewport.addEventListener('touchend', () => {
+      clearTimeout(touchTimer);
+      lastTouchTime = Date.now();
+      if (!isMoved) {
+        mediaInput.click();
+      }
+    });
+
+    elViewport.addEventListener('contextmenu', (e) => {
+      e.preventDefault();
+      mediaInput.click();
+    });
+
+    function updateCurrentSlide() {
+      const idx = Math.round(elViewport.scrollLeft / (elViewport.clientWidth || 1));
+      if (currentSlideIdx !== idx && idx >= 0 && idx < slidesList.length) {
+        stopAllVideos();
+        currentSlideIdx = idx;
+        syncEditorWithCurrentSlide();
+
+        const curMedia = slideMediaCache[currentSlideIdx];
+        if (curMedia && curMedia.tagName === 'VIDEO') {
+          playVideoWithAudio(curMedia);
+        }
+
+        if (isAutoTts && !isAutoPlaying) {
+          if (!curMedia || curMedia.tagName !== 'VIDEO') {
+            speakCurrentSubtitle();
+          }
+        }
+      }
+    }
+    elViewport.addEventListener('scroll', updateCurrentSlide);
+
+    let isDown = false;
+    let startX = 0;
+    let startY = 0;
+    let scrollLeftPos = 0;
+    let hasDragged = false;
+
+    elViewport.addEventListener('mousedown', (e) => {
+      if (e.button !== 0) return;
+      isDown = true;
+      hasDragged = false;
+      elViewport.classList.add('grabbing');
+      startX = e.pageX;
+      startY = e.pageY;
+      scrollLeftPos = elViewport.scrollLeft;
+    });
+
+    window.addEventListener('mouseup', (e) => {
+      if (!isDown) return;
+      isDown = false;
+      elViewport.classList.remove('grabbing');
+
+      if (!hasDragged) {
+        if (Date.now() - lastTouchTime > 500) {
+          if (e.target && elViewport.contains(e.target)) {
+            mediaInput.click();
+          }
+        }
+      } else {
+        const target = Math.round(elViewport.scrollLeft / elViewport.clientWidth);
+        scrollToSlide(target);
+      }
+    });
+
+    elViewport.addEventListener('mousemove', (e) => {
+      if (!isDown) return;
+      e.preventDefault();
+      const dist = Math.hypot(e.pageX - startX, e.pageY - startY);
+      if (dist > 6) {
+        hasDragged = true;
+      }
+      const x = e.pageX - elViewport.offsetLeft;
+      elViewport.scrollLeft = scrollLeftPos - (x - (startX - elViewport.offsetLeft)) * 1.5;
+    });
+
+    window.addEventListener('keydown', (e) => {
+      if (e.target === elScene) return;
+      const cardWidth = elViewport.clientWidth;
+      if (e.key === ' ' || e.key === 'ArrowRight') {
+        e.preventDefault();
+        elViewport.scrollBy({ left: cardWidth, behavior: 'smooth' });
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        elViewport.scrollBy({ left: -cardWidth, behavior: 'smooth' });
+      }
+    });
+
+    function toggleAutoTts() {
+      isAutoTts = !isAutoTts;
+      if (isAutoTts) {
+        autoTtsBtn.innerText = "수동넘김 낭독 ON";
+        autoTtsBtn.style.background = "var(--highlight)";
+        autoTtsBtn.style.color = "#fff";
+        const cur = slideMediaCache[currentSlideIdx];
+        if (!cur || cur.tagName !== 'VIDEO') speakCurrentSubtitle();
+      } else {
+        autoTtsBtn.innerText = "수동넘김 낭독 OFF";
+        autoTtsBtn.style.background = "";
+        autoTtsBtn.style.color = "";
+        if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      }
+    }
+
+    function speakCurrentSubtitle() {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+
+      const cards = elViewport.querySelectorAll('.slide-card');
+      const activeCard = cards[currentSlideIdx];
+      if (!activeCard) return;
+
+      const subElem = activeCard.querySelector('[data-subtitle="true"]');
+      if (!subElem) return;
+
+      const text = subElem.innerText.trim();
+      if (!text) return;
+
+      const utter = new SpeechSynthesisUtterance(text);
+      utter.lang = 'ko-KR';
+      window.speechSynthesis.speak(utter);
+    }
+
+    let rxTimer = null;
+    window.addEventListener('message', (event) => {
+      if (!NanoGuard.isValidPacket(event.data)) return;
+
+      document.getElementById('bus-status').innerText = "PlugOn 데이터 수신";
+      clearTimeout(rxTimer);
+      rxTimer = setTimeout(() => {
+        const payload = event.data.payload || '';
+        slidesList = (typeof payload === 'object' ? JSON.stringify(payload, null, 2) : String(payload)).split(/\n\s*---\s*\n/);
+        renderSlides(0);
+        document.getElementById('bus-status').innerText = "PlugOn 연결됨";
+      }, 250);
+    });
+
+    function getDocTitle() {
+      const lines = (slidesList[0] || '').split('\n');
+      for (let l of lines) {
+        const trimmed = l.trim();
+        if (trimmed.startsWith('#')) {
+          return trimmed.replace(/^#+\s*/, '').trim();
+        } else if (trimmed && !trimmed.startsWith('//')) {
+          return trimmed;
+        }
+      }
+      return 'nano-blake';
+    }
+
+    function generateSelfHtml() {
+      const title = getDocTitle();
+      vaultData.title = title;
+      vaultData.slides = slidesList.join('\n---\n');
+
+      const docClone = document.documentElement.cloneNode(true);
+      const targetVault = docClone.querySelector('#nano-vault');
+      targetVault.textContent = '\n' + JSON.stringify(vaultData) + '\n  ';
+
+      return '<!DOCTYPE html>\n' + docClone.outerHTML;
+    }
+
+    async function saveAsSelf() {
+      const defaultTitle = getDocTitle();
+      const defaultFilename = defaultTitle.replace(/[/\\?%*:|"<>]/g, '_') + '.html';
+      const htmlContent = generateSelfHtml();
+
+      if ('showSaveFilePicker' in window) {
+        try {
+          const handle = await window.showSaveFilePicker({
+            suggestedName: defaultFilename,
+            types: [{
+              description: 'HTML Project File',
+              accept: { 'text/html': ['.html'] }
+            }]
+          });
+          const writable = await handle.createWritable();
+          await writable.write(htmlContent);
+          await writable.close();
+          return;
+        } catch (err) {
+          if (err.name === 'AbortError') return;
+        }
+      }
+
+      let userFilename = prompt('저장할 파일명을 입력하세요:', defaultFilename);
+      if (!userFilename) return;
+      if (!userFilename.endsWith('.html') && !userFilename.endsWith('.htm')) {
+        userFilename += '.html';
+      }
+
+      const blob = new Blob([htmlContent], { type: 'text/html;charset=utf-8' });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = userFilename;
+      a.click();
+      URL.revokeObjectURL(a.href);
+    }
+
+    function openLoadPicker() {
+      projectFileInput.value = '';
+      projectFileInput.click();
+    }
+
+    function handleLoadFile(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      const reader = new FileReader();
+      reader.onload = (event) => {
+        const text = event.target.result;
+        try {
+          const parser = new DOMParser();
+          const doc = parser.parseFromString(text, 'text/html');
+          const vaultEl = doc.getElementById('nano-vault');
+
+          if (vaultEl) {
+            const loadedData = JSON.parse(vaultEl.textContent.trim());
+            vaultData = loadedData;
+          } else {
+            vaultData = JSON.parse(text);
+          }
+
+          initSlidesList();
+          restoreMediaCache();
+          renderSlides(0);
+          alert('프로젝트를 성공적으로 불러왔습니다.');
+        } catch (err) {
+          vaultData.slides = text;
+          vaultData.mediaData = {};
+          initSlidesList();
+          restoreMediaCache();
+          renderSlides(0);
+        }
+      };
+      reader.readAsText(file);
+    }
+
+    renderSlides(0);
+  </script>
+</body>
+</html>
