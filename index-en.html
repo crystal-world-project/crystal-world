@@ -162,7 +162,8 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 6px 2px;
+            padding: 7px 3px;
+            gap: 2px;
             border-radius: 8px;
             text-decoration: none;
             background: rgba(255, 255, 255, 0.9);
@@ -178,23 +179,23 @@
         .nav-pillar-btn[data-tab="journey"].active { background: var(--sec4-amber-bg); border-color: var(--sec4-amber); }
 
         .nav-main-label {
-            font-size: 0.90rem;
+            font-size: 0.88rem;
             font-weight: 900;
             color: var(--text-main);
-            line-height: 1.2;
+            line-height: 1.25;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             width: 100%;
         }
         .nav-sub-label {
-            font-size: 0.62rem;
+            font-size: 0.60rem;
             font-weight: 800;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.2px;
-            line-height: 1.1;
-            margin-top: 2px;
+            letter-spacing: 0.4px;
+            line-height: 1.15;
+            margin-top: 0;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -541,15 +542,15 @@
             <span class="nav-sub-label">SHOWCASE</span>
         </a>
         <a href="#spec" class="nav-pillar-btn" data-tab="spec" onclick="switchTab(event, 'spec')">
-            <span class="nav-main-label">Secrets</span>
+            <span class="nav-main-label">Native</span>
             <span class="nav-sub-label">SECRET</span>
         </a>
         <a href="#playground" class="nav-pillar-btn" data-tab="playground" onclick="switchTab(event, 'playground')">
-            <span class="nav-main-label">Invitation</span>
+            <span class="nav-main-label">Dock</span>
             <span class="nav-sub-label">INVITATION</span>
         </a>
         <a href="#journey" class="nav-pillar-btn" data-tab="journey" onclick="switchTab(event, 'journey')">
-            <span class="nav-main-label">Roadmap</span>
+            <span class="nav-main-label">Story</span>
             <span class="nav-sub-label">ROADMAP</span>
         </a>
     </div>
