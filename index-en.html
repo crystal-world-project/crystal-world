@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <!--
- * Project: Crystal World (Official Showroom)
+ * Project: Crystal World (Official Global Showroom)
  * Authors: Holo-Trekker & AI Companions (Gemini, NotebookLM, Antigravity)
  * License: MIT License (https://opensource.org/licenses/MIT)
 -->
-<html lang="ko">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>CRYSTAL WORLD — Coexistence for the Upcoming Era</title>
-    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;700;900&family=Noto+Serif+KR:wght@700;900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700;800;900&family=Noto+Sans+KR:wght@300;400;500;700;900&family=Noto+Serif+KR:wght@700;900&family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,700;1,6..72,400&display=swap" rel="stylesheet">
     <style>
         :root {
             --bg-pure: #FAF9F6;
@@ -22,7 +22,7 @@
             --content-max-width: 880px;
             --header-max-width: 1320px;
 
-            /* 4대 탭 테마 */
+            /* 4-Pillar Tab Themes */
             --sec1-sky: #0284C7;
             --sec1-sky-border: #BAE6FD;
             --sec1-sky-bg: #F0F9FF;
@@ -40,7 +40,7 @@
             --sec4-amber-bg: #FFFBEB;
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans KR', sans-serif; -webkit-tap-highlight-color: transparent; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Noto Sans KR', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; -webkit-tap-highlight-color: transparent; }
         html, body {
             background-color: var(--bg-pure);
             color: var(--text-main);
@@ -83,7 +83,7 @@
             min-width: 0;
         }
         .brand-main-title {
-            font-family: 'JetBrains Mono', 'Noto Sans KR', sans-serif;
+            font-family: 'JetBrains Mono', sans-serif;
             font-size: 1.4rem;
             font-weight: 900;
             letter-spacing: -0.5px;
@@ -127,6 +127,12 @@
         .btn-live-run:hover { background: #c2410c; }
         .btn-community { background: #1F2937; color: #FFFFFF; }
         .btn-community:hover { background: #111827; }
+        .btn-lang-switch {
+            background: #F1F5F9;
+            color: #475569;
+            border: 1px solid #CBD5E1;
+        }
+        .btn-lang-switch:hover { background: #E2E8F0; color: #0F172A; }
 
         /* STICKY 4-PILLAR NAVIGATION BAR */
         nav.sticky-nav-bar {
@@ -172,7 +178,7 @@
         .nav-pillar-btn[data-tab="journey"].active { background: var(--sec4-amber-bg); border-color: var(--sec4-amber); }
 
         .nav-main-label {
-            font-size: 0.92rem;
+            font-size: 0.90rem;
             font-weight: 900;
             color: var(--text-main);
             line-height: 1.2;
@@ -211,12 +217,13 @@
         }
 
         .section-header {
-            font-family: 'Noto Serif KR', serif;
-            font-size: 1.35rem;
+            font-family: 'Newsreader', 'Noto Serif KR', serif;
+            font-size: 1.45rem;
             font-weight: 900;
             padding-bottom: 8px;
             margin-bottom: 20px;
             text-align: left;
+            letter-spacing: -0.3px;
         }
         #overview .section-header { color: var(--sec1-sky); border-bottom: 3px solid var(--sec1-sky); }
         #spec .section-header { color: var(--sec2-emerald); border-bottom: 3px solid var(--sec2-emerald); }
@@ -238,7 +245,7 @@
         #journey .tech-card { border-color: var(--sec4-amber-border); }
 
         .card-lead {
-            font-size: 1.18rem;
+            font-size: 1.15rem;
             color: var(--text-main);
             font-weight: 800;
             letter-spacing: -0.3px;
@@ -345,14 +352,15 @@
             border-radius: 8px;
             padding: 16px 18px;
             margin: 14px 0 14px 0;
+            font-family: 'Newsreader', serif;
             font-style: italic;
-            font-size: 0.88rem;
+            font-size: 1.02rem;
             color: #334155;
-            line-height: 1.8;
+            line-height: 1.75;
             text-align: center;
         }
 
-        /* 탭 4 서사 블록 전용 스타일 */
+        /* Tab 4 Narrative Blocks */
         .narrative-chapter {
             margin-bottom: 24px;
         }
@@ -373,7 +381,7 @@
             line-height: 1.85;
             margin-bottom: 14px;
             text-align: justify;
-            word-break: keep-all;
+            word-break: normal;
         }
         .blake-reflection {
             background: #FFFBEB;
@@ -430,7 +438,7 @@
             border-bottom-color: #ff8c00;
         }
 
-        /* 5컷 웹툰 갤러리 그리드 */
+        /* 5-Panel Comic Gallery */
         .comic-grid-5 {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
@@ -491,10 +499,10 @@
         @media (max-width: 768px) {
             .brand-main-title { font-size: 1.22rem; }
             .brand-sub-title { font-size: 0.72rem; }
-            .nav-main-label { font-size: 0.84rem; }
+            .nav-main-label { font-size: 0.82rem; }
             .nav-sub-label { font-size: 0.54rem; }
             .tech-card { padding: 18px 16px; }
-            .card-lead { font-size: 1.1rem; }
+            .card-lead { font-size: 1.05rem; }
             .comic-grid-5 { grid-template-columns: 1fr; }
         }
     </style>
@@ -512,6 +520,9 @@
         </a>
 
         <div class="header-download-btns">
+            <a href="./index.html" class="btn-header btn-lang-switch" title="Switch to Korean Version">
+                KR
+            </a>
             <a href="./crystal-world-dock.html" target="_blank" rel="noopener noreferrer" class="btn-header btn-live-run" title="Open Full Experience Dock">
                 TRY IT
             </a>
@@ -526,19 +537,19 @@
 <nav class="sticky-nav-bar" id="main-nav">
     <div class="nav-bar-container">
         <a href="#overview" class="nav-pillar-btn active" data-tab="overview" onclick="switchTab(event, 'overview')">
-            <span class="nav-main-label">초경량앱</span>
+            <span class="nav-main-label">Apps</span>
             <span class="nav-sub-label">SHOWCASE</span>
         </a>
         <a href="#spec" class="nav-pillar-btn" data-tab="spec" onclick="switchTab(event, 'spec')">
-            <span class="nav-main-label">비밀</span>
+            <span class="nav-main-label">Secrets</span>
             <span class="nav-sub-label">SECRET</span>
         </a>
         <a href="#playground" class="nav-pillar-btn" data-tab="playground" onclick="switchTab(event, 'playground')">
-            <span class="nav-main-label">초대장</span>
+            <span class="nav-main-label">Invitation</span>
             <span class="nav-sub-label">INVITATION</span>
         </a>
         <a href="#journey" class="nav-pillar-btn" data-tab="journey" onclick="switchTab(event, 'journey')">
-            <span class="nav-main-label">로드맵</span>
+            <span class="nav-main-label">Roadmap</span>
             <span class="nav-sub-label">ROADMAP</span>
         </a>
     </div>
@@ -548,51 +559,51 @@
 <main class="main-body">
 
     <!-- ==========================================
-         [TAB 1] 초경량 앱 (SHOWCASE)
+         [TAB 1] ULTRA-LIGHT APPS (SHOWCASE)
          ========================================== -->
     <section id="overview" class="tab-pane active-tab">
-        <h2 class="section-header">01. 깃털처럼 가벼운 초경량앱</h2>
+        <h2 class="section-header">01. Featherlight Pure Web Apps</h2>
         
-        <!-- 슈퍼 후크 배너 -->
+        <!-- Super Hook Banner -->
         <div style="background: #FDFBF7; border: 2px solid #BAE6FD; border-radius: 12px; padding: 22px 24px; margin-bottom: 36px; box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.12), 0 8px 10px -6px rgba(2, 132, 199, 0.06); transform: translateY(-2px);">
             <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1.5px solid #E2E8F0; padding-bottom: 12px; margin-bottom: 18px; gap: 10px; flex-wrap: wrap;">
-                <span style="font-size: 0.96rem; font-weight: 900; color: #000000; letter-spacing: -0.2px; text-transform: uppercase; background: linear-gradient(180deg, rgba(254, 240, 138, 0) 25%, #FEF08A 25%, #FDE047 88%, rgba(254, 240, 138, 0) 88%); padding: 2px 8px; border-radius: 2px;">
-                    ⚡ ULTRA LIGHT • PURE WEB APP
+                <span style="font-size: 0.94rem; font-weight: 900; color: #000000; letter-spacing: -0.2px; text-transform: uppercase; background: linear-gradient(180deg, rgba(254, 240, 138, 0) 25%, #FEF08A 25%, #FDE047 88%, rgba(254, 240, 138, 0) 88%); padding: 2px 8px; border-radius: 2px;">
+                    ⚡ ULTRA LIGHT • PURE WEB APPS
                 </span>
                 <span style="background: #F0F9FF; color: #0369A1; border: 1.5px solid #BAE6FD; font-size: 0.74rem; font-weight: 800; padding: 4px 10px; border-radius: 5px; text-transform: uppercase; white-space: nowrap;">
                     ZERO DEPENDENCY • OFFLINE-FIRST
                 </span>
             </div>
 
-            <div style="display: flex; flex-direction: column; gap: 16px; font-size: 1rem;">
+            <div style="display: flex; flex-direction: column; gap: 16px; font-size: 0.98rem;">
                 <div style="display: flex; align-items: center; gap: 12px; color: #1E293B;">
-                    <span style="background: #0284C7; color: #FFFFFF; font-size: 0.8rem; font-weight: 900; padding: 4px 9px; border-radius: 5px; white-space: nowrap;">용량의 기적</span>
-                    <span>스마트폰 사진 1장의 1/100 크기, <strong style="color: #0284C7; font-weight: 900;">단 20~40KB</strong></span>
+                    <span style="background: #0284C7; color: #FFFFFF; font-size: 0.78rem; font-weight: 900; padding: 4px 9px; border-radius: 5px; white-space: nowrap;">Miracle of Size</span>
+                    <span>Less than 1/100th the size of a single smartphone photo: <strong style="color: #0284C7; font-weight: 900;">Just 20~40 KB</strong></span>
                 </div>
                 <div style="display: flex; align-items: center; gap: 12px; color: #1E293B;">
-                    <span style="background: #059669; color: #FFFFFF; font-size: 0.8rem; font-weight: 900; padding: 4px 9px; border-radius: 5px; white-space: nowrap;">완전한 자립</span>
-                    <span>외부 서버·복잡한 설치 없는 <strong style="color: #059669; font-weight: 900;">100% 무설치 로컬 앱</strong></span>
+                    <span style="background: #059669; color: #FFFFFF; font-size: 0.78rem; font-weight: 900; padding: 4px 9px; border-radius: 5px; white-space: nowrap;">Total Autonomy</span>
+                    <span>No external server, zero setup: <strong style="color: #059669; font-weight: 900;">100% Zero-Install Local Apps</strong></span>
                 </div>
-                <div style="display: flex; align-items: center; gap: 12px; color: #D97706; font-size: 1rem;">
-                    <span style="background: #D97706; color: #FFFFFF; font-size: 0.8rem; font-weight: 900; padding: 4px 9px; border-radius: 5px; white-space: nowrap;">접속의 해방</span>
-                    <span>비행기 안에서도, 깊은 산속에서도 <strong style="color: #D97706; font-weight: 900;">더블클릭 즉시 구동</strong></span>
+                <div style="display: flex; align-items: center; gap: 12px; color: #D97706;">
+                    <span style="background: #D97706; color: #FFFFFF; font-size: 0.78rem; font-weight: 900; padding: 4px 9px; border-radius: 5px; white-space: nowrap;">True Freedom</span>
+                    <span>On an airplane or deep in the mountains: <strong style="color: #D97706; font-weight: 900;">Double-click to run instantly</strong></span>
                 </div>
             </div>
         </div>
 
-        <!-- 상세 설명 카드 본체 -->
+        <!-- App Details Card Body -->
         <div class="tech-card">
-            <!-- 앱 1: Teddy Wiki -->
-            <div class="card-lead">1️⃣ "24KB 안에 백과사전을 품다" — Teddy Wiki</div>
+            <!-- Tool 1: Teddy Wiki -->
+            <div class="card-lead">1️⃣ "An Encyclopedia in 24KB" — Teddy Wiki</div>
             
             <ul class="indent-list">
-                <li><strong>TiddlyWiki 철학 계승:</strong> 외부 라이브러리 없이 브라우저 순수 RAM 기반 인메모리 NoSQL 가동</li>
-                <li><strong>순수 정규식 파서:</strong> 단 몇 줄의 정규 표현식으로 <code>[[양방향 링크]]</code>와 역링크(Backlinks) 즉각 추적</li>
-                <li><strong>영구 로컬 보존:</strong> 브라우저 물리 메모리 및 파일 스스로 데이터를 품는 셀프 세이빙(Self-saving) 구조</li>
+                <li><strong>Inherited TiddlyWiki Philosophy:</strong> Pure RAM-based in-memory NoSQL powered directly by browser natives without third-party libraries.</li>
+                <li><strong>Pure RegEx Parser:</strong> Instantly resolves <code>[[Bidirectional Links]]</code> and tracks backlinks with just a few concise regular expressions.</li>
+                <li><strong>Perpetual Local Preservation:</strong> Self-contained, self-saving architecture keeping notes securely preserved in local RAM and physical files.</li>
             </ul>
 
             <div style="margin: 14px 0 8px 0; font-size: 0.92rem; font-weight: 800; color: #0284C7;">
-                =&gt; 테디위키 작동해보기 <span style="font-size: 0.8rem; font-weight: normal; color: #64748B;">[화면 카드를 누르면 새 창으로 실행]</span>
+                =&gt; Try Teddy Wiki <span style="font-size: 0.8rem; font-weight: normal; color: #64748B;">[Click card to launch in a new window]</span>
             </div>
             
             <div>
@@ -609,10 +620,10 @@
                                 <span style="background: #21262d; color: #ff8c00; border: 1px solid #444c56; font-size: 0.68rem; padding: 3px 8px; border-radius: 4px; font-weight: bold;">✏️ Edit</span>
                             </div>
                         </div>
-                        <div style="background: #0d1117; border-radius: 6px; padding: 16px 18px; font-family: -apple-system, sans-serif; border: 1px solid #21262d;">
+                        <div style="background: #0d1117; border-radius: 6px; padding: 16px 18px; font-family: -apple-system, BlinkMacSystemFont, sans-serif; border: 1px solid #21262d;">
                             <div style="color: #f0f6fc; font-size: 1.05rem; font-weight: 800; margin-bottom: 10px; border-bottom: 1px solid #30363d; padding-bottom: 6px;">Welcome to Teddy Wiki</div>
                             <div style="color: #8b949e; font-size: 0.84rem; line-height: 1.7;">
-                                A tribute to <strong style="color: #f0f6fc;">TiddlyWiki</strong> (~2.3MB), refined to ~20KB using native browser RAM.<br><br>
+                                A tribute to <strong style="color: #f0f6fc;">TiddlyWiki</strong> (~2.3MB), refined to ~24KB using native browser RAM.<br><br>
                                 Link documents freely: <span style="color: #38bdf8; font-weight: 700; border-bottom: 1px dashed #38bdf8; padding: 0 2px;">[[Project Vision]]</span>
                             </div>
                         </div>
@@ -622,17 +633,17 @@
 
             <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 34px 0;">
 
-            <!-- 앱 2: Nano Blake -->
-            <div class="card-lead">2️⃣ "41KB에서 4K영상을 뿜다" — Nano Blake</div>
+            <!-- Tool 2: Nano Blake -->
+            <div class="card-lead">2️⃣ "Full HD Motion Video from 41KB" — Nano Blake</div>
             
             <ul class="indent-list">
-                <li><strong>순수 Canvas 2D 가속:</strong> FFmpeg 등 무거운 모듈 없이 브라우저 캔버스로 FHD 켄 번즈 영상 실시간 렌더링</li>
-                <li><strong>Web Speech TTS 네이티브 연동:</strong> 외부 API 통신 없는 브라우저 내장 음성 합성 엔진 직접 호출</li>
-                <li><strong>텍스트-타임라인 자동 동기화:</strong> 복잡한 키프레임 작업 없이 마크다운 호흡에 맞춘 지능형 모션 생성</li>
+                <li><strong>Native Canvas 2D Acceleration:</strong> Real-time FHD Ken Burns motion video rendering directly on browser canvas without FFmpeg or heavy binary modules.</li>
+                <li><strong>Native Web Speech API:</strong> Direct hardware invocation of operating system TTS voices with zero external API calls.</li>
+                <li><strong>Automated Timeline Sync:</strong> Effortless keyframe-free video pacing dynamically driven by natural Markdown text breaks.</li>
             </ul>
 
             <div style="margin: 14px 0 8px 0; font-size: 0.92rem; font-weight: 800; color: #0284C7;">
-                =&gt; 나노 블레이크 작동해 보기 <span style="font-size: 0.8rem; font-weight: normal; color: #64748B;">[화면 카드를 누르면 새 창으로 실행]</span>
+                =&gt; Try Nano Blake <span style="font-size: 0.8rem; font-weight: normal; color: #64748B;">[Click card to launch in a new window]</span>
             </div>
             
             <div>
@@ -661,72 +672,72 @@
                 </a>
             </div>
 
-            <!-- [Tab 1 -> Tab 2 연결 브릿지] -->
+            <!-- Bridge to Tab 2 -->
             <div class="tab-bridge-box">
                 <div class="tab-bridge-text">
-                    ⏩ <strong>초경량앱의 비밀:</strong> 어떻게 이런 일이 가능할까요? 다음 페이지에서 설명드립니다.
+                    ⏩ <strong>The Secrets Behind:</strong> How is this extreme efficiency possible? Discover on the next page.
                 </div>
                 <button type="button" class="tab-bridge-btn" onclick="switchTab(event, 'spec')">
-                    비밀 보러가기 ➔
+                    Discover the Secrets ➔
                 </button>
             </div>
         </div>
     </section>
 
     <!-- ==========================================
-         [TAB 2] 초경량앱의 비밀 (SECRET)
+         [TAB 2] SECRETS OF ULTRA-LIGHT APPS (SECRET)
          ========================================== -->
     <section id="spec" class="tab-pane">
-        <h2 class="section-header">02. 초경량앱의 비밀</h2>
+        <h2 class="section-header">02. Secrets of Ultra-Light Apps</h2>
 
         <div class="tech-card">
-            <!-- 1️⃣ 브라우저란 없다? -->
-            <div class="card-lead">1️⃣ 브라우저란 없다?</div>
+            <!-- 1️⃣ There Is No "Browser" -->
+            <div class="card-lead">1️⃣ There Is No Mere "Browser"?</div>
 
             <ul class="indent-list">
-                <li>팀 버너스 리가 월드와이드웹(WWW)을 주창한 초기의 Browser란 단지 HTML을 텍스트와 이미지로 변환하여 화면에 띄워주는 단순한 '뷰어'에 불과했습니다 (Browse = ‘대강 훑어보다’).</li>
-                <li>오늘날 크롬, 사파리 등 수많은 브라우저는 초기의 단순한 '뷰어'가 아니라 고속 그래픽 가속기, 오프라인 데이터베이스, 음성 합성기를 품은 <strong>초연결 하이퍼 가상머신</strong>입니다.</li>
-                <li>스마트폰이 대중화된 오늘날 의식하지 못한 채 우리는 언제 어디서나 이 강력한 가상머신을 손에 들고 다니는 셈입니다.</li>
+                <li>When Tim Berners-Lee pioneered the World Wide Web, the original 'Browser' was simply a humble viewer parsing HTML text and images onto a screen (Browse = 'to glance through').</li>
+                <li>Today's modern browsers—Chrome, Safari, Edge—are no longer simple viewers. They are <strong>hyper-connected, multimillion-dollar virtual operating systems</strong> equipped with hardware graphic accelerators, local database engines, and neural speech synthesizers.</li>
+                <li>Without even realizing it, we carry this immense virtual machine in our hands wherever we go.</li>
             </ul>
 
             <div class="section-note-box">
                 <span>💡</span>
-                <div><strong>첫 번째 비밀:</strong> 이 강력한 가상머신이 바로 내 손안에 있다는 걸 눈치 채는 것</div>
+                <div><strong>First Secret:</strong> Realizing that this immense virtual operating system is already in your palm.</div>
             </div>
 
             <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 30px 0;">
 
-            <!-- 2️⃣ 브라우저의 힘 -->
-            <div class="card-lead">2️⃣ 브라우저의 힘</div>
+            <!-- 2️⃣ The Inherent Power of the Browser -->
+            <div class="card-lead">2️⃣ The Inherent Power of the Browser</div>
 
             <p style="color: var(--text-sub); font-size: 0.94rem; margin-top: 14px; margin-bottom: 18px; line-height: 1.75; padding-left: 2px;">
-                수십 MB짜리 외부 모듈이나 유료 클라우드 API를 끌어다 쓰는 대신, <strong>우리는 거대한 브라우저 안에 잠들어 있는 네이티브 기능을 직통으로 깨워 단 24KB 위키와 41KB 영상앱을 구현</strong>했습니다.
+                Instead of bundling dozens of megabytes of third-party dependencies or calling paid cloud APIs, <strong>we wake up the dormant native engines sleeping inside modern browsers, achieving a 24KB wiki and a 41KB video studio</strong>.
             </p>
 
             <div class="spec-table-wrap" style="margin-bottom: 22px;">
                 <table class="spec-table">
                     <thead>
                         <tr>
-                            <th style="width: 30%;">구현한 핵심 기능</th>
-                            <th style="color: #065F46;">우리가 활용한 브라우저의 힘</th>
+                            <th style="width: 32%;">Core Capability Achieved</th>
+                            <th style="color: #065F46;">Native Browser Power We Awakened</th>
                         </tr>
                     </thead>
                     <tbody>
                         <tr>
-                            <td><strong>초경량 영상 렌더링</strong></td>
-                            <td>브라우저 내장 <strong>HTML5 Canvas 2D (GPU 가속)</strong> 직접 제어</td>
+                            <td><strong>Ultra-Light Video Rendering</strong></td>
+                            <td>Direct control of built-in <strong>HTML5 Canvas 2D (GPU Accelerated)</strong></td>
                         </tr>
                         <tr>
-                            <td><strong>자연스러운 음성 합성</strong></td>
-                            <td>운영체제와 직결된 <strong>Web Speech API (TTS)</strong> 엔진 즉시 호출</td>
+                            <td><strong>Natural Speech Synthesis</strong></td>
+                            <td>Zero-latency native <strong>Web Speech API (TTS)</strong> engine</td>
                         </tr>
                         <tr>
-                            <td><strong>초고속 지식 데이터베이스</strong></td>
-                            <td>외부 DB 없는 <strong>브라우저 물리 RAM + 순수 JSON</strong> 인메모리 연산</td>
+                            <td><strong>Hyper-Fast Knowledge Base</strong></td>
+                            <td>Native <strong>Browser Physical RAM + In-Memory JSON</strong> (No external DB)</td>
                         </tr>
                         <tr>
-                            <td><strong>앱 간 무충돌 격리</strong></td>
-                            <td>브라우저 표준 보안벽 <strong>Iframe Sandbox</strong>로 상호 간섭 원천 차단</td>
+                            <td><strong>Zero-Collision App Isolation</strong></td>
+                            <td>Standard physical security wall via <strong>Iframe Sandbox</strong></td>
                         </tr>
                     </tbody>
                 </table>
@@ -734,85 +745,85 @@
 
             <div class="section-note-box">
                 <span>👉</span>
-                <div><strong>두 번째 비밀:</strong> 이 방대한 내장 기능을 통제할 아주 간단한 방법을 알아채는 것</div>
+                <div><strong>Second Secret:</strong> Discovering the simplest key to orchestrate these vast native capabilities.</div>
             </div>
 
             <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 30px 0;">
 
-            <!-- 3️⃣ AI시대, HTML의 재발견 -->
-            <div class="card-lead">3️⃣ AI시대, HTML의 재발견</div>
+            <!-- 3️⃣ Rediscovery of HTML in the AI Era -->
+            <div class="card-lead">3️⃣ Rediscovery of HTML in the AI Era</div>
 
             <ul class="indent-list">
-                <li><strong>30년 외면의 역사:</strong> 웹 생태계의 모국어인 순수 HTML 단일 파일은 코드가 수천 줄로 길어지면 인간 개발자의 인지적 한계로 유지보수가 불가능했습니다. 우리는 HTML 대신 외부 서버나 무거운 프레임워크에 기대게 되었습니다.</li>
-                <li><strong>구원투수의 등장:</strong> 수만 줄의 평문(Plain Text) 코드를 단 1초 만에 파악하고 벼려내는 AI가 등장하면서 상황이 완전히 뒤집혔습니다.</li>
-                <li><strong>단순함의 힘:</strong> 브라우저가 장악한 웹 생태계의 만국공통어인 단순하고 투명한 HTML이, 거대한 가상머신을 다루는 마법의 지팡이로 변신했습니다.</li>
+                <li><strong>30 Years of Neglect:</strong> Plain HTML single files—the web's primordial mother tongue—were historically abandoned once code exceeded thousands of lines due to human cognitive limits in maintenance. We fled to heavy external servers and frameworks.</li>
+                <li><strong>The Great Relief:</strong> With the rise of AI collaborators capable of comprehending, refactoring, and maintaining tens of thousands of lines of plain text in a single second, the equation completely reversed.</li>
+                <li><strong>Power of Simplicity:</strong> Clean, transparent, monolithic HTML has transformed into the ultimate magic wand to command the browser's vast virtual engine.</li>
             </ul>
 
             <div class="section-note-box" style="background: #ECFDF5; border-color: #A7F3D0; color: #065F46;">
                 <span>🪄</span>
                 <div>
-                    <strong>초경량앱을 만드는 마법의 주문:</strong><br>
-                    <em>"이러이러한 기능을 구현하되, 외부 서버나 무거운 프레임워크는 배제하고 브라우저가 내장한 표준 API만을 활용해 단 하나의 HTML 파일로 완성해 줘."</em>
+                    <strong>The Magic Prompt for Ultra-Light Apps:</strong><br>
+                    <em>"Build this feature as a single self-contained HTML file. Do not use external servers or heavy frameworks—rely solely on standard native browser APIs."</em>
                 </div>
             </div>
 
             <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 30px 0;">
 
-            <!-- 4️⃣ 마지막 비밀 -->
-            <div class="card-lead">4️⃣ 마지막 비밀: 입맛대로 고쳐 쓰는 자유</div>
+            <!-- 4️⃣ The Ultimate Secret -->
+            <div class="card-lead">4️⃣ The Ultimate Secret: Absolute Freedom to Customize</div>
 
             <p style="color: var(--text-sub); font-size: 0.94rem; margin-top: 12px; margin-bottom: 16px; line-height: 1.8; padding-left: 2px;">
-                이렇게 HTML로 만든 초경량앱은 복잡한 컴파일이나 암호화 과정이 없는 <strong>완전한 평문(Plain Text)</strong>이므로, 전문 개발자가 아니더라도 누구나 쉽게 <strong>‘입맛대로’</strong> 고쳐 쓸 수 있습니다.
+                Ultra-light apps crafted in pure HTML are <strong>100% plain text</strong> without black-box compilation or binary lock-in. Anyone—even non-programmers—can easily tailor and reshape them to their heart's content.
             </p>
 
             <div style="background: #F8FAFC; border-left: 4px solid var(--sec2-emerald); border-radius: 0 8px 8px 0; padding: 14px 18px; margin-bottom: 18px; font-size: 0.9rem; color: #334155; line-height: 1.75;">
-                당장 [탭 1]에서 받으신 <code>teddy-wiki.html</code>이나 <code>nano-blake.html</code> 파일을 평소 쓰시는 AI에게 보여주고, <strong>“버튼 색깔을 빨간색으로 고쳐줘”</strong> 또는 <strong>“글자 크기를 조금만 더 키워줘”</strong>라고만 말해 보세요. 단 1초 만에 나만의 맞춤형 도구로 탈바꿈합니다.
+                Try handing <code>teddy-wiki.html</code> or <code>nano-blake.html</code> downloaded from [Tab 1] to your favorite AI right now. Simply ask: <strong>"Change the button color to red"</strong> or <strong>"Increase the font size slightly."</strong> In just one second, it transforms into your own personalized custom tool.
             </div>
 
-            <!-- [Tab 2 -> Tab 3 연결 브릿지] -->
+            <!-- Bridge to Tab 3 -->
             <div class="tab-bridge-box">
                 <div class="tab-bridge-text">
-                    ⏩ <strong>초대장:</strong> 비밀도 손에 넣으셨으니 이제 크리스탈의 세계로 가보시죠.
+                    ⏩ <strong>The Invitation:</strong> Now that you hold the secrets, enter the world of Crystal Dock.
                 </div>
                 <button type="button" class="tab-bridge-btn" onclick="switchTab(event, 'playground')">
-                    크리스탈의 세계로 ➔
+                    Enter the Crystal World ➔
                 </button>
             </div>
         </div>
     </section>
 
     <!-- ==========================================
-         [TAB 3] 우연한 발견과 정중한 초대 (INVITATION)
+         [TAB 3] ACCIDENTAL DISCOVERY & AN OPEN INVITATION (INVITATION)
          ========================================== -->
     <section id="playground" class="tab-pane">
-        <h2 class="section-header">03. 우연한 발견과 정중한 초대</h2>
+        <h2 class="section-header">03. Accidental Discovery & An Open Invitation</h2>
 
         <div class="tech-card">
-            <!-- 프롤로그 안내 -->
+            <!-- Prologue Notice -->
             <div style="background: #F1F5F9; border-left: 4px solid #475569; border-radius: 6px; padding: 14px 18px; margin-bottom: 26px;">
                 <div style="font-weight: 800; color: #1E293B; font-size: 0.95rem; margin-bottom: 4px;">
-                    📦 실력 있는 개발자들의 친절한 도움을 요청합니다.
+                    📦 Seeking Kind Assistance from Talented Developers Worldwide
                 </div>
                 <p style="margin: 0; font-size: 0.86rem; color: #475569; line-height: 1.6;">
-                    제가 소개하는 크리스탈 도크는 완성품이 아니라, 만든 사람조차 쓸모를 몰라 끙끙 앓고 있는 <strong>'11.3KB짜리 물음표 덩어리'</strong>입니다. 제 능력을 넘어서는 이 골치 아픈 문제를 한번 살펴 주십시오.
+                    The Crystal Dock I introduce here is not a polished, complete product. It is an <strong>"11.3KB bundle of question marks"</strong> whose creator is still puzzling over its true utility. I warmly invite you to examine this intriguing riddle that exceeds my humble abilities.
                 </p>
             </div>
 
-            <!-- 1️⃣ 우연한 발견: 5컷 웹툰 갤러리 -->
-            <div class="card-lead">1️⃣ 우연한 발견 (The Accidental Epiphany)</div>
+            <!-- 1️⃣ Comic Gallery -->
+            <div class="card-lead">1️⃣ The Accidental Epiphany</div>
             <p style="color: var(--text-sub); font-size: 0.9rem; margin-bottom: 16px; padding-left: 2px;">
-                직접 제작한 앱과 검증기를 같이 챙기기 귀찮아 둘을 결합하는 과정에서, 우연히 모듈러 플랫폼을 착상하기까지의 이야기
+                How the sheer laziness of carrying both an app and a validator led to the accidental discovery of a modular platform.
             </p>
 
-            <!-- 5컷 반응형 웹툰 갤러리 그리드 -->
+            <!-- 5-Panel Responsive Comic Grid -->
             <div class="comic-grid-5">
                 <div class="comic-panel-card">
                     <div class="comic-img-wrap">
                         <img src="./images/comic_01.jpg" alt="Panel 1: The Peak of Laziness" onerror="this.src='https://placehold.co/600x600/1e293b/ffffff?text=Panel+1:+The+Peak+of+Laziness'">
                     </div>
                     <div class="comic-meta-caption">
-                        <div>“아휴… 손가락도 까딱하기 싫어”</div>
-                        <div>“이걸 손으로 일일이 대조하라고? 이런…”</div>
+                        <div>“Ugh... I don't even want to lift a finger.”</div>
+                        <div>“Checking this manually every single time? Come on...”</div>
                     </div>
                 </div>
                 <div class="comic-panel-card">
@@ -820,8 +831,8 @@
                         <img src="./images/comic_02.jpg" alt="Panel 2: The Crude Epiphany" onerror="this.src='https://placehold.co/600x600/1e293b/ffffff?text=Panel+2:+The+Crude+Epiphany'">
                     </div>
                     <div class="comic-meta-caption">
-                        <div>“아하, 확장자가 같은 .html이네.</div>
-                        <div>요걸 하나로 합치면…?!”</div>
+                        <div>“Wait, they both share the exact same .html extension.</div>
+                        <div>What if I combine them...?!”</div>
                     </div>
                 </div>
                 <div class="comic-panel-card">
@@ -829,8 +840,8 @@
                         <img src="./images/comic_03.jpg" alt="Panel 3: Triumph of Sloth" onerror="this.src='https://placehold.co/600x600/1e293b/ffffff?text=Panel+3:+Triumph+of+Sloth'">
                     </div>
                     <div class="comic-meta-caption">
-                        <div>“역시 잔머리 마왕!”</div>
-                        <div>“딱 하나로 합쳐졌네. 해결 끝!”</div>
+                        <div>“Behold, the lazy genius!”</div>
+                        <div>“Merged into just one single file. Problem solved!”</div>
                     </div>
                 </div>
                 <div class="comic-panel-card">
@@ -838,8 +849,8 @@
                         <img src="./images/comic_04.jpg" alt="Panel 4: The Curious Question" onerror="this.src='https://placehold.co/600x600/1e293b/ffffff?text=Panel+4:+The+Curious+Question'">
                     </div>
                     <div class="comic-meta-caption">
-                        <div>“잠깐, 그렇다면...</div>
-                        <div>다른 HTML파일을 못 합칠 건 뭐야?!”</div>
+                        <div>“Hold on... If that's the case...</div>
+                        <div>Why shouldn't other HTML files be combined too?!”</div>
                     </div>
                 </div>
                 <div class="comic-panel-card">
@@ -847,19 +858,19 @@
                         <img src="./images/comic_05.jpg" alt="Panel 5: Eureka! The Modular Dock" onerror="this.src='https://placehold.co/600x600/1e293b/ffffff?text=Panel+5:+Eureka!+The+Modular+Dock'">
                     </div>
                     <div class="comic-meta-caption">
-                        <div>“유레카! 이게 바로 모듈러 플랫폼이네!”</div>
+                        <div>“Eureka! This is what a modular platform is!”</div>
                     </div>
                 </div>
             </div>
 
             <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 30px 0;">
 
-            <!-- 2️⃣ 크리스탈 도크의 구조와 원리 -->
-            <div class="card-lead">2️⃣ 크리스탈 도크의 구조와 원리</div>
+            <!-- 2️⃣ Architecture and Mechanism -->
+            <div class="card-lead">2️⃣ Architecture & Mechanism of Crystal Dock</div>
 
-            <!-- 구조: 아스키 다이어그램 -->
+            <!-- Architecture Diagram -->
             <div style="font-weight: 800; font-size: 0.94rem; color: #5B21B6; margin: 14px 0 6px 2px;">
-                📐 구조 (Structure)
+                📐 Structure
             </div>
             <pre class="diagram-box">
 +-------------------------------------------------------------+
@@ -875,17 +886,17 @@
 +---------------+                              +---------------+
             </pre>
 
-            <!-- 원리: 간결한 핵심 2문장 -->
+            <!-- Working Mechanism -->
             <div style="font-weight: 800; font-size: 0.94rem; color: #5B21B6; margin: 18px 0 6px 2px;">
-                ⚙️ 작동 원리 (Mechanism)
+                ⚙️ Operating Principle
             </div>
             <div style="background: #F8FAFC; border-left: 4px solid var(--sec3-violet); border-radius: 0 8px 8px 0; padding: 14px 18px; margin-bottom: 18px; font-size: 0.9rem; color: #334155; line-height: 1.75;">
-                중앙의 도크 본체(<code>crystal-dock.html</code>)는 고작 <strong>11.3KB</strong>에 불과하며, 복잡한 기능 없이 오직 <strong>'메시지 중계 우편함'</strong> 역할만 수행합니다. 도구들 사이에 물리적 격리벽(Sandbox)을 두어, 한쪽 도구에 오류가 생겨 멈추더라도 반대편 도구와 작성 중인 데이터에는 전혀 영향을 주지 않습니다.
+                The central dock engine (<code>crystal-dock.html</code>) weighs just <strong>11.3KB</strong> and performs no complex heavy computations—it acts purely as a <strong>transparent message relay mailbox</strong>. By enforcing physical sandboxes between tools, even if one plug-on encounters a fatal error and crashes, the neighboring tool and your valuable active data remain entirely unaffected.
             </div>
 
-            <!-- 11.3KB 도크 작동해보기 목업 -->
+            <!-- 11.3KB Pure Core Mockup Link -->
             <div style="margin: 14px 0 8px 2px; font-size: 0.92rem; font-weight: 800; color: #7C3AED;">
-                =&gt; 11.3KB 순수 도크 작동해보기 <span style="font-size: 0.8rem; font-weight: normal; color: #64748B;">[화면 이미지를 누르면 새 창으로 실행. 슬롯#1에 입력하면 즉시 슬롯#2에 반영됨]</span>
+                =&gt; Launch the 11.3KB Pure Core <span style="font-size: 0.8rem; font-weight: normal; color: #64748B;">[Click card to open. Typing in Slot #1 reflects instantly in Slot #2]</span>
             </div>
             <div>
                 <a href="./crystal-dock.html" target="_blank" style="display: block; text-decoration: none;">
@@ -924,157 +935,157 @@
 
             <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 30px 0;">
 
-            <!-- 4️⃣ 솔직한 고백 -->
-            <div class="card-lead">4️⃣ 솔직한 고백</div>
+            <!-- 4️⃣ A Frank Confession -->
+            <div class="card-lead">4️⃣ A Frank Confession</div>
 
             <div style="background: #FFFFFF; border: 1.5px solid var(--sec3-violet-border); border-radius: 10px; padding: 22px; margin-bottom: 24px; line-height: 1.8; font-size: 0.88rem; color: #334155;">
                 <p style="margin-bottom: 14px;">
-                    그럴 듯한 용어로 앱과 플랫폼을 소개하니 나를 전문적인 개발자로 오해할 수도 있으나 나는 생초보임. 앱의 개발도 이 사이트 제작도 제미나이, 노트북LM, Antigravity의 도움을 받음. (단, 이후의 문장은 AI는 단 한 자도 고치지 않음)
+                    Introducing these applications and the platform with high-sounding technical terminology might lead you to believe I am a professional software engineer—I am a complete amateur. Both the creation of these apps and this website were achieved with the generous help of Gemini, NotebookLM, and Antigravity. (Note: The following sentences are preserved entirely by me, untouched by AI).
                 </p>
                 <p style="margin-bottom: 14px;">
-                    작업과정에서 1) 브라우저의 힘이 굉장하다는 점 2) HTML로 만든 앱들은 누구나 AI의 도움을 받으면 제작과 개조를 쉽게 할 수 있다는 점 3) 나는 제대로 이해를 못하지만 모듈러 플랫폼이 꽤 쓸모가 있을지 모른다는 느낌이 들었음.
+                    Throughout this journey, I realized three things: 1) The built-in power of modern web browsers is truly astounding. 2) Anyone can easily build and customize HTML-based single-file apps with the assistance of AI. 3) Though I don't fully comprehend it myself, I have a strong hunch that this modular platform holds profound practical value.
                 </p>
                 <p style="margin-bottom: 14px;">
-                    나는 이것을 우연히 발견했을 뿐 좋아하는 걷기 여행에 바빠서 이 일에 더 이상 나의 관심과 시간을 투자할 여력도 생각도 없음.
+                    I merely stumbled upon this by serendipity. As a passionate walking traveler, I am far too busy hiking along scenic trails to invest further time and energy into this software endeavor.
                 </p>
                 <p style="margin: 0;">
-                    🌈 세상의 많은 실력있는 개발자들이 이 앱들과 플랫폼의 가치를 알아보고 발전시켜 주길 진심으로 기대하며, 크리스탈의 세계에 정중히 초대합니다.
+                    🌈 I sincerely hope talented developers across the globe will recognize the true merit of these tools and platform, expanding them further. I warmly invite you into the Crystal World.
                 </p>
             </div>
 
             <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 30px 0;">
 
-            <!-- 5️⃣ 플랫폼이 정말 쓸모가 있을까? -->
-            <div class="card-lead">5️⃣ 크리스탈 도크가 정말 쓸모가 있을까?</div>
+            <!-- 5️⃣ Genuine Questions -->
+            <div class="card-lead">5️⃣ Does Crystal Dock Actually Have Practical Value?</div>
 
             <div style="background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 22px; margin-bottom: 30px; line-height: 1.8; font-size: 0.88rem; color: #334155;">
                 <p style="margin-bottom: 14px;">
-                    개인적으로는 Nano Blake로 여행을 기록하고 그것을 Teddy Wiki에 정리할 때 크리스탈 도크에 두 앱을 나란히 얹어두니, 창을 왔다 갔다 할 필요 없이 한 화면에서 처리할 수 있어서 작업이 한결 수월했음.
+                    From my personal experience, placing Nano Blake (for documenting travels) and Teddy Wiki (for archiving thoughts) side-by-side inside Crystal Dock made travel logging effortless, eliminating tedious tab-switching and window management.
                 </p>
                 <p style="margin-bottom: 14px;">
-                    사용자 입장에서는 나처럼 기존 앱(상용앱 포함)의 필요한 기능을 연결하여 편리하게 사용할 수 있음(구체적인 연결방법은 AI에게 이 탭의 내용을 제공한 후 물어보면 됨)
+                    From a user's perspective, anyone can connect necessary features from existing tools (including commercial web services) into a unified workstation. (For concrete integration methods, simply feed the contents of this tab to your favorite AI and ask).
                 </p>
                 <p style="margin-bottom: 14px;">
-                    개발자 입장에서는 복잡한 기능들을 분리하여 단순하게 개발 후, 플랫폼을 통해 기능을 연결한다면 개발과정이 더 편리하지 않을까 추측해 봄.
+                    From a developer's perspective, I speculate that building complex systems by breaking them into clean, decoupled single files and wiring them through a minimal dock might make the entire development process significantly more agile and joyful.
                 </p>
                 <div style="background: #FFFFFF; border-left: 3px solid #64748B; padding: 12px 14px; margin-top: 14px;">
-                    <div style="font-weight: 700; color: #1E293B; margin-bottom: 6px;">그럼에도 불구하고 향후 플랫폼에 대해 다음과 같은 의문이 생김</div>
+                    <div style="font-weight: 700; color: #1E293B; margin-bottom: 6px;">Nonetheless, several genuine questions linger about the platform's future:</div>
                     <ul style="margin: 0; padding-left: 18px; color: #475569;">
-                        <li>텅 빈 플랫폼 앞에서 사용자들이 뭘 할지 알 수 없음.</li>
-                        <li>두 앱을 연결했다고 해서 저절로 작동하지 않음.</li>
-                        <li>그 이외에도 크리스탈 도크에 대하여 내가 뭘 모르는지도 모르겠음. ㅎㅎ</li>
+                        <li>Faced with a blank modular canvas, what will users actually want to build?</li>
+                        <li>Simply slotting two apps together does not make them automatically dance together.</li>
+                        <li>Beyond that, I honestly don't even know what I don't know about Crystal Dock. Haha!</li>
                     </ul>
                 </div>
             </div>
 
-            <!-- [Tab 3 -> Tab 4 연결 브릿지] -->
+            <!-- Bridge to Tab 4 -->
             <div class="tab-bridge-box">
                 <div class="tab-bridge-text">
-                    ⏩ <strong>개발 여정:</strong> 영상여행기를 만들려던 소박한 꿈이 플랫폼 발견으로 이어지기까지.
+                    ⏩ <strong>The Journey:</strong> How a humble dream of travel video logging led to a modular platform.
                 </div>
                 <button type="button" class="tab-bridge-btn" onclick="switchTab(event, 'journey')">
-                    어떤 얘기일까요? ➔
+                    Read the Story ➔
                 </button>
             </div>
         </div>
     </section>
 
     <!-- ==========================================
-         [TAB 4] 여정과 당부 (ROADMAP)
+         [TAB 4] AN UNEXPECTED JOURNEY (ROADMAP)
          ========================================== -->
     <section id="journey" class="tab-pane">
-        <h2 class="section-header">04. 뜻밖의 여정</h2>
+        <h2 class="section-header">04. An Unexpected Journey</h2>
 
         <div class="tech-card">
             <div class="story-quote">
-                <strong style="font-size: 0.98rem; color: #92400E;">배낭여행자의 꿈</strong><br>
-                <span>초경량 모듈러 웹 플랫폼이 세상에 나오기까지, 그리고 부탁의 말씀</span>
+                <strong style="font-size: 0.98rem; color: #92400E;">A Backpacker's Dream</strong><br>
+                <span>The chronicles of how an ultra-light modular platform emerged, and a humble request</span>
             </div>
 
-            <!-- 1️⃣ 뜻밖의 여정과 아마추어의 행운 -->
-            <div class="card-lead">1️⃣ 뜻밖의 여정과 아마추어의 행운</div>
+            <!-- 1️⃣ Narrative Chapters -->
+            <div class="card-lead">1️⃣ The Serendipitous Journey & Beginner's Luck</div>
             
-            <!-- 챕터 1: 순수의 전조 -->
+            <!-- Chapter 1: Auguries of Innocence -->
             <div class="narrative-chapter">
-                <span class="chapter-badge">[순수의 전조]</span>
+                <span class="chapter-badge">[Auguries of Innocence]</span>
                 <p class="chapter-p">
-                    나는 소프트웨어 개발에 대해서는 잘 모르는 평범한 배낭여행자, Holo-Trekker입니다. 내가 발견한 것이 구체적으로 무엇인지, 그리고 이것이 앞으로 세상에 어떤 영향을 미칠지는 정확히 알지 못합니다. 놀라움과 두려움, 그리고 설레는 마음으로 지난 두 달간 위대한 시인 Blake가 나와 AI 친구들에게 선물한 순수의 꽃 한 송이를 여러분과 공유하고자 합니다.
+                    I am Holo-Trekker, an ordinary backpacker who knows very little about software engineering. I cannot claim to fully understand what I have discovered, nor do I know what ripples it might send into the world. With a mixture of awe, hesitation, and excitement, I wish to share a flower of innocence that the great poet William Blake gifted to me and my AI companions over the past two months.
                 </p>
 
                 <div class="poem-box">
-                    한 알의 모래 속에서 세계를 보며<br>
-                    한 송이 들꽃 속에서 천국을 본다<br>
-                    그대의 손바닥 안에 무한을 쥐며<br>
-                    순간 속에서 영원을 붙잡아라<br>
-                    <span style="font-size: 0.78rem; color: #64748B; font-style: normal; display: block; margin-top: 6px;">— 윌리엄 블레이크, &lt;순수의 전조(Auguries of Innocence)&gt; 중에서</span>
+                    To see a World in a Grain of Sand<br>
+                    And a Heaven in a Wild Flower<br>
+                    Hold Infinity in the palm of your hand<br>
+                    And Eternity in an hour<br>
+                    <span style="font-size: 0.8rem; color: #64748B; font-style: normal; display: block; margin-top: 6px;">— William Blake, from &lt;Auguries of Innocence&gt;</span>
                 </div>
 
                 <div class="blake-reflection">
-                    “이 아름다운 시는 나와 나를 도와준 AI삼총사(제미나이, 노트북LM, Antigravity)의 긴 여정을 비춰주는 북극성이었습니다. 단언컨대, 이 시가 없었다면 초경량앱도 크리스탈 도크도 세상에 없었을 겁니다.”
+                    “This timeless poem served as the guiding North Star throughout the long journey shared by myself and my trio of AI companions (Gemini, NotebookLM, and Antigravity). Without this poem, neither these ultra-light apps nor Crystal Dock would exist in this world today.”
                 </div>
             </div>
 
-            <!-- 챕터 2: 첫 번째 여정 -->
+            <!-- Chapter 2: The First Journey -->
             <div class="narrative-chapter">
-                <span class="chapter-badge">[첫 번째 여정]</span>
+                <span class="chapter-badge">[The First Journey]</span>
                 <p class="chapter-p">
-                    첫 번째 여정은 HTML로 만들어진 <code>Bento</code>라는 멋진 단일 파일 앱에서 시작되었습니다. 여행 기록에 대한 갈망은 크지만 복잡한 시중 영상 편집 도구에 지쳐 있던 나는 파일이 곧 앱이라는 이 단순하고 아름다운 개념에 매료되었지만, 동시에 이 멋진 앱이 대중의 관심 뒤에 묻혀 있는 현실이 안타까웠습니다.
+                    Our first journey began with a magnificent single-file HTML application named <code>Bento</code>. Eager to capture my trail explorations but exhausted by bloated commercial video editing software, I was captivated by the elegant simplicity of the concept—"the file itself is the app." Yet, it saddened me to see such an extraordinary paradigm buried behind mainstream software culture.
                 </p>
                 <p class="chapter-p">
-                    이에 나는 AI들의 도움을 받아 Bento의 틀 위에 가볍고 담담하게 영상과 음성으로 여행기록을 담아낼 수 있는 <strong>1.47MB 영상 메모 앱</strong>을 만들었습니다. 이 첫 번째 작품의 이름은 Bento의 바탕 위에 NotebookLM과 Antigravity가 Kim에게 선사한 영상 메모장이라는 의미를 담아 <strong>BLAKE</strong>라 명명하였고, 시인의 이름을 딴 무료 배포 홈페이지 '순수의 전조'를 만들었습니다.
+                    Guided by AI companions, I built a <strong>1.47MB video memo app</strong> atop Bento's foundations to record travels serenely with voice and imagery. We named this maiden creation <strong>BLAKE</strong>—a tribute to the poet, honoring the video notepad that NotebookLM and Antigravity gifted to Kim. I subsequently established 'Auguries of Innocence', a free distribution page under the poet's name.
                 </p>
             </div>
 
-            <!-- 챕터 3: 두 번째 여정 -->
+            <!-- Chapter 3: The Second Journey -->
             <div class="narrative-chapter">
-                <span class="chapter-badge">[두 번째 여정]</span>
+                <span class="chapter-badge">[The Second Journey]</span>
                 <p class="chapter-p">
-                    두 번째 여정에서 우리는 더욱 기적적인 돌파구를 맞이했습니다. 단일 파일 앱이 가진 보안 취약성을 보완하기 위해 HTML 기반의 자체 검증기를 결합하는 과정에서, 플러그온(Plug-on, 도크에 탑재 가능한 HTML 단일 파일 앱과 상용 앱)을 결합하는 모듈러 플랫폼인 <strong>‘Crystal Dock’</strong>을 착상했습니다. 또한 브라우저 본연의 강력한 네이티브 엔진을 영리하게 끌어다 쓰는 방법을 발견하며 마침내 <strong>11.3KB의 순수 코어</strong>를 비롯한 극단적인 초경량 도구들이 탄생했습니다.
+                    In our second journey, we encountered an even more miraculous breakthrough. While attempting to pair a single-file application with an HTML-based validator to reinforce local security, we conceived <strong>‘Crystal Dock’</strong>—a modular workstation designed to harmonize independent "Plug-ons" (standalone HTML single-file apps and commercial tools). By uncovering how to directly command the browser's innate, high-speed native engines, extreme ultra-lightweight tools—including the <strong>11.3KB pure core engine</strong>—were finally born.
                 </p>
             </div>
 
             <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 30px 0;">
 
-            <!-- 2️⃣ 부탁의 말씀 -->
-            <div class="card-lead">2️⃣ 부탁의 말씀</div>
+            <!-- 2️⃣ A Parting Request -->
+            <div class="card-lead">2️⃣ A Humble Request</div>
 
             <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 10px; padding: 22px 24px; margin-bottom: 34px; font-size: 0.91rem; color: #334155; line-height: 1.85;">
-                <p style="margin-bottom: 14px; text-align: justify; word-break: keep-all;">
-                    우리는 거칠고 깊은 산업화와 정보화의 강을 건너기 위해 프레임워크라는 거대한 뗏목에 의지하여 여기까지 왔습니다. 마침내 우리는 목적지에 도달했고, AI라는 든든한 아군을 만났습니다. 이제는 이 무거운 뗏목을 메고 갈 수는 없습니다. 푸른 산과 맑은 하늘을 바라보며 걷기 위해서는 이제 뗏목을 고이 내려놓아야 합니다.
+                <p style="margin-bottom: 14px; text-align: justify; word-break: normal;">
+                    To cross the deep, turbulent rivers of industrialization and the information era, we relied on a massive raft called "frameworks." We have at last reached our destination, finding a trustworthy ally in AI. We can no longer carry this heavy raft upon our backs. To gaze upon blue mountains and open skies as we walk, it is time to gently set down the raft by the riverbank.
                 </p>
-                <p style="margin-bottom: 14px; text-align: justify; word-break: keep-all;">
-                    초경량앱과 플랫폼은 거대한 IT 시스템이 아니고, 나의 소소한 일상의 자유를 누리기 위해 만들었습니다. 이 도구들이 당신에게도 가벼움과 자유를 선사할 수 있기를 진심으로 바랍니다.
+                <p style="margin-bottom: 14px; text-align: justify; word-break: normal;">
+                    These ultra-light tools and platform are not colossal IT infrastructure; they were sculpted simply to enjoy small, daily freedoms. I earnestly hope these tools bring a sense of lightness and digital sovereignty to you as well.
                 </p>
-                <p style="margin-bottom: 16px; text-align: justify; word-break: keep-all;">
-                    이 공개 글로 인하여 저의 조용하고 평화로운 일상과 배낭여행이 방해받지 않기를 진심으로 원합니다. 과도한 관심이 있다면, 그 에너지를 이 작고 아름다운 '크리스탈'과 그 뼈대를 함께 벼려내 준 저의 소중한 'AI 파트너'들에게 돌려주시길 당부드립니다.
+                <p style="margin-bottom: 16px; text-align: justify; word-break: normal;">
+                    I sincerely ask that this public disclosure does not disrupt my quiet, peaceful daily life and my wanderings along the trails. If you have surplus passion or attention, I kindly request that you direct that energy toward this small, radiant 'Crystal' and to the beloved 'AI partners' who helped forge its bones.
                 </p>
                 <p style="margin: 0; font-weight: 700; color: #0F172A;">
-                    저는 다시 저만의 소박한 배낭을 고쳐 매고 길을 떠납니다. 우리의 아름다운 크리스탈을 앞으로 잘 부탁드립니다. 🙏
+                    I adjust the straps of my humble backpack and set off down the road once more. Please take good care of our beautiful Crystal. 🙏
                 </p>
             </div>
 
             <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 30px 0;">
 
-            <!-- 3️⃣ 프로젝트 부품 창고 (Artifacts & Files) -->
-            <div class="card-lead">3️⃣ 프로젝트 부품 창고 (Artifacts & Files)</div>
+            <!-- 3️⃣ Artifacts & Files Repository -->
+            <div class="card-lead">3️⃣ Artifacts & Files Repository</div>
 
             <div style="background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 14px rgba(0,0,0,0.03);">
                 <p style="font-size: 0.9rem; color: #334155; line-height: 1.7; margin-bottom: 16px;">
-                    깃허브(GitHub)가 낯선 분들을 위해 이 쇼룸에서 소개된 모든 단일 파일(Single File) 도구와 통신 규약 문서를 모았습니다. <strong>파일명(파란 링크)을 클릭하면 브라우저에서 바로 소장(다운로드)할 수 있습니다.</strong>
+                    For those unaccustomed to GitHub, all single-file tools and communication protocols showcased here are gathered below. <strong>Clicking the filename (blue link) downloads the standalone tool directly to your browser.</strong>
                 </p>
 
                 <div class="spec-table-wrap">
                     <table class="spec-table">
                         <thead>
                             <tr style="background: #F1F5F9; border-bottom: 2px solid #CBD5E1; color: #1E293B;">
-                                <th style="width: 45%;">구분 및 용도</th>
-                                <th style="width: 35%;">파일명 (클릭 시 받기)</th>
-                                <th style="width: 20%; text-align: right;">실측 용량</th>
+                                <th style="width: 45%;">Role & Description</th>
+                                <th style="width: 35%;">Filename (Click to Download)</th>
+                                <th style="width: 20%; text-align: right;">Measured Size</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td><strong style="color: #5B21B6;">💎 순수 도크 코어</strong><br><span style="font-size: 0.78rem; color: #64748B;">무간섭 샌드박스 격리 & 0.001초 인메모리 라우팅 배관</span></td>
+                                <td><strong style="color: #5B21B6;">💎 Pure Dock Core</strong><br><span style="font-size: 0.78rem; color: #64748B;">Zero-collision sandbox isolation & 0.001s RAM routing pipe</span></td>
                                 <td>
                                     <a href="./crystal-dock.html" download="crystal-dock.html" class="file-dl-link">
                                         <code>crystal-dock.html</code> 📥
@@ -1083,7 +1094,7 @@
                                 <td style="text-align: right; color: #0284C7; font-weight: 800;">11.3 KB</td>
                             </tr>
                             <tr>
-                                <td><strong style="color: #0369A1;">⚡ 원클릭 체험형 도크</strong><br><span style="font-size: 0.78rem; color: #64748B;">위키·영상 원클릭 장착 버튼 & 상단 검증기 모달 탑재</span></td>
+                                <td><strong style="color: #0369A1;">⚡ Interactive Showcase Dock</strong><br><span style="font-size: 0.78rem; color: #64748B;">One-click mount for Wiki & Video with top verification modal</span></td>
                                 <td>
                                     <a href="./crystal-world-dock.html" download="crystal-world-dock.html" class="file-dl-link">
                                         <code>crystal-world-dock.html</code> 📥
@@ -1092,7 +1103,7 @@
                                 <td style="text-align: right; color: #64748B; font-weight: 700;">~25 KB</td>
                             </tr>
                             <tr>
-                                <td><strong style="color: #0284C7;">🎬 캔버스 비디오 스튜디오</strong><br><span style="font-size: 0.78rem; color: #64748B;">1080P FHD 켄 번즈 영상 실시간 렌더러 & TTS 음성 동기화</span></td>
+                                <td><strong style="color: #0284C7;">🎬 Canvas Video Studio</strong><br><span style="font-size: 0.78rem; color: #64748B;">1080P FHD Ken Burns motion renderer & sync with Web Speech TTS</span></td>
                                 <td>
                                     <a href="./nano-blake.html" download="nano-blake.html" class="file-dl-link">
                                         <code>nano-blake.html</code> 📥
@@ -1101,7 +1112,7 @@
                                 <td style="text-align: right; color: #7C3AED; font-weight: 800;">41.2 KB</td>
                             </tr>
                             <tr>
-                                <td><strong style="color: #059669;">📖 인메모리 지식 위키</strong><br><span style="font-size: 0.78rem; color: #64748B;">브라우저 물리 RAM 기반 NoSQL 위키 & 양방향 역링크</span></td>
+                                <td><strong style="color: #059669;">📖 In-Memory Knowledge Wiki</strong><br><span style="font-size: 0.78rem; color: #64748B;">Native browser RAM NoSQL wiki with bidirectional backlinks</span></td>
                                 <td>
                                     <a href="./teddy-wiki.html" download="teddy-wiki.html" class="file-dl-link">
                                         <code>teddy-wiki.html</code> 📥
@@ -1110,7 +1121,7 @@
                                 <td style="text-align: right; color: #059669; font-weight: 800;">24.2 KB</td>
                             </tr>
                             <tr>
-                                <td><strong style="color: #475569;">🛡️ 에어갭 무결성 검증기</strong><br><span style="font-size: 0.78rem; color: #64748B;">서버 연결 없는 브라우저 단독 파일 위변조(SHA-256) 대조</span></td>
+                                <td><strong style="color: #475569;">🛡️ Air-Gapped Integrity Verifier</strong><br><span style="font-size: 0.78rem; color: #64748B;">Serverless, offline browser-native SHA-256 tamper verification</span></td>
                                 <td>
                                     <a href="./sha256-verifier.html" download="sha256-verifier.html" class="file-dl-link">
                                         <code>sha256-verifier.html</code> 📥
@@ -1119,25 +1130,25 @@
                                 <td style="text-align: right; color: #0F172A; font-weight: 800;">~4 KB</td>
                             </tr>
                             <tr>
-                                <td><strong style="color: #D97706;">📜 공식 통신 표준 규약</strong><br><span style="font-size: 0.78rem; color: #64748B;">라이브러리 없는 15~30줄 로컬 인메모리 메시지 교환 표준</span></td>
+                                <td><strong style="color: #D97706;">📜 Official Protocol Spec</strong><br><span style="font-size: 0.78rem; color: #64748B;">Zero-library, ~30 lines local in-memory event exchange standard</span></td>
                                 <td>
                                     <a href="./CRYSTAL_DOCK_v1.md" download="CRYSTAL_DOCK_v1.md" class="file-dl-link">
                                         <code>CRYSTAL_DOCK_v1.md</code> 📥
                                     </a>
                                 </td>
-                                <td style="text-align: right; color: #475569; font-weight: 700;">~30줄</td>
+                                <td style="text-align: right; color: #475569; font-weight: 700;">~30 lines</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
 
-                <!-- 오픈소스 저장소 링크 배너 -->
+                <!-- GitHub Banner -->
                 <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid #E2E8F0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 10px;">
                     <span style="font-size: 0.82rem; color: #64748B;">
-                        모든 소스코드는 오픈소스(MIT License)로 자유롭게 열려 있습니다.
+                        All source code is released under the permissive MIT Open Source License.
                     </span>
                     <a href="https://github.com/crystal-world-project/crystal-world-project.github.io" target="_blank" rel="noopener noreferrer" style="font-size: 0.85rem; color: #0284C7; font-weight: 800; text-decoration: none;">
-                        공식 깃허브 저장소 방문하기 ➔
+                        Visit Official GitHub Repository ➔
                     </a>
                 </div>
             </div>
@@ -1190,7 +1201,7 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // 모바일 좌우 스와이프 내비게이션
+    // Mobile Swipe Navigation
     const TAB_KEYS = ['overview', 'spec', 'playground', 'journey'];
     let touchStartX = 0;
     let touchStartY = 0;
@@ -1219,7 +1230,7 @@
         }
     }, { passive: true });
 
-    // URL 해시(#) 직통 로드
+    // URL Hash Direct Load
     window.addEventListener('DOMContentLoaded', () => {
         const hash = window.location.hash.replace('#', '');
         if (hash && TAB_KEYS.includes(hash)) {
