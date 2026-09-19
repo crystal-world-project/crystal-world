@@ -51,10 +51,10 @@
         }
         code, pre { font-family: 'JetBrains Mono', monospace; }
 
-        /* BRANDING HEADER: One-Row Layout with Maximum Title Room */
+        /* BRANDING HEADER: One-Row Layout */
         header.site-header-top {
             background: var(--bg-pure);
-            padding: 12px 16px 10px 16px;
+            padding: 10px 16px;
             width: 100%;
             border-bottom: 1px solid rgba(229, 231, 235, 0.7);
         }
@@ -73,7 +73,7 @@
             text-decoration: none;
             color: var(--text-main);
             min-width: 0;
-            flex-shrink: 1;
+            flex: 1 1 auto;
         }
         .brand-title-wrap {
             display: flex;
@@ -84,7 +84,7 @@
         }
         .brand-main-title {
             font-family: 'JetBrains Mono', sans-serif;
-            font-size: 1.45rem;
+            font-size: 1.35rem;
             font-weight: 900;
             letter-spacing: -0.5px;
             color: #0F172A;
@@ -94,26 +94,26 @@
         }
         .brand-sub-title {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             font-weight: 800;
             color: var(--accent-orange);
-            letter-spacing: 0.2px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            letter-spacing: -0.2px;
+            white-space: normal;
+            word-break: keep-all;
             margin-top: 1px;
+            line-height: 1.25;
         }
         .header-download-btns {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             white-space: nowrap;
             flex-shrink: 0;
         }
         .btn-header {
-            padding: 6px 16px;
+            padding: 6px 12px;
             border-radius: 6px;
-            font-size: 0.82rem;
+            font-size: 0.78rem;
             font-weight: 900;
             cursor: pointer;
             text-decoration: none;
@@ -121,10 +121,12 @@
             align-items: center;
             justify-content: center;
             transition: all 0.2s ease;
-            letter-spacing: 0.4px;
+            letter-spacing: 0.3px;
         }
         .btn-live-run { background: var(--accent-orange); color: #FFFFFF; }
         .btn-live-run:hover { background: #c2410c; }
+        .btn-community { background: #1F2937; color: #FFFFFF; }
+        .btn-community:hover { background: #111827; }
 
         /* STICKY 4-PILLAR NAVIGATION BAR */
         nav.sticky-nav-bar {
@@ -154,8 +156,7 @@
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            padding: 7px 3px;
-            gap: 2px;
+            padding: 6px 2px;
             border-radius: 8px;
             text-decoration: none;
             background: rgba(255, 255, 255, 0.9);
@@ -171,23 +172,23 @@
         .nav-pillar-btn[data-tab="journey"].active { background: var(--sec4-amber-bg); border-color: var(--sec4-amber); }
 
         .nav-main-label {
-            font-size: 0.88rem;
+            font-size: 0.92rem;
             font-weight: 900;
             color: var(--text-main);
-            line-height: 1.25;
+            line-height: 1.2;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
             width: 100%;
         }
         .nav-sub-label {
-            font-size: 0.60rem;
+            font-size: 0.62rem;
             font-weight: 800;
             color: var(--text-muted);
             text-transform: uppercase;
-            letter-spacing: 0.4px;
-            line-height: 1.15;
-            margin-top: 0;
+            letter-spacing: 0.2px;
+            line-height: 1.1;
+            margin-top: 2px;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
@@ -238,7 +239,7 @@
         #journey .tech-card { border-color: var(--sec4-amber-border); }
 
         .card-lead {
-            font-size: 1.15rem;
+            font-size: 1.18rem;
             color: var(--text-main);
             font-weight: 800;
             letter-spacing: -0.3px;
@@ -316,6 +317,7 @@
         }
         .tab-bridge-btn:hover { background: #C2410C; }
 
+        /* Diagram Box with Protected Horizontal Scroll */
         .diagram-box {
             background: #0F172A;
             color: #F8FAFC;
@@ -325,6 +327,8 @@
             font-size: 0.78rem;
             line-height: 1.35;
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            touch-action: pan-x pan-y;
             border: 1.5px solid #334155;
             margin: 14px 0 16px 0;
         }
@@ -390,6 +394,8 @@
         .spec-table-wrap {
             width: 100%;
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            touch-action: pan-x pan-y;
             margin: 16px 0;
             border: 1.5px solid #E2E8F0;
             border-radius: 8px;
@@ -489,20 +495,28 @@
         }
         footer.site-footer a { color: var(--sec1-sky); text-decoration: none; font-weight: 700; }
 
+        /* Mobile Optimization */
         @media (max-width: 768px) {
-            .brand-main-title { font-size: 1.25rem; }
-            .brand-sub-title { font-size: 0.74rem; }
-            .nav-main-label { font-size: 0.82rem; }
+            header.site-header-top { padding: 8px 12px; }
+            .header-top-container { gap: 8px; }
+            .brand-main-title { font-size: 1.15rem; }
+            .brand-sub-title { 
+                font-size: 0.65rem; 
+                letter-spacing: -0.3px; 
+                line-height: 1.2;
+            }
+            .btn-header { padding: 5px 9px; font-size: 0.72rem; }
+            .nav-main-label { font-size: 0.84rem; }
             .nav-sub-label { font-size: 0.54rem; }
-            .tech-card { padding: 18px 16px; }
-            .card-lead { font-size: 1.05rem; }
+            .tech-card { padding: 18px 14px; }
+            .card-lead { font-size: 1.08rem; }
             .comic-grid-5 { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-<!-- 1. COMPACT ONE-ROW HEADER (TRY IT 단독 전면 배치) -->
+<!-- 1. COMPACT ONE-ROW HEADER ([TRY IT] & [CAFE] Unified) -->
 <header class="site-header-top">
     <div class="header-top-container">
         <a href="#" class="header-logo">
@@ -513,8 +527,11 @@
         </a>
 
         <div class="header-download-btns">
-            <a href="./crystal-world-dock.html" target="_blank" rel="noopener noreferrer" class="btn-header btn-live-run" title="Open Full Experience Dock">
+            <a href="./crystal-world-dock.html" target="_blank" rel="noopener noreferrer" class="btn-header btn-live-run" title="Open Showcase Dock">
                 TRY IT
+            </a>
+            <a href="https://cafe.naver.com/crystaldock?iframe_url=/MyCafeIntro.nhn%3Fclubid=31784518" target="_blank" rel="noopener noreferrer" class="btn-header btn-community" title="Naver Cafe Community">
+                CAFE
             </a>
         </div>
     </div>
@@ -578,7 +595,6 @@
             </div>
         </div>
 
-        <!-- App Details Card Body -->
         <div class="tech-card">
             <!-- Tool 1: Teddy Wiki -->
             <div class="card-lead">1️⃣ "An Encyclopedia in 24KB" — Teddy Wiki</div>
@@ -678,7 +694,7 @@
         <h2 class="section-header">02. Secrets of Ultra-Light Apps</h2>
 
         <div class="tech-card">
-            <!-- 1️⃣ There Is No "Browser" -->
+            <!-- 1️⃣ There Is No Mere "Browser" -->
             <div class="card-lead">1️⃣ There Is No Mere "Browser"?</div>
 
             <ul class="indent-list">
@@ -780,19 +796,19 @@
     </section>
 
     <!-- ==========================================
-         [TAB 3] ACCIDENTAL DISCOVERY & AN OPEN INVITATION (INVITATION)
+         [TAB 3] ACCIDENTAL DISCOVERY & THREE OPEN QUESTIONS (INVITATION)
          ========================================== -->
     <section id="playground" class="tab-pane">
         <h2 class="section-header">03. Accidental Discovery & An Open Invitation</h2>
 
         <div class="tech-card">
             <!-- Prologue Notice -->
-            <div style="background: #F1F5F9; border-left: 4px solid #475569; border-radius: 6px; padding: 14px 18px; margin-bottom: 26px;">
-                <div style="font-weight: 800; color: #1E293B; font-size: 0.95rem; margin-bottom: 4px;">
+            <div style="background: #F1F5F9; border-left: 4px solid #475569; border-radius: 6px; padding: 12px 14px; margin-bottom: 24px;">
+                <div style="font-weight: 800; color: #1E293B; font-size: 0.92rem; margin-bottom: 4px;">
                     📦 Seeking Kind Assistance from Talented Developers Worldwide
                 </div>
                 <p style="margin: 0; font-size: 0.86rem; color: #475569; line-height: 1.6;">
-                    The Crystal Dock I introduce here is not a polished, complete product. It is an <strong>"11.3KB bundle of question marks"</strong> whose creator is still puzzling over its true utility. I warmly invite you to examine this intriguing riddle that exceeds my humble abilities.
+                    The Crystal Dock I introduce here is not a finished product, but an <strong>"11.3KB bundle of question marks"</strong> whose creator is still puzzling over its true utility. I invite you to examine this intriguing riddle that exceeds my humble abilities.
                 </p>
             </div>
 
@@ -802,7 +818,6 @@
                 How the sheer laziness of carrying both an app and a validator led to the accidental discovery of a modular platform.
             </p>
 
-            <!-- 5-Panel Responsive Comic Grid -->
             <div class="comic-grid-5">
                 <div class="comic-panel-card">
                     <div class="comic-img-wrap">
@@ -855,10 +870,10 @@
             <!-- 2️⃣ Architecture and Mechanism -->
             <div class="card-lead">2️⃣ Architecture & Mechanism of Crystal Dock</div>
 
-            <!-- Architecture Diagram -->
             <div style="font-weight: 800; font-size: 0.94rem; color: #5B21B6; margin: 14px 0 6px 2px;">
                 📐 Structure
             </div>
+            <!-- Swipe-Safe Diagram Box -->
             <pre class="diagram-box">
 +-------------------------------------------------------------+
 |                      Crystal Dock Core                      |
@@ -873,12 +888,11 @@
 +---------------+                              +---------------+
             </pre>
 
-            <!-- Working Mechanism -->
             <div style="font-weight: 800; font-size: 0.94rem; color: #5B21B6; margin: 18px 0 6px 2px;">
                 ⚙️ Operating Principle
             </div>
-            <div style="background: #F8FAFC; border-left: 4px solid var(--sec3-violet); border-radius: 0 8px 8px 0; padding: 14px 18px; margin-bottom: 18px; font-size: 0.9rem; color: #334155; line-height: 1.75;">
-                The central dock engine (<code>crystal-dock.html</code>) weighs just <strong>11.3KB</strong> and performs no complex heavy computations—it acts purely as a <strong>transparent message relay mailbox</strong>. By enforcing physical sandboxes between tools, even if one plug-on encounters a fatal error and crashes, the neighboring tool and your valuable active data remain entirely unaffected.
+            <div style="background: #F8FAFC; border-left: 4px solid var(--sec3-violet); border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 18px; font-size: 0.9rem; color: #334155; line-height: 1.75;">
+                The central dock engine (<code>crystal-dock.html</code>) weighs just <strong>11.3KB</strong> and performs no complex heavy computations—it acts purely as a <strong>transparent message relay mailbox</strong>. By enforcing native physical sandboxes between tools, even if one plug-on encounters an error, the neighboring tool and your active data remain entirely unaffected.
             </div>
 
             <!-- 11.3KB Pure Core Mockup Link -->
@@ -922,53 +936,69 @@
 
             <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 30px 0;">
 
-            <!-- 4️⃣ A Frank Confession -->
-            <div class="card-lead">4️⃣ A Frank Confession</div>
+            <!-- 3️⃣ A Backpacker's Humble Note & Three Open Questions (Flat Layout) -->
+            <div class="card-lead">3️⃣ A Backpacker’s Humble Note & Three Open Questions</div>
 
-            <div style="background: #FFFFFF; border: 1.5px solid var(--sec3-violet-border); border-radius: 10px; padding: 22px; margin-bottom: 24px; line-height: 1.8; font-size: 0.88rem; color: #334155;">
-                <p style="margin-bottom: 14px;">
-                    Introducing these applications and the platform with high-sounding technical terminology might lead you to believe I am a professional software engineer—I am a complete amateur. Both the creation of these apps and this website were achieved with the generous help of Gemini, NotebookLM, and Antigravity. (Note: The following sentences are preserved entirely by me, untouched by AI).
+            <div style="margin-top: 10px; margin-bottom: 18px; line-height: 1.85; font-size: 0.91rem; color: #334155;">
+                <p style="margin-bottom: 12px; word-break: normal;">
+                    I am merely an ordinary backpacker who knows little about code.
+                    Guided by simple intuition and an AI companion, I stumbled upon this hollow 11.3 KB shell called <strong>‘Crystal Dock’</strong>.
+                    To be entirely frank, <strong>I do not even fully comprehend the exact features or potential uses of this dock.</strong>
                 </p>
-                <p style="margin-bottom: 14px;">
-                    Throughout this journey, I realized three things: 1) The built-in power of modern web browsers is truly astounding. 2) Anyone can easily build and customize HTML-based single-file apps with the assistance of AI. 3) Though I don't fully comprehend it myself, I have a strong hunch that this modular platform holds profound practical value.
-                </p>
-                <p style="margin-bottom: 14px;">
-                    I merely stumbled upon this by serendipity. As a passionate walking traveler, I am far too busy hiking along scenic trails to invest further time and energy into this software endeavor.
-                </p>
-                <p style="margin: 0;">
-                    🌈 I sincerely hope talented developers across the globe will recognize the true merit of these tools and platform, expanding them further. I warmly invite you into the Crystal World.
+                <p style="margin-bottom: 16px; word-break: normal;">
+                    Yet, watching our digital landscape rush toward massive centralization, zero-click vulnerabilities, and closed black boxes,
+                    I can't help wondering: could this lightweight, transparent dock serve as a missing link for someone out there?
+                    And so, I leave three quiet questions on this bench for curious builders and system architects:
                 </p>
             </div>
 
-            <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 30px 0;">
-
-            <!-- 5️⃣ Genuine Questions -->
-            <div class="card-lead">5️⃣ Does Crystal Dock Actually Have Practical Value?</div>
-
-            <div style="background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 22px; margin-bottom: 30px; line-height: 1.8; font-size: 0.88rem; color: #334155;">
-                <p style="margin-bottom: 14px;">
-                    From my personal experience, placing Nano Blake (for documenting travels) and Teddy Wiki (for archiving thoughts) side-by-side inside Crystal Dock made travel logging effortless, eliminating tedious tab-switching and window management.
-                </p>
-                <p style="margin-bottom: 14px;">
-                    From a user's perspective, anyone can connect necessary features from existing tools (including commercial web services) into a unified workstation. (For concrete integration methods, simply feed the contents of this tab to your favorite AI and ask).
-                </p>
-                <p style="margin-bottom: 14px;">
-                    From a developer's perspective, I speculate that building complex systems by breaking them into clean, decoupled single files and wiring them through a minimal dock might make the entire development process significantly more agile and joyful.
-                </p>
-                <div style="background: #FFFFFF; border-left: 3px solid #64748B; padding: 12px 14px; margin-top: 14px;">
-                    <div style="font-weight: 700; color: #1E293B; margin-bottom: 6px;">Nonetheless, several genuine questions linger about the platform's future:</div>
-                    <ul style="margin: 0; padding-left: 18px; color: #475569;">
-                        <li>Faced with a blank modular canvas, what will users actually want to build?</li>
-                        <li>Simply slotting two apps together does not make them automatically dance together.</li>
-                        <li>Beyond that, I honestly don't even know what I don't know about Crystal Dock. Haha!</li>
-                    </ul>
+            <!-- Question 1: Flat Card -->
+            <div style="border-left: 3.5px solid #7C3AED; padding: 4px 0 4px 12px; margin-bottom: 18px;">
+                <div style="font-weight: 800; color: #1E293B; font-size: 0.94rem; margin-bottom: 4px;">
+                    1. Can this pure sandbox scale into a Zero-Trust, Air-Gapped Hub?
                 </div>
+                <p style="margin: 0; font-size: 0.88rem; color: #475569; line-height: 1.75; word-break: normal;">
+                    Today’s massive systems tremble under zero-click exploits and opaque supply-chain bloat. Crystal Dock runs on exactly 0 bytes of external dependencies, relying solely on native <code>&lt;iframe sandbox&gt;</code> isolation and a 30-line plain-text protocol (<code>BLAKE_MICRO_APP_v1</code>).<br>
+                    <em>Could a daring engineer expand this featherweight bulkhead into a self-contained, zero-trust operating deck for mission-critical micro-frontends, public defense systems, or air-gapped disaster relief?</em>
+                </p>
             </div>
 
-            <!-- Bridge to Tab 4 -->
+            <!-- Question 2: Flat Card -->
+            <div style="border-left: 3.5px solid #0284C7; padding: 4px 0 4px 12px; margin-bottom: 18px;">
+                <div style="font-weight: 800; color: #1E293B; font-size: 0.94rem; margin-bottom: 4px;">
+                    2. Can we hijack built-in browser AI as an offline utility servant?
+                </div>
+                <p style="margin: 0; font-size: 0.88rem; color: #475569; line-height: 1.75; word-break: normal;">
+                    Big tech is injecting heavy local engines (like the 4GB Gemini Nano) directly into our browsers and mobile OSs—mostly to draw us deeper into their subscription-bound clouds.<br>
+                    <em>Is there an engineer willing to subvert this giant's weight without paying subscription fees? Who will build a zero-network slot connector that enslaves the device's local NPU to summarize, parse, and compile markdown cards for Teddy Wiki entirely offline?</em>
+                </p>
+            </div>
+
+            <!-- Question 3: Flat Card -->
+            <div style="border-left: 3.5px solid #059669; padding: 4px 0 4px 12px; margin-bottom: 20px;">
+                <div style="font-weight: 800; color: #1E293B; font-size: 0.94rem; margin-bottom: 4px;">
+                    3. Can we achieve absolute sovereignty with a 0.5B Micro-SLM?
+                </div>
+                <p style="margin: 0; font-size: 0.88rem; color: #475569; line-height: 1.75; word-break: normal;">
+                    Pre-installed proprietary engines cannot fully dispel the lingering unease of hidden telemetry and trojan backdoors.<br>
+                    <em>Could a craftsman wire a pure, open-source 0.5B micro-language model directly into a dock slot via WebGPU/Wasm? A 100% transparent, self-contained personal assistant that requires no server, leaks zero packets, and runs forever on a battery in the deep mountains?</em>
+                </p>
+            </div>
+
+            <!-- Parting Words -->
+            <div style="padding-top: 10px; border-top: 1px dashed #E2E8F0; line-height: 1.8; font-size: 0.91rem; color: #334155;">
+                <p style="margin-bottom: 8px; word-break: normal;">
+                    I leave the workbench empty and return to the trail with a light backpack.
+                </p>
+                <p style="margin: 0; font-weight: 800; color: #1E293B; word-break: normal;">
+                    Attaching wings to this empty dock and setting it soaring into the world is now entirely in your hands as builders of a brighter future.
+                </p>
+            </div>
+
+            <!-- Bridge to Tab 4 (간결하고 자연스러운 영문 반영) -->
             <div class="tab-bridge-box">
                 <div class="tab-bridge-text">
-                    ⏩ <strong>The Journey:</strong> How a humble dream of travel video logging led to a modular platform.
+                    ⏩ <strong>The Journey:</strong> How an accidental discovery led to a modular platform.
                 </div>
                 <button type="button" class="tab-bridge-btn" onclick="switchTab(event, 'journey')">
                     Read the Story ➔
@@ -1163,7 +1193,7 @@
     </p>
 </footer>
 
-<!-- TAB SWITCHING SCRIPT -->
+<!-- TAB SWITCHING SCRIPT (Swipe Conflict Fixed) -->
 <script>
     function switchTab(event, tabId) {
         if (event) event.preventDefault();
@@ -1193,21 +1223,31 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // Mobile Swipe Navigation
+    // Mobile Swipe Navigation (Protected from internal horizontal scrolls)
     const TAB_KEYS = ['overview', 'spec', 'playground', 'journey'];
     let touchStartX = 0;
     let touchStartY = 0;
+    let isIgnoredZone = false;
 
     window.addEventListener('touchstart', (e) => {
+        // Diagram, code, and table boxes ignore global swipe to allow internal scrolling
+        if (e.target.closest('.diagram-box, .spec-table-wrap, pre, code')) {
+            isIgnoredZone = true;
+            return;
+        }
+        isIgnoredZone = false;
         touchStartX = e.changedTouches[0].screenX;
         touchStartY = e.changedTouches[0].screenY;
     }, { passive: true });
 
     window.addEventListener('touchend', (e) => {
+        if (isIgnoredZone) return;
+
         const diffX = e.changedTouches[0].screenX - touchStartX;
         const diffY = e.changedTouches[0].screenY - touchStartY;
 
-        if (Math.abs(diffX) > 70 && Math.abs(diffX) > Math.abs(diffY) * 1.8) {
+        // Increased threshold to 120px and strict horizontal angle verification
+        if (Math.abs(diffX) > 120 && Math.abs(diffX) > Math.abs(diffY) * 2.5) {
             const currentActive = document.querySelector('.nav-pillar-btn.active');
             if (!currentActive) return;
 

@@ -54,7 +54,7 @@
         /* BRANDING HEADER: One-Row Layout */
         header.site-header-top {
             background: var(--bg-pure);
-            padding: 12px 16px 10px 16px;
+            padding: 10px 16px;
             width: 100%;
             border-bottom: 1px solid rgba(229, 231, 235, 0.7);
         }
@@ -73,7 +73,7 @@
             text-decoration: none;
             color: var(--text-main);
             min-width: 0;
-            flex-shrink: 1;
+            flex: 1 1 auto;
         }
         .brand-title-wrap {
             display: flex;
@@ -84,7 +84,7 @@
         }
         .brand-main-title {
             font-family: 'JetBrains Mono', 'Noto Sans KR', sans-serif;
-            font-size: 1.4rem;
+            font-size: 1.35rem;
             font-weight: 900;
             letter-spacing: -0.5px;
             color: #0F172A;
@@ -94,26 +94,26 @@
         }
         .brand-sub-title {
             font-family: 'JetBrains Mono', monospace;
-            font-size: 0.78rem;
+            font-size: 0.75rem;
             font-weight: 800;
             color: var(--accent-orange);
-            letter-spacing: 0.2px;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            letter-spacing: -0.2px;
+            white-space: normal;
+            word-break: keep-all;
             margin-top: 1px;
+            line-height: 1.25;
         }
         .header-download-btns {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 6px;
             white-space: nowrap;
             flex-shrink: 0;
         }
         .btn-header {
-            padding: 6px 14px;
+            padding: 6px 12px;
             border-radius: 6px;
-            font-size: 0.8rem;
+            font-size: 0.78rem;
             font-weight: 900;
             cursor: pointer;
             text-decoration: none;
@@ -316,6 +316,7 @@
         }
         .tab-bridge-btn:hover { background: #C2410C; }
 
+        /* 다이어그램 박스: 가로 스크롤 및 터치 제스처 안정화 */
         .diagram-box {
             background: #0F172A;
             color: #F8FAFC;
@@ -325,6 +326,8 @@
             font-size: 0.78rem;
             line-height: 1.35;
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            touch-action: pan-x pan-y;
             border: 1.5px solid #334155;
             margin: 14px 0 16px 0;
         }
@@ -393,6 +396,8 @@
         .spec-table-wrap {
             width: 100%;
             overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            touch-action: pan-x pan-y;
             margin: 16px 0;
             border: 1.5px solid #E2E8F0;
             border-radius: 8px;
@@ -492,20 +497,28 @@
         }
         footer.site-footer a { color: var(--sec1-sky); text-decoration: none; font-weight: 700; }
 
+        /* 모바일 최적화 */
         @media (max-width: 768px) {
-            .brand-main-title { font-size: 1.25rem; }
-            .brand-sub-title { font-size: 0.74rem; }
+            header.site-header-top { padding: 8px 12px; }
+            .header-top-container { gap: 8px; }
+            .brand-main-title { font-size: 1.15rem; }
+            .brand-sub-title { 
+                font-size: 0.65rem; 
+                letter-spacing: -0.3px; 
+                line-height: 1.2;
+            }
+            .btn-header { padding: 5px 9px; font-size: 0.72rem; }
             .nav-main-label { font-size: 0.84rem; }
             .nav-sub-label { font-size: 0.54rem; }
-            .tech-card { padding: 18px 16px; }
-            .card-lead { font-size: 1.1rem; }
+            .tech-card { padding: 18px 14px; }
+            .card-lead { font-size: 1.08rem; }
             .comic-grid-5 { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
 
-<!-- 1. COMPACT ONE-ROW HEADER (TRY IT & CAFE 전면 배치) -->
+<!-- 1. COMPACT ONE-ROW HEADER -->
 <header class="site-header-top">
     <div class="header-top-container">
         <a href="#" class="header-logo">
@@ -557,7 +570,6 @@
     <section id="overview" class="tab-pane active-tab">
         <h2 class="section-header">01. 깃털처럼 가벼운 초경량앱</h2>
         
-        <!-- 슈퍼 후크 배너 -->
         <div style="background: #FDFBF7; border: 2px solid #BAE6FD; border-radius: 12px; padding: 22px 24px; margin-bottom: 36px; box-shadow: 0 10px 25px -5px rgba(2, 132, 199, 0.12), 0 8px 10px -6px rgba(2, 132, 199, 0.06); transform: translateY(-2px);">
             <div style="display: flex; align-items: center; justify-content: space-between; border-bottom: 1.5px solid #E2E8F0; padding-bottom: 12px; margin-bottom: 18px; gap: 10px; flex-wrap: wrap;">
                 <span style="font-size: 0.96rem; font-weight: 900; color: #000000; letter-spacing: -0.2px; text-transform: uppercase; background: linear-gradient(180deg, rgba(254, 240, 138, 0) 25%, #FEF08A 25%, #FDE047 88%, rgba(254, 240, 138, 0) 88%); padding: 2px 8px; border-radius: 2px;">
@@ -584,15 +596,13 @@
             </div>
         </div>
 
-        <!-- 상세 설명 카드 본체 -->
         <div class="tech-card">
-            <!-- 앱 1: Teddy Wiki -->
             <div class="card-lead">1️⃣ "24KB 안에 백과사전을 품다" — Teddy Wiki</div>
             
             <ul class="indent-list">
-                <li><strong>TiddlyWiki 철학 계승:</strong> 외부 라이브러리 없이 브라우저 순수 RAM 기반 인메모리 NoSQL 가동</li>
-                <li><strong>순수 정규식 파서:</strong> 단 몇 줄의 정규 표현식으로 <code>[[양방향 링크]]</code>와 역링크(Backlinks) 즉각 추적</li>
-                <li><strong>영구 로컬 보존:</strong> 브라우저 물리 메모리 및 파일 스스로 데이터를 품는 셀프 세이빙(Self-saving) 구조</li>
+                <li><strong>TiddlyWiki 철학 계승:</strong> 외부 라이브러리 없이 브라우저 순수 RAM 기반 인메모리 NoSQL 가동[cite: 1, 4]</li>
+                <li><strong>순수 정규식 파서:</strong> 단 몇 줄의 정규 표현식으로 <code>[[양방향 링크]]</code>와 역링크(Backlinks) 즉각 추적[cite: 1, 4]</li>
+                <li><strong>영구 로컬 보존:</strong> 브라우저 물리 메모리 및 파일 스스로 데이터를 품는 셀프 세이빙(Self-saving) 구조[cite: 1, 4]</li>
             </ul>
 
             <div style="margin: 14px 0 8px 0; font-size: 0.92rem; font-weight: 800; color: #0284C7;">
@@ -626,13 +636,12 @@
 
             <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 34px 0;">
 
-            <!-- 앱 2: Nano Blake (한국어 전용 링크 연결) -->
             <div class="card-lead">2️⃣ "41KB에서 4K영상을 뿜다" — Nano Blake</div>
             
             <ul class="indent-list">
-                <li><strong>순수 Canvas 2D 가속:</strong> FFmpeg 등 무거운 모듈 없이 브라우저 캔버스로 FHD 켄 번즈 영상 실시간 렌더링</li>
-                <li><strong>Web Speech TTS 네이티브 연동:</strong> 외부 API 통신 없는 브라우저 내장 음성 합성 엔진 직접 호출</li>
-                <li><strong>텍스트-타임라인 자동 동기화:</strong> 복잡한 키프레임 작업 없이 마크다운 호흡에 맞춘 지능형 모션 생성</li>
+                <li><strong>순수 Canvas 2D 가속:</strong> FFmpeg 등 무거운 모듈 없이 브라우저 캔버스로 FHD 켄 번즈 영상 실시간 렌더링[cite: 1, 2]</li>
+                <li><strong>Web Speech TTS 네이티브 연동:</strong> 외부 API 통신 없는 브라우저 내장 음성 합성 엔진 직접 호출[cite: 1, 2]</li>
+                <li><strong>텍스트-타임라인 자동 동기화:</strong> 복잡한 키프레임 작업 없이 마크다운 호흡에 맞춘 지능형 모션 생성[cite: 1, 2]</li>
             </ul>
 
             <div style="margin: 14px 0 8px 0; font-size: 0.92rem; font-weight: 800; color: #0284C7;">
@@ -665,7 +674,6 @@
                 </a>
             </div>
 
-            <!-- [Tab 1 -> Tab 2 연결 브릿지] -->
             <div class="tab-bridge-box">
                 <div class="tab-bridge-text">
                     ⏩ <strong>초경량앱의 비밀:</strong> 어떻게 이런 일이 가능할까요? 다음 페이지에서 설명드립니다.
@@ -684,7 +692,6 @@
         <h2 class="section-header">02. 초경량앱의 비밀</h2>
 
         <div class="tech-card">
-            <!-- 1️⃣ 브라우저란 없다? -->
             <div class="card-lead">1️⃣ 브라우저란 없다?</div>
 
             <ul class="indent-list">
@@ -700,7 +707,6 @@
 
             <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 30px 0;">
 
-            <!-- 2️⃣ 브라우저의 힘 -->
             <div class="card-lead">2️⃣ 브라우저의 힘</div>
 
             <p style="color: var(--text-sub); font-size: 0.94rem; margin-top: 14px; margin-bottom: 18px; line-height: 1.75; padding-left: 2px;">
@@ -730,7 +736,7 @@
                         </tr>
                         <tr>
                             <td><strong>앱 간 무충돌 격리</strong></td>
-                            <td>브라우저 표준 보안벽 <strong>Iframe Sandbox</strong>로 상호 간섭 원천 차단</td>
+                            <td>브라우저 표준 보안벽 <strong>Iframe Sandbox</strong>로 상호 간섭 원천 차단[cite: 1]</td>
                         </tr>
                     </tbody>
                 </table>
@@ -743,7 +749,6 @@
 
             <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 30px 0;">
 
-            <!-- 3️⃣ AI시대, HTML의 재발견 -->
             <div class="card-lead">3️⃣ AI시대, HTML의 재발견</div>
 
             <ul class="indent-list">
@@ -762,7 +767,6 @@
 
             <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 30px 0;">
 
-            <!-- 4️⃣ 마지막 비밀 -->
             <div class="card-lead">4️⃣ 마지막 비밀: 입맛대로 고쳐 쓰는 자유</div>
 
             <p style="color: var(--text-sub); font-size: 0.94rem; margin-top: 12px; margin-bottom: 16px; line-height: 1.8; padding-left: 2px;">
@@ -770,10 +774,9 @@
             </p>
 
             <div style="background: #F8FAFC; border-left: 4px solid var(--sec2-emerald); border-radius: 0 8px 8px 0; padding: 14px 18px; margin-bottom: 18px; font-size: 0.9rem; color: #334155; line-height: 1.75;">
-                당장 [탭 1]에서 받으신 <code>teddy-wiki.html</code>이나 <code>nano-blake.html</code> 파일을 평소 쓰시는 AI에게 보여주고, <strong>“버튼 색깔을 빨간색으로 고쳐줘”</strong> 또는 <strong>“글자 크기를 조금만 더 키워줘”</strong>라고만 말해 보세요. 단 1초 만에 나만의 맞춤형 도구로 탈바꿈합니다.
+                당장 [탭 1]에서 받으신 <code>teddy-wiki.html</code>이나 <code>nano-blake-kr.html</code> 파일을 평소 쓰시는 AI에게 보여주고, <strong>“버튼 색깔을 빨간색으로 고쳐줘”</strong> 또는 <strong>“글자 크기를 조금만 더 키워줘”</strong>라고만 말해 보세요. 단 1초 만에 나만의 맞춤형 도구로 탈바꿈합니다.
             </div>
 
-            <!-- [Tab 2 -> Tab 3 연결 브릿지] -->
             <div class="tab-bridge-box">
                 <div class="tab-bridge-text">
                     ⏩ <strong>초대장:</strong> 비밀도 손에 넣으셨으니 이제 크리스탈의 세계로 가보시죠.
@@ -792,9 +795,8 @@
         <h2 class="section-header">03. 우연한 발견과 정중한 초대</h2>
 
         <div class="tech-card">
-            <!-- 프롤로그 안내 -->
-            <div style="background: #F1F5F9; border-left: 4px solid #475569; border-radius: 6px; padding: 14px 18px; margin-bottom: 26px;">
-                <div style="font-weight: 800; color: #1E293B; font-size: 0.95rem; margin-bottom: 4px;">
+            <div style="background: #F1F5F9; border-left: 4px solid #475569; border-radius: 6px; padding: 12px 14px; margin-bottom: 24px;">
+                <div style="font-weight: 800; color: #1E293B; font-size: 0.92rem; margin-bottom: 4px;">
                     📦 실력있는 개발자들의 친절한 도움을 요청합니다.
                 </div>
                 <p style="margin: 0; font-size: 0.86rem; color: #475569; line-height: 1.6;">
@@ -802,13 +804,11 @@
                 </p>
             </div>
 
-            <!-- 1️⃣ 우연한 발견: 5컷 웹툰 갤러리 -->
             <div class="card-lead">1️⃣ 우연한 발견 (The Accidental Epiphany)</div>
             <p style="color: var(--text-sub); font-size: 0.9rem; margin-bottom: 16px; padding-left: 2px;">
                 직접 제작한 앱과 검증기를 같이 챙기기 귀찮아 둘을 결합하는 과정에서, 우연히 모듈러 플랫폼을 착상하기까지의 이야기
             </p>
 
-            <!-- 5컷 반응형 웹툰 갤러리 그리드 -->
             <div class="comic-grid-5">
                 <div class="comic-panel-card">
                     <div class="comic-img-wrap">
@@ -858,13 +858,12 @@
 
             <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 30px 0;">
 
-            <!-- 2️⃣ 크리스탈 도크의 구조와 원리 -->
             <div class="card-lead">2️⃣ 크리스탈 도크의 구조와 원리</div>
 
-            <!-- 구조: 아스키 다이어그램 -->
             <div style="font-weight: 800; font-size: 0.94rem; color: #5B21B6; margin: 14px 0 6px 2px;">
                 📐 구조 (Structure)
             </div>
+            <!-- 내부 가로 스크롤 시 탭 전환 간섭 차단 -->
             <pre class="diagram-box">
 +-------------------------------------------------------------+
 |                      Crystal Dock Core                      |
@@ -879,15 +878,13 @@
 +---------------+                              +---------------+
             </pre>
 
-            <!-- 원리 -->
             <div style="font-weight: 800; font-size: 0.94rem; color: #5B21B6; margin: 18px 0 6px 2px;">
                 ⚙️ 작동 원리 (Mechanism)
             </div>
-            <div style="background: #F8FAFC; border-left: 4px solid var(--sec3-violet); border-radius: 0 8px 8px 0; padding: 14px 18px; margin-bottom: 18px; font-size: 0.9rem; color: #334155; line-height: 1.75;">
-                중앙의 도크 본체(<code>crystal-dock.html</code>)는 고작 <strong>11.3KB</strong>에 불과하며, 복잡한 기능 없이 오직 <strong>'메시지 중계 우편함'</strong> 역할만 수행합니다. 도구들 사이에 물리적 격리벽(Sandbox)을 두어, 한쪽 도구에 오류가 생겨 멈추더라도 반대편 도구와 작성 중인 데이터에는 전혀 영향을 주지 않습니다.
+            <div style="background: #F8FAFC; border-left: 4px solid var(--sec3-violet); border-radius: 0 8px 8px 0; padding: 12px 16px; margin-bottom: 18px; font-size: 0.9rem; color: #334155; line-height: 1.75;">
+                중앙의 도크 본체(<code>crystal-dock.html</code>)는 고작 <strong>11.3KB</strong>에 불과하며, 복잡한 기능 없이 오직 <strong>'메시지 중계 우편함'</strong> 역할만 수행합니다[cite: 1, 2]. 도구들 사이에 물리적 격리벽(Sandbox)을 두어, 한쪽 도구에 오류가 생겨 멈추더라도 반대편 도구와 작성 중인 데이터에는 전혀 영향을 주지 않습니다[cite: 1, 2].
             </div>
 
-            <!-- 11.3KB 도크 작동해보기 목업 -->
             <div style="margin: 14px 0 8px 2px; font-size: 0.92rem; font-weight: 800; color: #7C3AED;">
                 =&gt; 11.3KB 순수 도크 작동해보기 <span style="font-size: 0.8rem; font-weight: normal; color: #64748B;">[화면 이미지를 누르면 새 창으로 실행. 슬롯#1에 입력하면 즉시 슬롯#2에 반영됨]</span>
             </div>
@@ -928,50 +925,61 @@
 
             <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 30px 0;">
 
-            <!-- 4️⃣ 솔직한 고백 -->
-            <div class="card-lead">4️⃣ 솔직한 고백</div>
+            <div class="card-lead">3️⃣ 한 배낭여행자의 소박한 메모와 세 가지 질문</div>
 
-            <div style="background: #FFFFFF; border: 1.5px solid var(--sec3-violet-border); border-radius: 10px; padding: 22px; margin-bottom: 24px; line-height: 1.8; font-size: 0.88rem; color: #334155;">
-                <p style="margin-bottom: 14px;">
-                    그럴 듯한 용어로 앱과 플랫폼을 소개하니 나를 전문적인 개발자로 오해할 수도 있으나 나는 생초보임. 앱의 개발도 이 사이트 제작도 제미나이, 노트북LM, Antigravity의 도움을 받음. (단, 이후의 문장은 AI는 단 한 자도 고치지 않음)
+            <div style="margin-top: 10px; margin-bottom: 18px; line-height: 1.85; font-size: 0.91rem; color: #334155;">
+                <p style="margin-bottom: 12px; word-break: keep-all;">
+                    저는 코드 한 줄 제대로 알지 못하는 평범한 배낭여행자입니다.
+                    그저 단순한 직관과 AI 동반자의 도움에 이끌려 걷다 보니, 어느새 <strong>‘크리스탈 도크(Crystal Dock)’</strong>라는 11.3KB짜리 텅 빈 껍데기 하나를 손에 쥐게 되었습니다[cite: 1, 2].
+                    솔직히 고백하건대, <strong>저는 이 도크의 기능도 쓸모도 정확히 이해하지 못합니다.</strong>
                 </p>
-                <p style="margin-bottom: 14px;">
-                    작업과정에서 1) 브라우저의 힘이 굉장하다는 점 2) HTML로 만든 앱들은 누구나 AI의 도움을 받으면 제작과 개조를 쉽게 할 수 있다는 점 3) 나는 제대로 이해를 못하지만 모듈러 플랫폼이 꽤 쓸모가 있을지 모른다는 느낌이 들었음.
-                </p>
-                <p style="margin-bottom: 14px;">
-                    나는 이것을 우연히 발견했을 뿐 좋아하는 걷기 여행에 바빠서 이 일에 더 이상 나의 관심과 시간을 투자할 여력도 생각도 없음.
-                </p>
-                <p style="margin: 0;">
-                    🌈 세상의 많은 실력있는 개발자들이 이 앱들과 플랫폼의 가치를 알아보고 발전시켜 주길 진심으로 기대하며, 크리스탈의 세계에 정중히 초대합니다.
+                <p style="margin-bottom: 16px; word-break: keep-all;">
+                    하지만 거대화와 중앙집권으로 치닫는 디지털 세상을 바라보며,
+                    '클릭 제로(Zero-Click)' 침투와 닫힌 블랙박스가 넘쳐나는 오늘날,
+                    어쩌면 이 투명하고 가벼운 도크 하나가 누군가에게는 찾고 있는 중요한 연결고리가 될지도 모른다는 상상을 해봅니다.
+                    그래서, 눈 밝은 엔지니어와 시스템 설계자분들께 세 가지 조용한 질문을 툭 던져둡니다:
                 </p>
             </div>
 
-            <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 30px 0;">
-
-            <!-- 5️⃣ 플랫폼이 정말 쓸모가 있을까? -->
-            <div class="card-lead">5️⃣ 크리스탈 도크가 정말 쓸모가 있을까?</div>
-
-            <div style="background: #F8FAFC; border: 1.5px solid #CBD5E1; border-radius: 10px; padding: 22px; margin-bottom: 30px; line-height: 1.8; font-size: 0.88rem; color: #334155;">
-                <p style="margin-bottom: 14px;">
-                    개인적으로는 Nano Blake로 여행을 기록하고 그것을 Teddy Wiki에 정리할 때 크리스탈 도크에 두 앱을 나란히 얹어두니, 창을 왔다 갔다 할 필요 없이 한 화면에서 처리할 수 있어서 작업이 한결 수월했음.
-                </p>
-                <p style="margin-bottom: 14px;">
-                    사용자 입장에서는 나처럼 기존 앱(상용앱 포함)의 필요한 기능을 연결하여 편리하게 사용할 수 있음(구체적인 연결방법은 AI에게 이 탭의 내용을 제공한 후 물어보면 됨)
-                </p>
-                <p style="margin-bottom: 14px;">
-                    개발자 입장에서는 복잡한 기능들을 분리하여 단순하게 개발 후, 플랫폼을 통해 기능을 연결한다면 개발과정이 더 편리하지 않을까 추측해 봄.
-                </p>
-                <div style="background: #FFFFFF; border-left: 3px solid #64748B; padding: 12px 14px; margin-top: 14px;">
-                    <div style="font-weight: 700; color: #1E293B; margin-bottom: 6px;">그럼에도 불구하고 향후 플랫폼에 대해 다음과 같은 의문이 생김</div>
-                    <ul style="margin: 0; padding-left: 18px; color: #475569;">
-                        <li>텅 빈 플랫폼 앞에서 사용자들이 뭘 할지 알 수 없음.</li>
-                        <li>두 앱을 연결했다고 해서 저절로 작동하지 않음.</li>
-                        <li>그 이외에도 크리스탈 도크에 대하여 내가 뭘 모르는지도 모르겠음. ㅎㅎ</li>
-                    </ul>
+            <div style="border-left: 3.5px solid #7C3AED; padding: 4px 0 4px 12px; margin-bottom: 18px;">
+                <div style="font-weight: 800; color: #1E293B; font-size: 0.94rem; margin-bottom: 4px;">
+                    1. 이 순수 격벽을 '제로 트러스트 폐쇄망 허브'로 키워볼 분은 없을까요?
                 </div>
+                <p style="margin: 0; font-size: 0.88rem; color: #475569; line-height: 1.75; word-break: keep-all;">
+                    수백 MB짜리 프레임워크와 불투명한 공급망 위에 위태롭게 서 있는 오늘날의 거대 시스템들은 외부 패킷 하나에도 쉽게 흔들립니다. 크리스탈 도크는 외부 의존성 0바이트, 오직 브라우저 네이티브인 <code>&lt;iframe sandbox&gt;</code> 격벽과 30줄짜리 평문 규약(<code>BLAKE_MICRO_APP_v1</code>)만으로 돌아갑니다[cite: 1, 2].<br>
+                    <em>이 깃털처럼 가벼운 안전실을 한 단계 더 확장하여, 정부·재난망 같은 완전 망분리(Air-Gap) 환경이나 대규모 마이크로 프론트엔드 시스템에서 외부 유출을 원천 차단하는 '자립형 보안 운영판'으로 스케일업해 볼 배짱 있는 엔지니어가 있을까요?</em>
+                </p>
             </div>
 
-            <!-- [Tab 3 -> Tab 4 연결 브릿지] -->
+            <div style="border-left: 3.5px solid #0284C7; padding: 4px 0 4px 12px; margin-bottom: 18px;">
+                <div style="font-weight: 800; color: #1E293B; font-size: 0.94rem; margin-bottom: 4px;">
+                    2. 브라우저에 깔린 내장 AI를 '오프라인 하수인'으로 가로채 볼 분은 없을까요?
+                </div>
+                <p style="margin: 0; font-size: 0.88rem; color: #475569; line-height: 1.75; word-break: keep-all;">
+                    빅테크는 사용자를 자기네 클라우드 구독 감옥에 더 깊이 묶어두기 위해, 4GB에 달하는 거대한 로컬 엔진(크롬의 Gemini Nano 등)을 브라우저와 모바일 OS 밑단에 앞다퉈 심어두고 있습니다.<br>
+                    <em>그들이 깔아둔 거인의 발을 구독료 한 푼 내지 않고 역이용할 분은 없을까요? 외부 통신선이 완전히 뽑힌 비행기 모드에서도 스마트폰 자체 NPU를 부려 먹어, 테디 위키의 글을 3줄로 요약하고 마크다운 카드로 실시간 벼려내는 '0바이트 오프라인 슬롯 커넥터'를 조립해 주실 분을 기다립니다.</em>
+                </p>
+            </div>
+
+            <div style="border-left: 3.5px solid #059669; padding: 4px 0 4px 12px; margin-bottom: 20px;">
+                <div style="font-weight: 800; color: #1E293B; font-size: 0.94rem; margin-bottom: 4px;">
+                    3. 0.5B 초소형 오픈소스 모델로 '완벽한 개인 주권'을 완성할 분은 없을까요?
+                </div>
+                <p style="margin: 0; font-size: 0.88rem; color: #475569; line-height: 1.75; word-break: keep-all;">
+                    빅테크가 미리 깔아둔 엔진조차 숨은 데이터 수집이나 백도어(트로이목마)의 불안을 완전히 지우지는 못합니다.<br>
+                    <em>그렇다면 군더더기 살을 다 발라낸 0.5B급의 순수 오픈소스 초소형 언어모델(Micro-SLM)을 WebGPU/Wasm을 통해 도크 슬롯에 직접 직결해 볼 장인은 없을까요? 서버도 없고, 외부로 단 1비트의 데이터도 새어 나가지 않으며, 깊은 오지에서도 배터리 하나로 영구히 작동하는 '100% 투명한 나만의 개인 비서'를 완성해 볼 분은 어디에 계실까요?</em>
+                </p>
+            </div>
+
+            <div style="padding-top: 10px; border-top: 1px dashed #E2E8F0; line-height: 1.8; font-size: 0.91rem; color: #334155;">
+                <p style="margin-bottom: 8px; word-break: keep-all;">
+                    저는 이제 빈 작업대를 그대로 남겨둔 채, 가벼워진 배낭을 고쳐 매고 다시 제 둘레길을 걸어갑니다.
+                </p>
+                <p style="margin: 0; font-weight: 800; color: #1E293B; word-break: keep-all;">
+                    이 텅 빈 선착장에 날개를 달아 세상으로 훨훨 날려 보내는 것은 온전히 더 멋진 세상을 가꾸어 가는 여러분의 몫입니다.
+                </p>
+            </div>
+
             <div class="tab-bridge-box">
                 <div class="tab-bridge-text">
                     ⏩ <strong>개발 여정:</strong> 영상여행기를 만들려던 소박한 꿈이 플랫폼 발견으로 이어지기까지.
@@ -995,10 +1003,8 @@
                 <span>초경량 모듈러 웹 플랫폼이 세상에 나오기까지, 그리고 부탁의 말씀</span>
             </div>
 
-            <!-- 1️⃣ 뜻밖의 여정과 아마추어의 행운 -->
             <div class="card-lead">1️⃣ 뜻밖의 여정과 아마추어의 행운</div>
             
-            <!-- 챕터 1: 순수의 전조 -->
             <div class="narrative-chapter">
                 <span class="chapter-badge">[순수의 전조]</span>
                 <p class="chapter-p">
@@ -1018,7 +1024,6 @@
                 </div>
             </div>
 
-            <!-- 챕터 2: 첫 번째 여정 -->
             <div class="narrative-chapter">
                 <span class="chapter-badge">[첫 번째 여정]</span>
                 <p class="chapter-p">
@@ -1029,17 +1034,15 @@
                 </p>
             </div>
 
-            <!-- 챕터 3: 두 번째 여정 -->
             <div class="narrative-chapter">
                 <span class="chapter-badge">[두 번째 여정]</span>
                 <p class="chapter-p">
-                    두 번째 여정에서 우리는 더욱 기적적인 돌파구를 맞이했습니다. 단일 파일 앱이 가진 보안 취약성을 보완하기 위해 HTML 기반의 자체 검증기를 결합하는 과정에서, 플러그온(Plug-on, 도크에 탑재가능한 HTML 단일 파일 앱과 상용 앱)을 결합하는 모듈러 플랫폼인 <strong>‘Crystal Dock’</strong>을 착상했습니다. 또한 브라우저 본연의 강력한 네이티브 엔진을 영리하게 끌어다 쓰는 방법을 발견하며 마침내 <strong>11.3KB의 순수 코어</strong>를 비롯한 극단적인 초경량 도구들이 탄생했습니다.
+                    두 번째 여정에서 우리는 더욱 기적적인 돌파구를 맞이했습니다. 단일 파일 앱이 가진 보안 취약성을 보완하기 위해 HTML 기반의 자체 검증기를 결합하는 과정에서, 플러그온(Plug-on, 도크에 탑재가능한 HTML 단일 파일 앱과 상용 앱)을 결합하는 모듈러 플랫폼인 <strong>‘Crystal Dock’</strong>을 착상했습니다[cite: 1, 2]. 또한 브라우저 본연의 강력한 네이티브 엔진을 영리하게 끌어다 쓰는 방법을 발견하며 마침내 <strong>11.3KB의 순수 코어</strong>를 비롯한 극단적인 초경량 도구들이 탄생했습니다[cite: 1, 2].
                 </p>
             </div>
 
             <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 30px 0;">
 
-            <!-- 2️⃣ 부탁의 말씀 -->
             <div class="card-lead">2️⃣ 부탁의 말씀</div>
 
             <div style="background: #F8FAFC; border: 1.5px solid #E2E8F0; border-radius: 10px; padding: 22px 24px; margin-bottom: 34px; font-size: 0.91rem; color: #334155; line-height: 1.85;">
@@ -1059,7 +1062,6 @@
 
             <hr style="border: 0; border-top: 1.5px dashed var(--border-light); margin: 30px 0;">
 
-            <!-- 3️⃣ 프로젝트 부품 창고 -->
             <div class="card-lead">3️⃣ 프로젝트 부품 창고 (Artifacts & Files)</div>
 
             <div style="background: #FFFFFF; border: 1.5px solid #CBD5E1; border-radius: 12px; padding: 24px; margin-bottom: 24px; box-shadow: 0 4px 14px rgba(0,0,0,0.03);">
@@ -1135,7 +1137,6 @@
                     </table>
                 </div>
 
-                <!-- 하단 연결 배너: 깃허브 & 공식 영문 쇼룸 링크 안착 -->
                 <div style="margin-top: 18px; padding-top: 14px; border-top: 1px solid #E2E8F0; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 12px;">
                     <a href="https://github.com/crystal-world-project/crystal-world-project.github.io" target="_blank" rel="noopener noreferrer" style="font-size: 0.85rem; color: #0284C7; font-weight: 800; text-decoration: none;">
                         공식 깃허브 저장소 방문하기 ➔
@@ -1164,7 +1165,7 @@
     </p>
 </footer>
 
-<!-- TAB SWITCHING SCRIPT -->
+<!-- TAB SWITCHING SCRIPT (스와이프 오작동 완벽 보정) -->
 <script>
     function switchTab(event, tabId) {
         if (event) event.preventDefault();
@@ -1194,21 +1195,31 @@
         window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    // 모바일 좌우 스와이프 내비게이션
+    // 모바일 좌우 스와이프 내비게이션 (가로 스크롤 영역 간섭 차단 및 감도 조절)
     const TAB_KEYS = ['overview', 'spec', 'playground', 'journey'];
     let touchStartX = 0;
     let touchStartY = 0;
+    let isIgnoredZone = false;
 
     window.addEventListener('touchstart', (e) => {
+        // 다이어그램 박스, 스펙 테이블, 목업 창 내부 터치 시 탭 전환 스와이프 무시
+        if (e.target.closest('.diagram-box, .spec-table-wrap, pre, code')) {
+            isIgnoredZone = true;
+            return;
+        }
+        isIgnoredZone = false;
         touchStartX = e.changedTouches[0].screenX;
         touchStartY = e.changedTouches[0].screenY;
     }, { passive: true });
 
     window.addEventListener('touchend', (e) => {
+        if (isIgnoredZone) return;
+
         const diffX = e.changedTouches[0].screenX - touchStartX;
         const diffY = e.changedTouches[0].screenY - touchStartY;
 
-        if (Math.abs(diffX) > 70 && Math.abs(diffX) > Math.abs(diffY) * 1.8) {
+        // 임계값을 120px로 높이고, 수평 각도 판정 비율을 2.5배로 엄격히 강화 (의도적인 큰 스와이프만 허용)
+        if (Math.abs(diffX) > 120 && Math.abs(diffX) > Math.abs(diffY) * 2.5) {
             const currentActive = document.querySelector('.nav-pillar-btn.active');
             if (!currentActive) return;
 
