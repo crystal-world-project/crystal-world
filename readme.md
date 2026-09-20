@@ -4,7 +4,21 @@
 > Coexistence for the Coming Era · Zero-Build Single-File Modular Workstation
 
 ---
+> **"Do not just read fossilized code. Breathe life into it."**
 
+### ■ Note: Why ENLIVEME Instead of README?
+
+In the legacy software world where developers and users were divided, a passive `README` ("just read what I built") was sufficient.
+
+However, the world of Crystal is entirely different.  
+This application (Plug-On) is a 100% self-contained tool living in a single pure HTML file. **The moment it leaves my hands and reaches yours, you instantly become its absolute owner and master.** You possess the full right and freedom to reshape and adapt it to fit your life and personal taste.
+
+Therefore, as the initial creator, I carry a solemn duty to transparently pass down its pure lineage and genetic constraints (**Context Heart**) to you, the next custodian.
+
+To ensure this tool retains its foundational identity (10~20KB footprint, zero external dependencies, total offline autonomy) as it evolves across generations,  
+👉 **Please ensure that your AI partner thoroughly reads the separate [`ENLIVEME.md`](./ENLIVEME.md) file before undertaking any modification or development.**
+
+---
 ## 1. Why Was This Created? (우리가 이것을 만든 이유)
 
 Modern computing has become unnecessarily heavy and dependent. Pulling in hundreds of megabytes of external dependencies, complex build tools, and perpetual cloud subscriptions just to record a thought or create a short travel video felt absurd. 
