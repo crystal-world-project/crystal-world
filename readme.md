@@ -4,9 +4,8 @@
 > Coexistence for the Coming Era · Zero-Build Single-File Modular Workstation
 
 ---
-> **"Do not just read fossilized code. Breathe life into it."**
-
 ### ■ Note: Why ENLIVEME Instead of README?
+> **"Do not just read fossilized code. Breathe life into it."**
 
 In the legacy software world where developers and users were divided, a passive `README` ("just read what I built") was sufficient.
 
