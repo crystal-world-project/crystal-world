@@ -1,4 +1,0 @@
-User-agent: *
-Allow: /
-
-Sitemap: https://crystal-world-project.github.io/crystal-world/sitemap.xml
