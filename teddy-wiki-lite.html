@@ -1,0 +1,302 @@
+<!-- ==========================================================================
+ * Project: Teddy Wiki Lite (Part of Crystal World)
+ * Feature: Multi-Tag Selection (AND Filter), Single-file HTML
+ * Official Site (EN): https://crystal-world-project.github.io/crystal-world/index-en.html
+ * GitHub: https://github.com/crystal-world-project
+ * License: MIT
+ ========================================================================== -->
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🧸 Teddy Wiki Lite - Multi-Tag</title>
+  <style>
+    :root {
+      --bg: #0d1117;
+      --sidebar: #161b22;
+      --card: #21262d;
+      --border: #30363d;
+      --accent: #ff8c00;
+      --text: #f0f6fc;
+      --text-dim: #8b949e;
+      --link: #38bdf8;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body { display: flex; height: 100vh; font-family: -apple-system, sans-serif; background: var(--bg); color: var(--text); }
+
+    /* Sidebar Navigation */
+    #sidebar {
+      width: 280px; background: var(--sidebar); border-right: 1px solid var(--border);
+      display: flex; flex-direction: column; padding: 14px; gap: 10px; flex-shrink: 0;
+    }
+    .brand { font-weight: bold; color: var(--accent); font-size: 16px; display: flex; justify-content: space-between; align-items: center; }
+    .brand a { color: var(--accent); text-decoration: none; }
+    .brand a:hover { text-decoration: underline; }
+    .badge { font-size: 10px; padding: 2px 6px; background: rgba(255,140,0,0.2); border: 1px solid var(--accent); border-radius: 4px; }
+    
+    input[type="text"] {
+      background: #0d1117; border: 1px solid var(--border); color: #fff;
+      padding: 8px; border-radius: 6px; font-size: 12px; outline: none;
+    }
+    input[type="text"]:focus { border-color: var(--accent); }
+
+    /* Multi-Tag UI Style */
+    .tag-cloud-header { font-size: 11px; color: var(--text-dim); display: flex; justify-content: space-between; margin-bottom: 2px; }
+    .tag-cloud { display: flex; gap: 4px; flex-wrap: wrap; margin-bottom: 6px; }
+    .tag-btn {
+      font-size: 10.5px; padding: 3px 8px; background: #2d333b; border: 1px solid var(--border);
+      color: var(--text-dim); border-radius: 12px; cursor: pointer; user-select: none; transition: all 0.15s;
+    }
+    .tag-btn.active { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: bold; }
+    .tag-btn:hover { border-color: var(--accent); }
+
+    #note-list { list-style: none; overflow-y: auto; flex: 1; display: flex; flex-direction: column; gap: 4px; }
+    #note-list li {
+      padding: 8px 10px; border-radius: 6px; cursor: pointer; font-size: 13px; color: var(--text-dim);
+      border: 1px solid transparent; display: flex; justify-content: space-between; align-items: center;
+    }
+    #note-list li:hover { background: var(--card); color: var(--text); }
+    #note-list li.active { background: var(--card); color: var(--accent); font-weight: bold; border-color: var(--accent); }
+
+    /* Main Workspace */
+    #main { flex: 1; display: flex; flex-direction: column; padding: 16px; gap: 12px; overflow-y: auto; }
+    .toolbar { display: flex; gap: 8px; justify-content: space-between; }
+    .title-input {
+      background: transparent; border: none; color: #fff; font-size: 20px; font-weight: bold;
+      outline: none; flex: 1; border-bottom: 1px solid transparent;
+    }
+    .title-input:focus { border-bottom-color: var(--accent); }
+
+    button {
+      background: #2d333b; color: var(--text); border: 1px solid var(--border);
+      padding: 6px 12px; border-radius: 6px; cursor: pointer; font-size: 12px; font-weight: bold;
+    }
+    button:hover { background: #373e47; border-color: var(--accent); }
+    .btn-accent { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+    #editor {
+      flex: 1; background: var(--sidebar); border: 1px solid var(--border); color: #fff;
+      padding: 14px; font-family: monospace; font-size: 13.5px; resize: none; border-radius: 6px; outline: none; display: none;
+    }
+    #viewer {
+      flex: 1; background: var(--sidebar); border: 1px solid var(--border); border-radius: 6px;
+      padding: 16px; font-size: 14px; line-height: 1.6; overflow-y: auto;
+    }
+    
+    .wiki-link { color: var(--link); font-weight: bold; cursor: pointer; border-bottom: 1px dashed var(--link); }
+    .wiki-tag { color: var(--accent); font-weight: bold; }
+    .ext-link { color: var(--link); text-decoration: none; font-weight: bold; }
+    .ext-link:hover { text-decoration: underline; }
+    
+    .footer { font-size: 11px; color: var(--text-dim); display: flex; justify-content: space-between; align-items: center; }
+    .footer a { color: var(--text-dim); text-decoration: none; }
+    .footer a:hover { color: var(--accent); }
+  </style>
+</head>
+<body>
+
+  <aside id="sidebar">
+    <div class="brand">
+      <a href="https://crystal-world-project.github.io/crystal-world/index-en.html" target="_blank" title="Visit Crystal World Official Site (EN)">🧸 Teddy Wiki <small style="font-size:10px; color:var(--text-dim);">Lite</small></a>
+      <span class="badge">Multi-Tag</span>
+    </div>
+
+    <button class="btn-accent" onclick="createNewNote()">+ New Tiddler</button>
+    <input type="text" id="search" placeholder="Search title or text..." oninput="renderList()">
+
+    <!-- Tag Cloud UI -->
+    <div class="tag-cloud-header">
+      <span>TAG FILTER (AND)</span>
+      <span style="cursor:pointer; color:var(--link);" onclick="resetTags()">Reset</span>
+    </div>
+    <div class="tag-cloud" id="tag-cloud"></div>
+
+    <ul id="note-list"></ul>
+    <button onclick="downloadSelf()" style="margin-top:auto;">💾 Export Standalone HTML</button>
+  </aside>
+
+  <main id="main">
+    <div class="toolbar">
+      <input type="text" id="title-input" class="title-input" placeholder="Title" oninput="saveCurrentNote()">
+      <div>
+        <button id="edit-btn" onclick="toggleEdit()">✏️ Edit</button>
+        <button onclick="deleteCurrentNote()" style="color:#f85149;">Delete</button>
+      </div>
+    </div>
+
+    <textarea id="editor" placeholder="Write markdown, #tags, and [[WikiLinks]]..." oninput="saveCurrentNote()"></textarea>
+    <div id="viewer"></div>
+
+    <div class="footer">
+      <span>Powered by <a href="https://crystal-world-project.github.io/crystal-world/index-en.html" target="_blank"><strong>Crystal World</strong></a></span>
+      <span><a href="https://github.com/crystal-world-project" target="_blank">🌐 GitHub Organization</a></span>
+    </div>
+  </main>
+
+  <script id="teddy-vault" type="application/json">
+[
+  {
+    "id": "welcome",
+    "title": "Welcome to Teddy Wiki",
+    "content": "# Hello, World!\n\nThis is a **zero-dependency, single-file HTML wiki** with **Multi-Tag AND Filtering**.\n\n* **Try Multi-Tag**: Click both `#concept` and `#guide` in the sidebar!\n* **WikiLinks**: Try clicking [[Crystal Dock]].\n\n---\n🌐 [Crystal World Official Site (EN)](https://crystal-world-project.github.io/crystal-world/index-en.html) #concept #guide"
+  },
+  {
+    "id": "crystal-dock",
+    "title": "Crystal Dock",
+    "content": "# Crystal Dock\n\nAn ultra-lightweight iframe sandboxing container that connects micro-web apps via `postMessage` protocol. #concept #architecture"
+  },
+  {
+    "id": "hackable",
+    "title": "Hackable Architecture",
+    "content": "# Hackable Architecture\n\nThis entire tool is built with pure JS. Fork it, hack it, and build your own extensions! #guide #architecture"
+  }
+]
+  </script>
+
+  <script>
+    // ==========================================================================
+    // CORE STATE (Set for Multi-Tag Selection)
+    // ==========================================================================
+    let db = JSON.parse(document.getElementById('teddy-vault').textContent.trim());
+    let currentId = db[0]?.id || null;
+    let selectedTags = new Set();
+    let isEditing = false;
+
+    const listEl = document.getElementById('note-list');
+    const tagCloudEl = document.getElementById('tag-cloud');
+    const titleEl = document.getElementById('title-input');
+    const editorEl = document.getElementById('editor');
+    const viewerEl = document.getElementById('viewer');
+
+    function parseMarkdown(text) {
+      if (!text) return "";
+      return text
+        .replace(/^# (.*$)/gim, '<h1>$1</h1>')
+        .replace(/^## (.*$)/gim, '<h2>$2</h2>')
+        .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+        .replace(/^\* (.*$)/gim, '• $1<br>')
+        .replace(/\[([^\]]+)\]\((https?:\/\/[^\s]+)\)/g, '<a href="$2" target="_blank" class="ext-link">$1</a>')
+        .replace(/(#[a-zA-Z0-9가-힣]+)/g, '<span class="wiki-tag">$1</span>')
+        .replace(/\[\[(.*?)\]\]/g, (m, target) => `<span class="wiki-link" onclick="navigateTo('${target}')">${target}</span>`)
+        .replace(/\n/g, '<br>');
+    }
+
+    function loadNote(id) {
+      currentId = id;
+      const note = db.find(n => n.id === id);
+      if (!note) return;
+
+      titleEl.value = note.title;
+      editorEl.value = note.content;
+      viewerEl.innerHTML = parseMarkdown(note.content);
+      renderList();
+      broadcast();
+    }
+
+    function toggleTagFilter(tag) {
+      if (selectedTags.has(tag)) {
+        selectedTags.delete(tag);
+      } else {
+        selectedTags.add(tag);
+      }
+      renderList();
+    }
+
+    function resetTags() {
+      selectedTags.clear();
+      renderList();
+    }
+
+    function renderList() {
+      const search = document.getElementById('search').value.toLowerCase();
+      listEl.innerHTML = "";
+      
+      const allTags = new Set();
+      db.forEach(n => (n.content.match(/(#[a-zA-Z0-9가-힣]+)/g) || []).forEach(t => allTags.add(t)));
+      
+      tagCloudEl.innerHTML = "";
+      allTags.forEach(tag => {
+        const btn = document.createElement('span');
+        const isActive = selectedTags.has(tag);
+        btn.className = `tag-btn ${isActive ? 'active' : ''}`;
+        btn.textContent = tag;
+        btn.onclick = () => toggleTagFilter(tag);
+        tagCloudEl.appendChild(btn);
+      });
+
+      db.filter(n => {
+        const matchSearch = n.title.toLowerCase().includes(search) || n.content.toLowerCase().includes(search);
+        const noteTags = n.content.match(/(#[a-zA-Z0-9가-힣]+)/g) || [];
+        const matchTags = Array.from(selectedTags).every(st => noteTags.includes(st));
+
+        return matchSearch && matchTags;
+      }).forEach(note => {
+        const li = document.createElement('li');
+        li.className = note.id === currentId ? 'active' : '';
+        li.innerHTML = `<span>${note.title}</span>`;
+        li.onclick = () => loadNote(note.id);
+        listEl.appendChild(li);
+      });
+    }
+
+    function saveCurrentNote() {
+      const note = db.find(n => n.id === currentId);
+      if (note) {
+        note.title = titleEl.value;
+        note.content = editorEl.value;
+        viewerEl.innerHTML = parseMarkdown(note.content);
+        renderList();
+        broadcast();
+      }
+    }
+
+    function toggleEdit() {
+      isEditing = !isEditing;
+      editorEl.style.display = isEditing ? 'block' : 'none';
+      viewerEl.style.display = isEditing ? 'none' : 'block';
+      document.getElementById('edit-btn').textContent = isEditing ? '👁 View' : '✏️ Edit';
+      if (isEditing) editorEl.focus();
+    }
+
+    function createNewNote() {
+      const newNote = { id: 'note_' + Date.now(), title: 'Untitled Tiddler', content: '# New Note\n\nStart writing... #draft' };
+      db.unshift(newNote);
+      loadNote(newNote.id);
+      if (!isEditing) toggleEdit();
+    }
+
+    function deleteCurrentNote() {
+      if (db.length <= 1) return alert('Cannot delete the last note.');
+      db = db.filter(n => n.id !== currentId);
+      loadNote(db[0].id);
+    }
+
+    function navigateTo(title) {
+      let target = db.find(n => n.title.toLowerCase() === title.toLowerCase());
+      if (!target) {
+        target = { id: 'note_' + Date.now(), title: title, content: `# ${title}\n\nCreated via WikiLink.` };
+        db.unshift(target);
+      }
+      loadNote(target.id);
+    }
+
+    function broadcast() {
+      window.parent.postMessage({
+        protocol: "crystal-dock/v1", action: "SEND_DATA", payload: `# ${titleEl.value}\n\n${editorEl.value}`
+      }, "*");
+    }
+
+    function downloadSelf() {
+      document.getElementById('teddy-vault').textContent = "\n" + JSON.stringify(db, null, 2) + "\n  ";
+      const blob = new Blob(["<!DOCTYPE html>\n" + document.documentElement.outerHTML], { type: "text/html" });
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = "teddy-wiki-lite.html";
+      a.click();
+    }
+
+    loadNote(currentId);
+  </script>
+</body>
+</html>
